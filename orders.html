@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OrangeWave - Orders</title>
+  <title>OrangeWave - Ordens</title>
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -12,12 +12,12 @@
   <header>
     <a href="index.html" class="logo">OrangeWave</a>
     <nav class="nav-links">
-      <a href="index.html">Dashboard</a>
-      <a href="market.html">Market</a>
-      <a href="orders.html" class="active-orange">Orders</a>
-      <a href="#">News</a>
-      <a href="#">Simulation</a>
-      <a href="#">Wallet</a>
+      <a href="index.html">Painel</a>
+      <a href="market.html">Mercado</a>
+      <a href="orders.html" class="active-orange">Ordens</a>
+      <a href="#">Notícias</a>
+      <a href="#">Simulação</a>
+      <a href="#">Carteira</a>
     </nav>
     <div class="user-section">
       <div class="cart-icon">
@@ -28,7 +28,7 @@
         </svg>
       </div>
       <div class="profile">
-        <span>Vinícius Gualtierrez Neves</span>
+        <span>Vinícius Gustierrez Neves</span>
         <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile">
       </div>
     </div>
@@ -36,31 +36,31 @@
 
   <!-- Main Content -->
   <main class="container">
-    <h1 class="page-title">Orders</h1>
-    <p class="page-subtitle">View and manage your market orders.</p>
+    <h1 class="page-title">Ordens</h1>
+    <p class="page-subtitle">Visualize e gerencie suas ordens de mercado.</p>
 
     <!-- Open Orders -->
     <div class="card">
       <div class="section-title">
-        Open Orders
+        Ordens Abertas
         <div class="filter-tabs">
           <button class="active">All</button>
-          <button>Buy</button>
-          <button>Sell</button>
+          <button>Compra</button>
+          <button>Venda</button>
         </div>
       </div>
       
       <table class="data-table">
         <thead>
           <tr>
-            <th>DATE</th>
-            <th>ASSET</th>
-            <th>TYPE</th>
-            <th>PRICE</th>
-            <th>QUANTITY</th>
+            <th>DATA</th>
+            <th>ATIVO</th>
+            <th>TIPO</th>
+            <th>PREÇO</th>
+            <th>QUANTIDADE</th>
             <th>TOTAL</th>
             <th>STATUS</th>
-            <th>ACTIONS</th>
+            <th>AÇÕES</th>
           </tr>
         </thead>
         <tbody>
@@ -68,7 +68,7 @@
             <td>2025-04-15</td>
             <td>
               <div class="asset-name">
-                <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="Bitcoin" class="asset-icon">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1024px-Bitcoin.svg.png" alt="Bitcoin" class="asset-icon">
                 <div>
                   <div>Bitcoin</div>
                   <div class="ticker">BTC</div>
@@ -76,13 +76,13 @@
               </div>
             </td>
             <td>
-              <span style="color: var(--green-up);">Buy</span>
+              <span style="color: var(--green-up);">Compra</span>
             </td>
-            <td class="price">$67,500.00</td>
-            <td>0.15</td>
-            <td>$10,125.00</td>
+            <td class="price">R$67.500,00</td>
+            <td>0,15</td>
+            <td>R$10.125,00</td>
             <td>
-              <span style="padding: 3px 8px; background-color: rgba(255, 193, 7, 0.2); color: #FFC107; border-radius: 4px;">Pending</span>
+              <span style="padding: 3px 8px; background-color: rgba(255, 193, 7, 0.2); color: #FFC107; border-radius: 4px;">Pendente</span>
             </td>
             <td>
               <div style="display: flex; gap: 5px;">
@@ -104,7 +104,7 @@
             <td>2025-04-14</td>
             <td>
               <div class="asset-name">
-                <img src="https://companieslogo.com/img/orig/TSLA-e90e98f7.png" alt="Tesla" class="asset-icon">
+                <img src="https://companieslogo.com/img/orig/TSLA-6da550e5.png?t=1740128273&download=true" alt="Tesla" class="asset-icon">
                 <div>
                   <div>Tesla, Inc.</div>
                   <div class="ticker">TSLA</div>
@@ -112,13 +112,13 @@
               </div>
             </td>
             <td>
-              <span style="color: var(--red-down);">Sell</span>
+              <span style="color: var(--red-down);">Venda</span>
             </td>
-            <td class="price">$1,050.00</td>
+            <td class="price">R$1.050,00</td>
             <td>2</td>
-            <td>$2,100.00</td>
+            <td>R$2.100,00</td>
             <td>
-              <span style="padding: 3px 8px; background-color: rgba(33, 150, 243, 0.2); color: #2196F3; border-radius: 4px;">Processing</span>
+              <span style="padding: 3px 8px; background-color: rgba(33, 150, 243, 0.2); color: #2196F3; border-radius: 4px;">Processando</span>
             </td>
             <td>
               <div style="display: flex; gap: 5px;">
@@ -143,29 +143,29 @@
     <!-- Order History -->
     <div class="card">
       <div class="section-title">
-        Order History
+        Histórico de Ordens
         <div class="filter-tabs">
           <button class="active">All</button>
-          <button>Buy</button>
-          <button>Sell</button>
+          <button>Compra</button>
+          <button>Venda</button>
         </div>
       </div>
       
       <table class="data-table">
         <thead>
           <tr>
-            <th>DATE</th>
-            <th>ASSET</th>
-            <th>TYPE</th>
-            <th>PRICE</th>
-            <th>QUANTITY</th>
+            <th>DATA</th>
+            <th>ATIVO</th>
+            <th>TIPO</th>
+            <th>PREÇO</th>
+            <th>QUANTIDADE</th>
             <th>TOTAL</th>
             <th>STATUS</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>2025-04-10</td>
+            <td>10/04/2025</td>
             <td>
               <div class="asset-name">
                 <img src="https://companieslogo.com/img/orig/MSFT-a203b22d.png" alt="Microsoft" class="asset-icon">
@@ -176,17 +176,17 @@
               </div>
             </td>
             <td>
-              <span style="color: var(--green-up);">Buy</span>
+              <span style="color: var(--green-up);">Compra</span>
             </td>
-            <td class="price">$410.25</td>
+            <td class="price">R$410,25</td>
             <td>3</td>
-            <td>$1,230.75</td>
+            <td>R$1.230,75</td>
             <td>
-              <span style="padding: 3px 8px; background-color: rgba(76, 175, 80, 0.2); color: #4CAF50; border-radius: 4px;">Completed</span>
+              <span style="padding: 3px 8px; background-color: rgba(76, 175, 80, 0.2); color: #4CAF50; border-radius: 4px;">Concluída</span>
             </td>
           </tr>
           <tr>
-            <td>2025-04-02</td>
+            <td>02/04/2025</td>
             <td>
               <div class="asset-name">
                 <img src="https://companieslogo.com/img/orig/AAPL-bf1a4314.png" alt="Apple" class="asset-icon">
@@ -197,20 +197,20 @@
               </div>
             </td>
             <td>
-              <span style="color: var(--green-up);">Buy</span>
+              <span style="color: var(--green-up);">Compra</span>
             </td>
-            <td class="price">$177.20</td>
+            <td class="price">R$177,20</td>
             <td>5</td>
-            <td>$886.00</td>
+            <td>R$886,00</td>
             <td>
-              <span style="padding: 3px 8px; background-color: rgba(76, 175, 80, 0.2); color: #4CAF50; border-radius: 4px;">Completed</span>
+              <span style="padding: 3px 8px; background-color: rgba(76, 175, 80, 0.2); color: #4CAF50; border-radius: 4px;">Concluída</span>
             </td>
           </tr>
           <tr>
-            <td>2025-03-28</td>
+            <td>28/03/2025</td>
             <td>
               <div class="asset-name">
-                <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="Ethereum" class="asset-icon">
+                <img src="https://cdn.worldvectorlogo.com/logos/ethereum-eth.svg" alt="Ethereum" class="asset-icon">
                 <div>
                   <div>Ethereum</div>
                   <div class="ticker">ETH</div>
@@ -218,20 +218,20 @@
               </div>
             </td>
             <td>
-              <span style="color: var(--red-down);">Sell</span>
+              <span style="color: var(--red-down);">Venda</span>
             </td>
-            <td class="price">$4,895.30</td>
+            <td class="price">R$4.895,30</td>
             <td>0.5</td>
-            <td>$2,447.65</td>
+            <td>R$2.447,65</td>
             <td>
-              <span style="padding: 3px 8px; background-color: rgba(76, 175, 80, 0.2); color: #4CAF50; border-radius: 4px;">Completed</span>
+              <span style="padding: 3px 8px; background-color: rgba(76, 175, 80, 0.2); color: #4CAF50; border-radius: 4px;">Concluída</span>
             </td>
           </tr>
           <tr>
-            <td>2025-03-15</td>
+            <td>15/03/2025</td>
             <td>
               <div class="asset-name">
-                <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="Bitcoin" class="asset-icon">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1024px-Bitcoin.svg.png" alt="Bitcoin" class="asset-icon">
                 <div>
                   <div>Bitcoin</div>
                   <div class="ticker">BTC</div>
@@ -239,20 +239,20 @@
               </div>
             </td>
             <td>
-              <span style="color: var(--green-up);">Buy</span>
+              <span style="color: var(--green-up);">Compra</span>
             </td>
-            <td class="price">$65,120.55</td>
+            <td class="price">R$65.120,55</td>
             <td>0.1</td>
-            <td>$6,512.06</td>
+            <td>R$6.512,06</td>
             <td>
-              <span style="padding: 3px 8px; background-color: rgba(76, 175, 80, 0.2); color: #4CAF50; border-radius: 4px;">Completed</span>
+              <span style="padding: 3px 8px; background-color: rgba(76, 175, 80, 0.2); color: #4CAF50; border-radius: 4px;">Concluída</span>
             </td>
           </tr>
           <tr>
-            <td>2025-03-10</td>
+            <td>10/03/2025</td>
             <td>
               <div class="asset-name">
-                <img src="https://companieslogo.com/img/orig/TSLA-e90e98f7.png" alt="Tesla" class="asset-icon">
+                <img src="https://companieslogo.com/img/orig/TSLA-6da550e5.png?t=1740128273&download=true" alt="Tesla" class="asset-icon">
                 <div>
                   <div>Tesla, Inc.</div>
                   <div class="ticker">TSLA</div>
@@ -260,17 +260,18 @@
               </div>
             </td>
             <td>
-              <span style="color: var(--green-up);">Buy</span>
+              <span style="color: var(--green-up);">Compra</span>
             </td>
-            <td class="price">$980.25</td>
+            <td class="price">R$980,25</td>
             <td>2</td>
-            <td>$1,960.50</td>
+            <td>R$1.960,50</td>
             <td>
-              <span style="padding: 3px 8px; background-color: rgba(76, 175, 80, 0.2); color: #4CAF50; border-radius: 4px;">Completed</span>
+              <span style="padding: 3px 8px; background-color: rgba(76, 175, 80, 0.2); color: #4CAF50; border-radius: 4px;">Concluída</span>
             </td>
           </tr>
         </tbody>
       </table>
+      
     </div>
   </main>
 </body>

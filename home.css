@@ -1,0 +1,349 @@
+@import url('styles.css');
+
+.hero {
+  background: linear-gradient(90deg, var(--orange-primary), var(--orange-secondary));
+  padding: 80px 20px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 4px 20px rgba(255, 119, 0, 0.3);
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.hero p {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto 30px;
+  line-height: 1.6;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.hero-buttons .btn {
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background-color: var(--orange-primary);
+  color: white;
+}
+
+.hero-buttons .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  background-color: var(--orange-secondary);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  padding: 60px 20px;
+  background-color: var(--black-bg);
+}
+
+.feature-card {
+  background: var(--card-bg);
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid var(--border-color);
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card h3 {
+  color: var(--orange-primary);
+  margin-bottom: 15px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 0 20px;
+}
+
+.section-header h2 {
+  font-size: 2rem;
+  position: relative;
+}
+
+.section-header h2::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background-color: var(--orange-primary);
+}
+
+.view-all {
+  display: flex;
+  align-items: center;
+  color: var(--orange-primary);
+  text-decoration: none;
+  gap: 8px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.view-all:hover {
+  color: var(--orange-secondary);
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.stock-grid, .crypto-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 0 20px;
+  margin-bottom: 60px;
+}
+
+.asset-card {
+  background: var(--card-bg);
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s;
+}
+
+.asset-card:hover {
+  transform: translateY(-5px);
+}
+
+.asset-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.asset-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+}
+
+.asset-name {
+  font-weight: 600;
+}
+
+.asset-ticker {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.asset-price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.asset-change.positive {
+  color: var(--green-up);
+}
+
+.asset-change.negative {
+  color: var(--red-down);
+}
+
+.asset-market-cap {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-top: 10px;
+}
+
+.key-features {
+  background-color: var(--dark-bg);
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.key-features h2 {
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  position: relative;
+  display: inline-block;
+}
+
+.key-features h2::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background-color: var(--orange-primary);
+}
+
+.testimonials {
+  padding: 60px 20px;
+  background-color: var(--black-bg);
+}
+
+.testimonials h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  position: relative;
+  display: inline-block;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.testimonials h2::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background-color: var(--orange-primary);
+}
+
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.testimonial-card {
+  background: var(--card-bg);
+  border-radius: 10px;
+  padding: 30px;
+  position: relative;
+  border: 1px solid var(--border-color);
+}
+
+.testimonial-card::before {
+  content: '"';
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  font-size: 4rem;
+  color: var(--orange-primary);
+  opacity: 0.2;
+  line-height: 1;
+}
+
+.testimonial-content {
+  font-style: italic;
+  margin-bottom: 20px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.testimonial-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.testimonial-info h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.testimonial-info p {
+  margin: 0;
+  color: var(--orange-primary);
+  font-size: 0.9rem;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 20px 40px;
+}
+
+.footer-section h4 {
+  color: var(--orange-primary);
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+}
+
+.footer-section a, .footer-section p {
+  display: block;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-section a:hover {
+  color: var(--orange-primary);
+}
+
+.footer-bottom {
+  text-align: center;
+  padding: 20px;
+  border-top: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .testimonial-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .footer-content {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+  
+  .hero-buttons {
+    flex-direction: column;
+  }
+  
+  .footer-content {
+    grid-template-columns: 1fr;
+  }
+}

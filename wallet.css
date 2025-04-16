@@ -1,0 +1,121 @@
+@import url('styles.css');
+
+.balance-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 30px;
+  margin: 30px 0;
+}
+
+.balance-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.balance-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.balance {
+  display: flex;
+  flex-direction: column;
+}
+
+.amount {
+  font-size: 3rem;
+  font-weight: 600;
+}
+
+.last-updated {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tab {
+  padding: 10px 20px;
+  background: none;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab.active {
+  background: var(--border-color);
+  color: var(--text-primary);
+}
+
+.transactions-list {
+  background: var(--card-bg);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.transaction {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.transaction-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.transaction-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--secondary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.transaction-type {
+  font-weight: 500;
+}
+
+.transaction-date {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.transaction-amount {
+  font-weight: 600;
+}
+
+.transaction-amount.positive {
+  color: var(--green-up);
+}
+
+.transaction-amount.negative {
+  color: var(--red-down);
+}
+
+@media (max-width: 768px) {
+  .balance-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+
+  .amount {
+    font-size: 2rem;
+  }
+}

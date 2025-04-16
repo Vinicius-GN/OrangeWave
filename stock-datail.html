@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Microsoft Corporation (MSFT) - OrangeWave</title>
+  <link rel="stylesheet" href="stock-datail.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Keep header from index.html -->
+  <header>
+    <a href="index.html" class="logo">OrangeWave</a>
+    <nav class="nav-links">
+      <a href="index.html">Dashboard</a>
+      <a href="market.html" class="active-orange">Market</a>
+      <a href="orders.html">Orders</a>
+      <a href="#">News</a>
+      <a href="#">Simulation</a>
+      <a href="#">Wallet</a>
+    </nav>
+    <div class="user-section">
+      <div class="cart-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+      </div>
+      <div class="profile">
+        <span>Vinícius Gustierrez Neves</span>
+        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile">
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="stock-header">
+      <div class="stock-info">
+        <img src="https://companieslogo.com/img/orig/MSFT-a203b22d.png" alt="Microsoft" class="stock-logo">
+        <div>
+          <h1>Microsoft Corporation</h1>
+          <span class="stock-ticker">MSFT</span>
+        </div>
+      </div>
+      <div class="stock-actions">
+        <button class="btn btn-primary">Buy</button>
+        <button class="btn btn-sell">Sell</button>
+      </div>
+    </div>
+
+    <div class="stock-price-section">
+      <div class="current-price">
+        <span class="price">R$2.388,72</span>
+        <span class="change positive">+R$23,89 (+0.99%)</span>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="time-tabs">
+          <button>1D</button>
+          <button class="active">1S</button>
+          <button>1M</button>
+          <button>3M</button>
+          <button>1A</button>
+          <button>TUDO</button>
+        </div>
+      </div>
+      <div class="chart-container">
+        <div class="stock-price-area"></div>
+        <div class="stock-price-line"></div>
+        <div class="price-points">
+          <div class="price-point"></div>
+          <div class="price-point"></div>
+          <div class="price-point"></div>
+          <div class="price-point"></div>
+          <div class="price-point"></div>
+          <div class="price-point"></div>
+          <div class="price-point"></div>
+          <div class="price-point"></div>
+          <div class="price-point"></div>
+          <div class="price-point"></div>
+          <div class="price-point"></div>
+          <div class="price-point"></div>
+          <div class="price-point"></div>
+          <div class="price-point"></div>
+          <div class="price-point"></div>
+          <div class="price-point"></div>
+          <div class="price-point"></div>
+          <div class="price-point"></div>
+          <div class="price-point"></div>
+          <div class="price-point"></div>
+        </div>
+        <div class="chart-overlay">
+          <div class="y-axis">
+            <div>R$2400.00</div>
+            <div>R$2375.00</div>
+            <div>R$2350.00</div>
+            <div>R$2325.00</div>
+            <div>R$2300.00</div>
+            <div>R$2275.00</div>
+            <div>R$2250.00</div>
+          </div>
+          <div class="x-axis">
+            <div>16 Abr</div>
+            <div>17 Abr</div>
+            <div>18 Abr</div>
+            <div>19 Abr</div>
+            <div>20 Abr</div>
+            <div>21 Abr</div>
+            <div>22 Abr</div>
+            <div>23 Abr</div>
+            <div>Hoje</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stock-details-grid">
+      <div class="details-card">
+        <h3>Sobre a Microsoft Corporation</h3>
+        <p>Microsoft Corporation é uma empresa multinacional americana que desenvolve, fabrica, licencia, suporta e vende software de computador, dispositivos eletrônicos pessoais, computadores pessoais e serviços relacionados.</p>
+        <div class="key-stats">
+          <div class="stat">
+            <span class="label">Valor de Mercado</span>
+            <span class="value">R$3.08T</span>
+          </div>
+          <div class="stat">
+            <span class="label">Volume</span>
+            <span class="value">23.7M</span>
+          </div>
+          <div class="stat">
+            <span class="label">52W Alto</span>
+            <span class="value">R$420.82</span>
+          </div>
+          <div class="stat">
+            <span class="label">52W Baixo</span>
+            <span class="value">R$275.37</span>
+          </div>
+          <div class="stat">
+            <span class="label">P/E</span>
+            <span class="value">38.45</span>
+          </div>
+          <div class="stat">
+            <span class="label">Rendimento de Dividendos</span>
+            <span class="value">0.72%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="trade-card">
+        <h3>Negociar MSFT</h3>
+        <div class="trade-form">
+          <div class="form-group">
+            <label>Quantidade</label>
+            <input type="number" min="1" value="1">
+          </div>
+          <div class="form-group">
+            <label>Preço de Mercado</label>
+            <span class="market-price">R$2.388,72</span>
+          </div>
+          <div class="form-group total">
+            <label>Total</label>
+            <span class="total-price">R$2.388,72</span>
+          </div>
+          <button class="btn btn-primary btn-large">Comprar MSFT</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

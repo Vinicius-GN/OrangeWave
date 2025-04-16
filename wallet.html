@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carteira - OrangeWave</title>
+  <link rel="stylesheet" href="wallet.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Keep header from index.html -->
+  <header>
+    <a href="index.html" class="logo">OrangeWave</a>
+    <nav class="nav-links">
+      <a href="index.html">Painel</a>
+      <a href="market.html">Mercado</a>
+      <a href="orders.html">Ordens</a>
+      <a href="#">Notícias</a>
+      <a href="#">Simulação</a>
+      <a href="wallet.html" class="active-orange">Carteira</a>
+    </nav>
+    <div class="user-section">
+      <div class="cart-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+      </div>
+      <div class="profile">
+        <span>Vinícius Gustierrez Neves</span>
+        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile">
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1>Carteira</h1>
+    <p class="subtitle">Gerencie seus fundos e veja o histórico de transações.</p>
+
+    <div class="balance-card">
+      <div class="balance-header">
+        <h2>Saldo Disponível</h2>
+        <div class="balance-actions">
+          <button class="btn btn-primary">Depositar</button>
+          <button class="btn btn-secondary">Sacar</button>
+        </div>
+      </div>
+      <div class="balance">
+        <span class="amount">R$58,000.00</span>
+        <span class="last-updated">Última atualização Apr 16, 2025 • 11:05 AM</span>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active">Histórico de Transações</button>
+      <button class="tab">Métodos de Pagamento</button>
+    </div>
+
+    <div class="transactions-list">
+      <div class="transaction deposit">
+        <div class="transaction-info">
+          <div class="transaction-icon">↓</div>
+          <div>
+            <div class="transaction-type">Depósito</div>
+            <div class="transaction-date">Mar 27, 2025 • 10:55 AM</div>
+          </div>
+        </div>
+        <div class="transaction-amount positive">+R$58,000.00</div>
+      </div>
+      <!-- Add more transactions as needed -->
+    </div>
+  </main>
+</body>
+</html>
