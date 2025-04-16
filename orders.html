@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OrangeWave - Orders</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header Navigation -->
+  <header>
+    <a href="index.html" class="logo">OrangeWave</a>
+    <nav class="nav-links">
+      <a href="index.html">Dashboard</a>
+      <a href="market.html">Market</a>
+      <a href="orders.html" class="active-orange">Orders</a>
+      <a href="#">News</a>
+      <a href="#">Simulation</a>
+      <a href="#">Wallet</a>
+    </nav>
+    <div class="user-section">
+      <div class="cart-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+      </div>
+      <div class="profile">
+        <span>Vinícius Gualtierrez Neves</span>
+        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile">
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <h1 class="page-title">Orders</h1>
+    <p class="page-subtitle">View and manage your market orders.</p>
+
+    <!-- Open Orders -->
+    <div class="card">
+      <div class="section-title">
+        Open Orders
+        <div class="filter-tabs">
+          <button class="active">All</button>
+          <button>Buy</button>
+          <button>Sell</button>
+        </div>
+      </div>
+      
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>DATE</th>
+            <th>ASSET</th>
+            <th>TYPE</th>
+            <th>PRICE</th>
+            <th>QUANTITY</th>
+            <th>TOTAL</th>
+            <th>STATUS</th>
+            <th>ACTIONS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2025-04-15</td>
+            <td>
+              <div class="asset-name">
+                <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="Bitcoin" class="asset-icon">
+                <div>
+                  <div>Bitcoin</div>
+                  <div class="ticker">BTC</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span style="color: var(--green-up);">Buy</span>
+            </td>
+            <td class="price">$67,500.00</td>
+            <td>0.15</td>
+            <td>$10,125.00</td>
+            <td>
+              <span style="padding: 3px 8px; background-color: rgba(255, 193, 7, 0.2); color: #FFC107; border-radius: 4px;">Pending</span>
+            </td>
+            <td>
+              <div style="display: flex; gap: 5px;">
+                <button class="btn btn-secondary btn-sm">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                  </svg>
+                </button>
+                <button class="btn btn-secondary btn-sm">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>2025-04-14</td>
+            <td>
+              <div class="asset-name">
+                <img src="https://companieslogo.com/img/orig/TSLA-e90e98f7.png" alt="Tesla" class="asset-icon">
+                <div>
+                  <div>Tesla, Inc.</div>
+                  <div class="ticker">TSLA</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span style="color: var(--red-down);">Sell</span>
+            </td>
+            <td class="price">$1,050.00</td>
+            <td>2</td>
+            <td>$2,100.00</td>
+            <td>
+              <span style="padding: 3px 8px; background-color: rgba(33, 150, 243, 0.2); color: #2196F3; border-radius: 4px;">Processing</span>
+            </td>
+            <td>
+              <div style="display: flex; gap: 5px;">
+                <button class="btn btn-secondary btn-sm">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                  </svg>
+                </button>
+                <button class="btn btn-secondary btn-sm">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Order History -->
+    <div class="card">
+      <div class="section-title">
+        Order History
+        <div class="filter-tabs">
+          <button class="active">All</button>
+          <button>Buy</button>
+          <button>Sell</button>
+        </div>
+      </div>
+      
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>DATE</th>
+            <th>ASSET</th>
+            <th>TYPE</th>
+            <th>PRICE</th>
+            <th>QUANTITY</th>
+            <th>TOTAL</th>
+            <th>STATUS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2025-04-10</td>
+            <td>
+              <div class="asset-name">
+                <img src="https://companieslogo.com/img/orig/MSFT-a203b22d.png" alt="Microsoft" class="asset-icon">
+                <div>
+                  <div>Microsoft Corp.</div>
+                  <div class="ticker">MSFT</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span style="color: var(--green-up);">Buy</span>
+            </td>
+            <td class="price">$410.25</td>
+            <td>3</td>
+            <td>$1,230.75</td>
+            <td>
+              <span style="padding: 3px 8px; background-color: rgba(76, 175, 80, 0.2); color: #4CAF50; border-radius: 4px;">Completed</span>
+            </td>
+          </tr>
+          <tr>
+            <td>2025-04-02</td>
+            <td>
+              <div class="asset-name">
+                <img src="https://companieslogo.com/img/orig/AAPL-bf1a4314.png" alt="Apple" class="asset-icon">
+                <div>
+                  <div>Apple Inc.</div>
+                  <div class="ticker">AAPL</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span style="color: var(--green-up);">Buy</span>
+            </td>
+            <td class="price">$177.20</td>
+            <td>5</td>
+            <td>$886.00</td>
+            <td>
+              <span style="padding: 3px 8px; background-color: rgba(76, 175, 80, 0.2); color: #4CAF50; border-radius: 4px;">Completed</span>
+            </td>
+          </tr>
+          <tr>
+            <td>2025-03-28</td>
+            <td>
+              <div class="asset-name">
+                <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="Ethereum" class="asset-icon">
+                <div>
+                  <div>Ethereum</div>
+                  <div class="ticker">ETH</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span style="color: var(--red-down);">Sell</span>
+            </td>
+            <td class="price">$4,895.30</td>
+            <td>0.5</td>
+            <td>$2,447.65</td>
+            <td>
+              <span style="padding: 3px 8px; background-color: rgba(76, 175, 80, 0.2); color: #4CAF50; border-radius: 4px;">Completed</span>
+            </td>
+          </tr>
+          <tr>
+            <td>2025-03-15</td>
+            <td>
+              <div class="asset-name">
+                <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="Bitcoin" class="asset-icon">
+                <div>
+                  <div>Bitcoin</div>
+                  <div class="ticker">BTC</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span style="color: var(--green-up);">Buy</span>
+            </td>
+            <td class="price">$65,120.55</td>
+            <td>0.1</td>
+            <td>$6,512.06</td>
+            <td>
+              <span style="padding: 3px 8px; background-color: rgba(76, 175, 80, 0.2); color: #4CAF50; border-radius: 4px;">Completed</span>
+            </td>
+          </tr>
+          <tr>
+            <td>2025-03-10</td>
+            <td>
+              <div class="asset-name">
+                <img src="https://companieslogo.com/img/orig/TSLA-e90e98f7.png" alt="Tesla" class="asset-icon">
+                <div>
+                  <div>Tesla, Inc.</div>
+                  <div class="ticker">TSLA</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span style="color: var(--green-up);">Buy</span>
+            </td>
+            <td class="price">$980.25</td>
+            <td>2</td>
+            <td>$1,960.50</td>
+            <td>
+              <span style="padding: 3px 8px; background-color: rgba(76, 175, 80, 0.2); color: #4CAF50; border-radius: 4px;">Completed</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</body>
+</html>
