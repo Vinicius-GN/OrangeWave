@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrinho - OrangeWave</title>
+  <link rel="stylesheet" href="cart.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">OrangeWave</a>
+    <nav class="nav-links">
+      <a href="index.html">Painel</a>
+      <a href="market.html">Mercado</a>
+      <a href="orders.html">Ordens</a>
+      <a href="news.html">Notícias</a>
+      <a href="simulation.html">Simulação</a>
+      <a href="wallet.html">Carteira</a>
+    </nav>
+    <div class="user-section">
+      <div class="cart-icon active">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <span class="cart-badge">3</span>
+      </div>
+      <div class="profile">
+        <span>Vinícius Gustierrez Neves</span>
+        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile">
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 class="page-title">Seu Carrinho</h1>
+    <p class="page-subtitle">Revise seus itens antes de finalizar a compra.</p>
+
+    <div class="cart-container">
+      <div class="cart-items">
+        <div class="cart-item">
+          <div class="item-info">
+            <img src="https://companieslogo.com/img/orig/AAPL-bf1a4314.png" alt="Apple" class="item-img">
+            <div>
+              <h3>Apple Inc. (AAPL)</h3>
+              <p class="item-price">R$918,52 por ação</p>
+            </div>
+          </div>
+          <div class="item-quantity">
+            <button class="quantity-btn decrease">-</button>
+            <span>2</span>
+            <button class="quantity-btn increase">+</button>
+          </div>
+          <div class="item-total">
+            <p>R$1.837,04</p>
+            <button class="remove-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="cart-item">
+          <div class="item-info">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1024px-Bitcoin.svg.png" alt="Bitcoin" class="item-img">
+            <div>
+              <h3>Bitcoin (BTC)</h3>
+              <p class="item-price">R$290.732,96 por moeda</p>
+            </div>
+          </div>
+          <div class="item-quantity">
+            <button class="quantity-btn decrease">-</button>
+            <span>0.01</span>
+            <button class="quantity-btn increase">+</button>
+          </div>
+          <div class="item-total">
+            <p>R$2.907,33</p>
+            <button class="remove-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="cart-item">
+          <div class="item-info">
+            <img src="https://companieslogo.com/img/orig/MSFT-a203b22d.png" alt="Microsoft" class="item-img">
+            <div>
+              <h3>Microsoft Corporation (MSFT)</h3>
+              <p class="item-price">R$2.403,28 por ação</p>
+            </div>
+          </div>
+          <div class="item-quantity">
+            <button class="quantity-btn decrease">-</button>
+            <span>1</span>
+            <button class="quantity-btn increase">+</button>
+          </div>
+          <div class="item-total">
+            <p>R$2.403,28</p>
+            <button class="remove-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cart-summary">
+        <h2>Resumo do Pedido</h2>
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span>R$7.147,65</span>
+        </div>
+        <div class="summary-row">
+          <span>Taxa de corretagem</span>
+          <span>R$0,00</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total</span>
+          <span>R$7.147,65</span>
+        </div>
+
+        <div class="payment-methods">
+          <h3>Método de Pagamento</h3>
+          <div class="payment-option">
+            <input type="radio" id="balance" name="payment" checked>
+            <label for="balance">Usar saldo disponível (R$58.000,00)</label>
+          </div>
+          <div class="payment-option">
+            <input type="radio" id="credit-card" name="payment">
+            <label for="credit-card">Cartão de crédito</label>
+          </div>
+
+          <div class="credit-card-form">
+            <div class="form-group">
+              <label>Número do Cartão</label>
+              <input type="text" placeholder="0000 0000 0000 0000">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Validade</label>
+                <input type="text" placeholder="MM/AA">
+              </div>
+              <div class="form-group">
+                <label>CVV</label>
+                <input type="text" placeholder="123">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Nome no Cartão</label>
+              <input type="text" placeholder="Nome como aparece no cartão">
+            </div>
+          </div>
+        </div>
+
+        <button class="checkout-btn">Finalizar Compra</button>
+        <a href="market.html" class="continue-shopping">Continuar Comprando</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

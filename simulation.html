@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulação - OrangeWave</title>
+  <link rel="stylesheet" href="simulaton.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header from other pages -->
+  <header>
+    <a href="index.html" class="logo">OrangeWave</a>
+    <nav class="nav-links">
+      <a href="index.html">Painel</a>
+      <a href="market.html">Mercado</a>
+      <a href="orders.html">Ordens</a>
+      <a href="news.html">Notícias</a>
+      <a href="simulation.html" class="active-orange">Simulação</a>
+      <a href="wallet.html">Carteira</a>
+    </nav>
+    <div class="user-section">
+      <div class="cart-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+      </div>
+      <div class="profile">
+        <span>Vinícius Gustierrez Neves</span>
+        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile">
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 class="page-title">Simulação de Trading</h1>
+    <p class="page-subtitle">Dia 1 de 30</p>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>Saldo em Caixa</h3>
+        <div class="stat-value">R$58.000,00</div>
+        <div class="stat-icon wallet-icon"></div>
+      </div>
+      <div class="stat-card">
+        <h3>Valor do Portfólio</h3>
+        <div class="stat-value">R$58.000,00</div>
+        <div class="stat-icon portfolio-icon"></div>
+      </div>
+      <div class="stat-card">
+        <h3>Lucro/Perda</h3>
+        <div class="stat-value positive">R$0,00 (+0,00%)</div>
+        <div class="stat-icon profit-icon"></div>
+      </div>
+      <div class="stat-card">
+        <h3>Data</h3>
+        <div class="stat-value">16 de Abril, 2025</div>
+        <div class="stat-icon date-icon"></div>
+      </div>
+    </div>
+
+    <div class="chart-container">
+      <h2 class="section-title">Evolução do Portfólio</h2>
+      <div class="portfolio-chart">
+        <div class="chart-y-axis">
+          <span>R$10.000</span>
+          <span>R$7.500</span>
+          <span>R$5.000</span>
+          <span>R$2.500</span>
+          <span>R$0</span>
+        </div>
+        <div class="chart-content">
+          <div class="chart-line"></div>
+          <div class="chart-x-axis">
+            <span>16 de Abr</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active">Mercado</button>
+      <button class="tab">Portfólio</button>
+      <button class="tab">Transações</button>
+    </div>
+
+    <div class="section-container">
+      <h2 class="section-title">Ativos Disponíveis</h2>
+      <p class="section-subtitle">Navegue e negocie ativos disponíveis</p>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Símbolo</th>
+            <th>Nome</th>
+            <th>Preço</th>
+            <th>Variação</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>AAPL</td>
+            <td>Apple Inc.</td>
+            <td>R$918,52</td>
+            <td class="change-positive">+1,95%</td>
+            <td><button class="btn btn-buy">Comprar</button></td>
+          </tr>
+          <tr>
+            <td>MSFT</td>
+            <td>Microsoft Corporation</td>
+            <td>R$2.403,28</td>
+            <td class="change-positive">+1,11%</td>
+            <td><button class="btn btn-buy">Comprar</button></td>
+          </tr>
+          <tr>
+            <td>GOOGL</td>
+            <td>Alphabet Inc.</td>
+            <td>R$1.752,42</td>
+            <td class="change-negative">-0,82%</td>
+            <td><button class="btn btn-buy">Comprar</button></td>
+          </tr>
+          <tr>
+            <td>AMZN</td>
+            <td>Amazon.com, Inc.</td>
+            <td>R$964,72</td>
+            <td class="change-positive">+0,93%</td>
+            <td><button class="btn btn-buy">Comprar</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="simulation-notice">
+        <p>Simulação Iniciada</p>
+        <p>Começando com R$58.000</p>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

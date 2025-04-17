@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel de Administrador - OrangeWave</title>
+  <link rel="stylesheet" href="admin-dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">OrangeWave</a>
+    <nav class="nav-links">
+      <a href="admin-dashboard.html" class="active-orange">Admin</a>
+      <a href="index.html">Painel</a>
+      <a href="market.html">Mercado</a>
+      <a href="orders.html">Ordens</a>
+    </nav>
+    <div class="user-section">
+      <div class="profile">
+        <span>Admin</span>
+        <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Admin Profile">
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 class="page-title">Painel de Administrador</h1>
+    <p class="page-subtitle">Gerencie ativos, transações e usuários da plataforma.</p>
+
+    <div class="admin-stats">
+      <div class="stat-card">
+        <div class="stat-icon users-icon"></div>
+        <div class="stat-info">
+          <h3>Usuários Totais</h3>
+          <p>7.289</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon transactions-icon"></div>
+        <div class="stat-info">
+          <h3>Transações Diárias</h3>
+          <p>1.452</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon assets-icon"></div>
+        <div class="stat-info">
+          <h3>Ativos</h3>
+          <p>214</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon revenue-icon"></div>
+        <div class="stat-info">
+          <h3>Receita Mensal</h3>
+          <p>R$132.458,00</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active">Gerenciar Ativos</button>
+      <button class="tab">Transações</button>
+      <button class="tab">Usuários</button>
+      <button class="tab">Configurações</button>
+    </div>
+
+    <div class="section-header">
+      <h2>Gerenciar Ativos</h2>
+      <button class="btn btn-primary">Adicionar Ativo</button>
+    </div>
+
+    <div class="filter-row">
+      <div class="filter-group">
+        <label>Categoria:</label>
+        <select class="filter-select">
+          <option value="all">Todos</option>
+          <option value="stocks">Ações</option>
+          <option value="crypto">Criptomoedas</option>
+          <option value="forex">Forex</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Status:</label>
+        <select class="filter-select">
+          <option value="all">Todos</option>
+          <option value="active">Ativo</option>
+          <option value="disabled">Desativado</option>
+        </select>
+      </div>
+      <div class="search-box">
+        <input type="text" placeholder="Buscar ativo...">
+        <button class="search-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="admin-table-container">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Ticker</th>
+            <th>Categoria</th>
+            <th>Preço</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>001</td>
+            <td class="asset-name">
+              <img src="https://companieslogo.com/img/orig/AAPL-bf1a4314.png" alt="Apple" class="asset-icon">
+              <span>Apple Inc.</span>
+            </td>
+            <td>AAPL</td>
+            <td>Ações</td>
+            <td>R$918,52</td>
+            <td><span class="status-badge active">Ativo</span></td>
+            <td class="action-buttons">
+              <button class="btn-icon edit">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+              </button>
+              <button class="btn-icon delete">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>002</td>
+            <td class="asset-name">
+              <img src="https://companieslogo.com/img/orig/MSFT-a203b22d.png" alt="Microsoft" class="asset-icon">
+              <span>Microsoft Corporation</span>
+            </td>
+            <td>MSFT</td>
+            <td>Ações</td>
+            <td>R$2.403,28</td>
+            <td><span class="status-badge active">Ativo</span></td>
+            <td class="action-buttons">
+              <button class="btn-icon edit">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+              </button>
+              <button class="btn-icon delete">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>003</td>
+            <td class="asset-name">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1024px-Bitcoin.svg.png" alt="Bitcoin" class="asset-icon">
+              <span>Bitcoin</span>
+            </td>
+            <td>BTC</td>
+            <td>Criptomoedas</td>
+            <td>R$290.732,96</td>
+            <td><span class="status-badge active">Ativo</span></td>
+            <td class="action-buttons">
+              <button class="btn-icon edit">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+              </button>
+              <button class="btn-icon delete">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>004</td>
+            <td class="asset-name">
+              <img src="https://companieslogo.com/img/orig/AAPL-bf1a4314.png" alt="Alphabet" class="asset-icon">
+              <span>Alphabet Inc.</span>
+            </td>
+            <td>GOOGL</td>
+            <td>Ações</td>
+            <td>R$1.752,42</td>
+            <td><span class="status-badge inactive">Desativado</span></td>
+            <td class="action-buttons">
+              <button class="btn-icon edit">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+              </button>
+              <button class="btn-icon delete">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>005</td>
+            <td class="asset-name">
+              <img src="https://cdn.worldvectorlogo.com/logos/ethereum-eth.svg" alt="Ethereum" class="asset-icon">
+              <span>Ethereum</span>
+            </td>
+            <td>ETH</td>
+            <td>Criptomoedas</td>
+            <td>R$10.875,30</td>
+            <td><span class="status-badge active">Ativo</span></td>
+            <td class="action-buttons">
+              <button class="btn-icon edit">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+              </button>
+              <button class="btn-icon delete">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination">
+      <button class="pagination-btn active">1</button>
+      <button class="pagination-btn">2</button>
+      <button class="pagination-btn">3</button>
+      <button class="pagination-btn next">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+  </main>
+</body>
+</html>

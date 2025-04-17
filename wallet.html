@@ -15,8 +15,8 @@
       <a href="index.html">Painel</a>
       <a href="market.html">Mercado</a>
       <a href="orders.html">Ordens</a>
-      <a href="#">Notícias</a>
-      <a href="#">Simulação</a>
+      <a href="news.html">Notícias</a>
+      <a href="simulation.html">Simulação</a>
       <a href="wallet.html" class="active-orange">Carteira</a>
     </nav>
     <div class="user-section">
@@ -47,14 +47,125 @@
         </div>
       </div>
       <div class="balance">
-        <span class="amount">R$58,000.00</span>
-        <span class="last-updated">Última atualização Apr 16, 2025 • 11:05 AM</span>
+        <span class="amount">R$58.000,00</span>
+        <span class="last-updated">Última atualização 16 de Abril, 2025 • 11:05 AM</span>
+      </div>
+    </div>
+
+    <div class="wallet-grid">
+      <div class="wallet-card account-info">
+        <h2>Informações da Conta</h2>
+        <div class="info-row">
+          <div class="info-label">Nome</div>
+          <div class="info-value">Vinícius Gustierrez Neves</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Email</div>
+          <div class="info-value">vinicius.neves@example.com</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">CPF</div>
+          <div class="info-value">123.456.789-00</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Banco</div>
+          <div class="info-value">Banco OrangeWave</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Agência</div>
+          <div class="info-value">0001</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Conta</div>
+          <div class="info-value">123456-7</div>
+        </div>
+        <button class="btn btn-secondary btn-sm">Editar informações</button>
+      </div>
+
+      <div class="wallet-card payment-methods">
+        <h2>Métodos de Pagamento</h2>
+        <div class="payment-card">
+          <div class="card-info">
+            <div class="card-icon credit"></div>
+            <div>
+              <div class="card-name">Mastercard ****4587</div>
+              <div class="card-expiry">Expira em 03/27</div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="btn-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+            </button>
+            <button class="btn-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="payment-card">
+          <div class="card-info">
+            <div class="card-icon pix"></div>
+            <div>
+              <div class="card-name">Pix</div>
+              <div class="card-expiry">CPF: 123.456.789-00</div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="btn-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <button class="btn btn-secondary btn-sm">Adicionar método de pagamento</button>
       </div>
     </div>
 
     <div class="tabs">
       <button class="tab active">Histórico de Transações</button>
-      <button class="tab">Métodos de Pagamento</button>
+      <button class="tab">Extrato Bancário</button>
+      <button class="tab">Comprovantes</button>
+    </div>
+
+    <div class="transactions-filters">
+      <div>
+        <label for="transaction-type">Tipo:</label>
+        <select id="transaction-type">
+          <option value="all">Todos</option>
+          <option value="deposit">Depósito</option>
+          <option value="withdrawal">Saque</option>
+          <option value="purchase">Compra</option>
+          <option value="sale">Venda</option>
+        </select>
+      </div>
+      <div>
+        <label for="date-range">Período:</label>
+        <select id="date-range">
+          <option value="7d">Últimos 7 dias</option>
+          <option value="30d">Últimos 30 dias</option>
+          <option value="90d">Últimos 90 dias</option>
+          <option value="1y">Último ano</option>
+          <option value="all">Todo período</option>
+        </select>
+      </div>
+      <div class="search-box">
+        <input type="text" placeholder="Buscar transação...">
+        <button class="search-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+      </div>
     </div>
 
     <div class="transactions-list">
@@ -63,12 +174,66 @@
           <div class="transaction-icon">↓</div>
           <div>
             <div class="transaction-type">Depósito</div>
-            <div class="transaction-date">Mar 27, 2025 • 10:55 AM</div>
+            <div class="transaction-date">27 Mar, 2025 • 10:55 AM</div>
           </div>
         </div>
-        <div class="transaction-amount positive">+R$58,000.00</div>
+        <div class="transaction-amount positive">+R$58.000,00</div>
       </div>
-      <!-- Add more transactions as needed -->
+
+      <div class="transaction purchase">
+        <div class="transaction-info">
+          <div class="transaction-icon">↑</div>
+          <div>
+            <div class="transaction-type">Compra - Apple Inc. (AAPL)</div>
+            <div class="transaction-date">28 Mar, 2025 • 02:15 PM</div>
+          </div>
+        </div>
+        <div class="transaction-amount negative">-R$1.837,04</div>
+      </div>
+
+      <div class="transaction purchase">
+        <div class="transaction-info">
+          <div class="transaction-icon">↑</div>
+          <div>
+            <div class="transaction-type">Compra - Microsoft Corp. (MSFT)</div>
+            <div class="transaction-date">02 Abr, 2025 • 09:22 AM</div>
+          </div>
+        </div>
+        <div class="transaction-amount negative">-R$2.403,28</div>
+      </div>
+
+      <div class="transaction sale">
+        <div class="transaction-info">
+          <div class="transaction-icon">↓</div>
+          <div>
+            <div class="transaction-type">Venda - Apple Inc. (AAPL)</div>
+            <div class="transaction-date">10 Abr, 2025 • 03:40 PM</div>
+          </div>
+        </div>
+        <div class="transaction-amount positive">+R$1.956,82</div>
+      </div>
+
+      <div class="transaction purchase">
+        <div class="transaction-info">
+          <div class="transaction-icon">↑</div>
+          <div>
+            <div class="transaction-type">Compra - Bitcoin (BTC)</div>
+            <div class="transaction-date">15 Abr, 2025 • 11:10 AM</div>
+          </div>
+        </div>
+        <div class="transaction-amount negative">-R$2.907,33</div>
+      </div>
+    </div>
+
+    <div class="pagination">
+      <button class="pagination-btn active">1</button>
+      <button class="pagination-btn">2</button>
+      <button class="pagination-btn">3</button>
+      <button class="pagination-btn next">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
     </div>
   </main>
 </body>
