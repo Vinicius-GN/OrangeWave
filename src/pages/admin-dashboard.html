@@ -11,10 +11,10 @@
   <header>
     <a href="index.html" class="logo">OrangeWave</a>
     <nav class="nav-links">
-      <a href="admin-dashboard.html" class="active-orange">Admin</a>
-      <a href="index.html">Painel</a>
-      <a href="market.html">Mercado</a>
-      <a href="orders.html">Ordens</a>
+      <a href="admin-dashboard.html" class="active-orange">Painel</a>
+      <a href="admin-users.html">Usuários</a>
+      <a href="admin-purchases.html">Compras</a>
+      <a href="admin-admins.html">Administradores</a>
     </nav>
     <div class="user-section">
       <div class="profile">
@@ -57,13 +57,6 @@
           <p>R$132.458,00</p>
         </div>
       </div>
-    </div>
-
-    <div class="tabs">
-      <button class="tab active">Gerenciar Ativos</button>
-      <button class="tab">Transações</button>
-      <button class="tab">Usuários</button>
-      <button class="tab">Configurações</button>
     </div>
 
     <div class="section-header">
@@ -118,19 +111,22 @@
             <td>001</td>
             <td class="asset-name">
               <img src="https://companieslogo.com/img/orig/AAPL-bf1a4314.png" alt="Apple" class="asset-icon">
-              <span>Apple Inc.</span>
+              <div class="asset-info">
+                <span class="asset-title">Apple Inc.</span>
+                <span class="asset-subtitle">Tecnologia</span>
+              </div>
             </td>
             <td>AAPL</td>
-            <td>Ações</td>
+            <td><span class="category-badge stocks">Ações</span></td>
             <td>R$918,52</td>
             <td><span class="status-badge active">Ativo</span></td>
             <td class="action-buttons">
-              <button class="btn-icon edit">
+              <a href="admin-edit-product.html" class="btn-icon edit">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                   <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                 </svg>
-              </button>
+              </a>
               <button class="btn-icon delete">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="3 6 5 6 21 6"></polyline>

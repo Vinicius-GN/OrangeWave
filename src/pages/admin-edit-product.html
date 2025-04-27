@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Produto - OrangeWave Admin</title>
+  <link rel="stylesheet" href="../styles/admin-pages.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">OrangeWave</a>
+    <nav class="nav-links">
+      <a href="admin-dashboard.html">Painel</a>
+      <a href="admin-users.html">Usuários</a>
+      <a href="admin-purchases.html">Compras</a>
+      <a href="admin-admins.html">Administradores</a>
+    </nav>
+    <div class="user-section">
+      <div class="profile">
+        <span>Admin</span>
+        <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Admin Profile">
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="edit-product-container">
+      <h1>Editar Produto</h1>
+      
+      <form class="edit-form">
+        <div class="form-section editable">
+          <h2>Informações Editáveis</h2>
+          
+          <div class="form-group">
+            <label for="productName">Nome do Produto</label>
+            <input type="text" id="productName" value="Apple" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="category">Categoria</label>
+            <select id="category" required>
+              <option value="crypto">Ação</option>
+              <option value="stocks">Ações</option>
+              <option value="forex">Forex</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="productId">ID do Produto</label>
+            <input type="text" id="productId" value="APPL-001" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="icon">Ícone do Produto</label>
+            <div class="icon-upload">
+              <img src="https://companieslogo.com/img/orig/AAPL-bf1a4314.png" alt="Ícone Atual" class="current-icon">
+              <input type="file" id="icon" accept="image/*">
+              <button type="button" class="btn btn-secondary">Alterar Ícone</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section readonly">
+          <h2>Informações Apenas Leitura</h2>
+          
+          <div class="info-group">
+            <label>Unidades Vendidas</label>
+            <p>1.250</p>
+          </div>
+          
+          <div class="info-group">
+            <label>Descrição do Produto</label>
+            <p>A ação da Apple Inc. (AAPL) representa uma das empresas mais valiosas e influentes do mundo, conhecida por seus produtos inovadores como o iPhone, iPad, Mac e serviços como Apple Music e iCloud. Suas ações são negociadas na bolsa NASDAQ e são vistas como símbolo de estabilidade e inovação no setor de tecnologia. O desempenho da ação é fortemente impactado pelo lançamento de novos produtos, crescimento em serviços, e pela lealdade dos consumidores à marca.</p>
+          </div>
+          
+          <div class="info-group">
+            <label>Unidades Disponíveis</label>
+            <p>898.766</p>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+          <button type="button" class="btn btn-secondary">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </main>
+</body>
+</html>
