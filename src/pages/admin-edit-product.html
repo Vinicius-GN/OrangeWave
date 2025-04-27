@@ -9,7 +9,7 @@
 </head>
 <body>
   <header>
-    <a href="index.html" class="logo">OrangeWave</a>
+    <a href="admin-dashboard.html" class="logo">OrangeWave</a>
     <nav class="nav-links">
       <a href="admin-dashboard.html">Painel</a>
       <a href="admin-users.html">Usuários</a>
@@ -36,19 +36,29 @@
             <label for="productName">Nome do Produto</label>
             <input type="text" id="productName" value="Apple" required>
           </div>
+
+          <div class="form-group">
+            <label for="productPrice">Preço do Produto</label>
+            <input type="number" id="productId" value="5.000" required>
+          </div>
           
           <div class="form-group">
             <label for="category">Categoria</label>
             <select id="category" required>
-              <option value="crypto">Ação</option>
-              <option value="stocks">Ações</option>
-              <option value="forex">Forex</option>
+              <option value="crypto" style="background-color: black">Ação</option>
+              <option value="stocks" style="background-color: black">Ações</option>
+              <option value="forex" style="background-color: black">Forex</option>
             </select>
           </div>
           
           <div class="form-group">
             <label for="productId">ID do Produto</label>
             <input type="text" id="productId" value="APPL-001" required>
+          </div>
+
+          <div class="form-group">         
+            <label for="productId">Descrição do Produto</label>
+            <input type="text" id="productId" value="A ação da Apple Inc. (AAPL) representa uma das empresas mais valiosas e influentes do mundo, conhecida por seus produtos inovadores como o iPhone, iPad, Mac e serviços como Apple Music e iCloud. Suas ações são negociadas na bolsa NASDAQ e são vistas como símbolo de estabilidade e inovação no setor de tecnologia. O desempenho da ação é fortemente impactado pelo lançamento de novos produtos, crescimento em serviços, e pela lealdade dos consumidores à marca" required>
           </div>
           
           <div class="form-group">
@@ -62,16 +72,11 @@
         </div>
 
         <div class="form-section readonly">
-          <h2>Informações Apenas Leitura</h2>
+          <h2>Informações</h2>
           
           <div class="info-group">
             <label>Unidades Vendidas</label>
             <p>1.250</p>
-          </div>
-          
-          <div class="info-group">
-            <label>Descrição do Produto</label>
-            <p>A ação da Apple Inc. (AAPL) representa uma das empresas mais valiosas e influentes do mundo, conhecida por seus produtos inovadores como o iPhone, iPad, Mac e serviços como Apple Music e iCloud. Suas ações são negociadas na bolsa NASDAQ e são vistas como símbolo de estabilidade e inovação no setor de tecnologia. O desempenho da ação é fortemente impactado pelo lançamento de novos produtos, crescimento em serviços, e pela lealdade dos consumidores à marca.</p>
           </div>
           
           <div class="info-group">
@@ -82,7 +87,8 @@
 
         <div class="form-actions">
           <button type="submit" class="btn btn-primary">Salvar Alterações</button>
-          <button type="button" class="btn btn-secondary">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Criar novo ativo</button>
+          <button type="button" class="btn btn-secondary" onclick="window.location.href='admin-dashboard.html'">Cancelar</button>
         </div>
       </form>
     </div>
