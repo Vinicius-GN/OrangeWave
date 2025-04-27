@@ -307,7 +307,7 @@ flowchart LR
 ---
 
 #### Página: Detalhes do Ativo (`stock-detail.html`)
-![Stock Detail Preview](./img-previews/stock-detail.png)
+![Stock Detail Preview](./img-previews/stock-datail.png)
 
 ---
 
