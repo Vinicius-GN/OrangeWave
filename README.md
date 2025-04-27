@@ -48,14 +48,13 @@ Este projeto consiste em uma **corretora virtual de ações e criptomoedas**, de
 - Frontend: HTML5, CSS3, JavaScript (SPA).  
 - Dados em tempo real: APIs Finnhub.  
 
-## 1. Requisitos
+## Requisitos
 
-### 1. Requisitos
-#### 1.1 Requisitos Funcionais
+### 1.1 Requisitos Funcionais
 **Tipos de Usuários:**  
 - **Clientes (Investidores):**  
   - Cadastrar-se e fazer login.  
-  - Visualizar dados de ações/criptomoedas em tempo real (via API Finnhub/Binance).  
+  - Visualizar dados de ações/criptomoedas em tempo real (via API Finnhub).  
   - Simular ordens de compra/venda (sem uso de dinheiro real).  
   - Acessar portfólio e histórico de transações.  
 - **Administradores:**  
@@ -84,7 +83,7 @@ Este projeto consiste em uma **corretora virtual de ações e criptomoedas**, de
 - **Acessibilidade:**  
   - Contraste adequado e labels para leitores de tela.  
 - **Segurança:**  
-  - Autenticação básica (localStorage para sessão simulada).  
+  - Autenticação básica.  
 
 #### 1.3 Adaptações
 - **Substituições de Termos:**  
@@ -104,32 +103,32 @@ O projeto de corretora de ações não se encaixa perfeitamente nos requisitos d
 
 ---
 
-## 2. Descrição do Projeto
+## Descrição do Projeto
 ### **Projeto: OrangeWave**  
 
 Este projeto consiste em uma **corretora virtual de ações e criptomoedas**, desenvolvida como trabalho final de disciplina. A plataforma permite que usuários simulem operações de compra e venda de ativos financeiros utilizando dados em tempo real de APIs como **Finnhub**, sem envolver transações reais.  
 
-**📚 Tecnologias:** HTML5, CSS3, JavaScript (SPA), APIs Financeiras  
+**Tecnologias:** HTML5, CSS3, JavaScript (SPA), APIs Financeiras  
 
 ---
 
 ### Funcionalidades
 
-### 👤 Área do Cliente 
-- **📊 Mercado** (`market.html`): Visualização de ações e criptomoedas com filtros.  
-- **📈 Detalhes do Ativo** (`stock-detail.html`): Gráficos de preço, histórico e opção de compra/venda.  
-- **💼 Carteira** (`wallet.html`): Saldo virtual e portfólio de investimentos.  
-- **🛒 Carrinho** (`cart.html`): Confirmação de ordens com cartão fictício.  
-- **📰 Notícias** (`news.html`): Feed de notícias financeiras (integrado à API).  
-- **🔄 Histórico** (`orders.html`): Registro de transações simuladas.  
-- **🧮 Simulador de Estratégias** (`simulation.html`): Teste de estratégias com dados históricos.  
+### Área do Cliente 
+- **Mercado** (`market.html`): Visualização de ações e criptomoedas com filtros.  
+- **Detalhes do Ativo** (`stock-detail.html`): Gráficos de preço, histórico e opção de compra/venda.  
+- **Carteira** (`wallet.html`): Saldo virtual e portfólio de investimentos.  
+- **Carrinho** (`cart.html`): Confirmação de ordens com cartão fictício.  
+- **Notícias** (`news.html`): Feed de notícias financeiras (integrado à API).  
+- **Histórico** (`orders.html`): Registro de transações simuladas.  
+- **Simulador de Estratégias** (`simulation.html`): Teste de estratégias com dados históricos.  
 
-### 🛠 Área do Administrador 
-- **📊 Dashboard** (`admin-dashboard.html`): Visão geral de usuários e movimentações.  
-- **📦 Cadastro de Ativos** (`admin-register.html`): CRUD de ações/criptomoedas.  
+### Área do Administrador 
+- **Dashboard** (`admin-dashboard.html`): Visão geral de usuários e movimentações.  
+- **Cadastro de Ativos** (`admin-register.html`): CRUD de ações/criptomoedas.  
 
-### 🎯 Funcionalidades Compartilhadas* 
-- **🔐 Autenticação** (`login.html`, `register.html`, `password-recovery.html`): Fluxo completo de login e cadastro.  
+### Funcionalidades Compartilhadas 
+- **Autenticação** (`login.html`, `register.html`, `password-recovery.html`): Fluxo completo de login e cadastro.  
 
 ---
 
@@ -143,7 +142,37 @@ Este projeto consiste em uma **corretora virtual de ações e criptomoedas**, de
 ```
 
 ### Arquitetura do Sistema
+```mermaid
+flowchart TB
+  Cliente["Client-side (Browser)"]
+  PagesClient["Pages (SPA Navigation)"]
+  ComponentsClient["Components (UI)"]
+  ContextsClient["Contexts (State Management)"]
 
+  Servidor["Server-side (Next.js API Routes)"]
+  APIroutes["API Routes (/api)"]
+  Services["Services (Business Logic)"]
+  DatabaseAccess["Database Access Layer"]
+
+  Banco["Banco de Dados (MongoDB Atlas/Local)"]
+
+  APIsExternas["APIs Externas (Finnhub)"]
+
+  Cliente --> PagesClient
+  Cliente --> ComponentsClient
+  Cliente --> ContextsClient
+
+  PagesClient -->|HTTP Fetch| APIroutes
+  ComponentsClient --> PagesClient
+  ContextsClient --> PagesClient
+  
+  Servidor --> APIroutes
+  APIroutes --> Services
+  Services --> DatabaseAccess
+  DatabaseAccess --> Banco
+
+  Services -->|HTTP Request| APIsExternas
+```
 ### Fluxo de Navegação
 Talvez usar um fluxo assim? (tem q arrumar ta bugado, pq segui o atual e tem uns jump entre desautenticado e autenticado)
 ```mermaid
@@ -192,20 +221,20 @@ flowchart LR
 
 ---
 
-## 3. Comentários sobre o Código
+## Comentários sobre o Código
 - TBD
 
-## 4. Plano de Testes
+## Plano de Testes
 - TBD
 
-## 5. Resultados dos Testes
+## Resultados dos Testes
 - TBD
 
-## 6. Procedimentos de Build
+## Procedimentos de Build
 - TBD
 
-## 7. Problemas Encontrados
+## Problemas Encontrados
 - TBD
 
-## 8. Comentários Adicionais
+## Comentários Adicionais
 - TBD
