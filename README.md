@@ -72,7 +72,7 @@ Este projeto consiste em uma **corretora virtual de ações e criptomoedas**, de
 - **Acompanhamento de Portfólio:**  
   - Mostrar saldo virtual, ativos adquiridos e lucro/prejuízo.  
 - **Painel do Administrador:**  
-  - CRUD de ativos (ex: adicionar ação com `símbolo`, `nome`, `setor`, `preço_inicial`).  
+  - CRUD de ativos.  
 
 #### 1.2 Requisitos Não-Funcionais 
 - **Desempenho:**  
@@ -178,7 +178,6 @@ flowchart TB
   Services -->|HTTP Request| APIsExternas
 ```
 ### Fluxo de Navegação
-Talvez usar um fluxo assim? (tem q arrumar ta bugado, pq segui o atual e tem uns jump entre desautenticado e autenticado)
 ```mermaid
 flowchart LR
 		subgraph MainPages
@@ -219,10 +218,6 @@ flowchart LR
     Stock-Detail
 ```
 
-- Página inicial → Login → Dashboard personalizado
-- Fluxo de compra: Seleção → Carrinho → Pagamento → Confirmação
-- Painel admin: Gestão de usuários → Gestão de produtos → Relatórios
-
 ### Mockups das Páginas
 
 
@@ -236,7 +231,7 @@ flowchart LR
 
 ---
 
-#### Página: Admin - Editar Produto (`admin-edit-product.html`)
+#### Página: Admin - Criar e Editar Ativo (`admin-edit-product.html`)
 ![Admin Edit Product Preview](./img-previews/admin-edit-product.png)
 
 ---
@@ -246,7 +241,7 @@ flowchart LR
 
 ---
 
-#### Página: Admin - Cadastro de Produto (`admin-register.html`)
+#### Página: Admin - Cadastro de Novos Admins (`admin-register.html`)
 ![Admin Register Preview](./img-previews/admin-register.png)
 
 ---
