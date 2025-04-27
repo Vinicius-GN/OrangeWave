@@ -316,6 +316,85 @@ flowchart LR
 
 ---
 
+### Diagrama de Entidade Relacionamento
+``` mermaid
+erDiagram
+    ADMIN {
+        int ID
+        string Nome
+        string Sobrenome
+        string Telefone
+        string Email
+        string Funcao
+        string Senha
+        date DataCadastro
+        string Status
+    }
+    USUARIO {
+        int ID
+        string Nome
+        string Sobrenome
+        string CPF
+        date DataNascimento
+        string Telefone
+        string Email
+        string Senha
+        string Status
+        date DataCadastro
+    }
+    ATIVO {
+        int ID
+        string Nome
+        string Categoria
+        string Simbolo
+        string Icone
+        decimal Preco
+        string Descricao
+        decimal VolumeNegociado
+        date DataCadastro
+        string Tipo "Ação ou Criptomoeda"
+        int QuantidadeDisponivelParaTrade
+    }
+    TRANSACAO {
+        int ID
+        int UsuarioID
+        string Simbolo
+        decimal Preco
+        int Quantidade
+        date Data
+        string Tipo "Compra ou Venda"
+        string Status
+    }
+    CARTEIRA {
+        int ID
+        int UsuarioID
+        decimal Dinheiro
+        date DataAtualizacao
+    }
+    CARTOES {
+        int ID
+        int UsuarioID
+        string Numero
+        string Codigo
+        date DataExpiracao
+        string Status
+    }
+    PORTFOLIO {
+        int ID
+        int UsuarioID
+        string Simbolo
+        int Quantidade
+        date DataCompra
+    }
+    
+    ADMIN ||--o| USUARIO : "gestiona"
+    USUARIO ||--o| TRANSACAO : "realiza"
+    ATIVO ||--o| TRANSACAO : "tem transações"
+    USUARIO ||--o| CARTEIRA : "possui"
+    USUARIO ||--o| CARTOES : "tem"
+    USUARIO ||--o| PORTFOLIO : "possui"
+```
+
 ## Comentários sobre o Código
 - TBD
 
