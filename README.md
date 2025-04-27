@@ -72,7 +72,7 @@ Este projeto consiste em uma **corretora virtual de ações e criptomoedas**, de
 - **Acompanhamento de Portfólio:**  
   - Mostrar saldo virtual, ativos adquiridos e lucro/prejuízo.  
 - **Painel do Administrador:**  
-  - CRUD de ativos (ex: adicionar ação com `símbolo`, `nome`, `setor`, `preço_inicial`).  
+  - CRUD de ativos.  
 
 #### 1.2 Requisitos Não-Funcionais 
 - **Desempenho:**  
@@ -178,50 +178,60 @@ flowchart TB
   Services -->|HTTP Request| APIsExternas
 ```
 ### Fluxo de Navegação
-Talvez usar um fluxo assim? (tem q arrumar ta bugado, pq segui o atual e tem uns jump entre desautenticado e autenticado)
 ```mermaid
 flowchart LR
-		subgraph MainPages
-	    Index
-	    Market
-	    Orders
-	    News
-	    Simulation
-	    Wallet
-	    Cart
-		end
-		
-		subgraph Logado
-			Index --> MainPages
-			Market --> MainPages
-			Orders --> MainPages
-			News --> MainPages
-			Simulation --> MainPages
-			Wallet --> MainPages
-			Cart --> MainPages
-		end
-    subgraph Log-in
-	    Login -->|Forgot password| PasswordRecovery
-      Login -->|New user?| Register
-      Login -->|Login successful| Index
-
-      Register -->|Already registered?| Login
-      Register -->|Registration complete| Index
+    subgraph AdminPages
+        AdminAdmins[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/admin-admins.png'>Admin Admins</a>]
+        AdminDashboard[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/admin-dashboard.png'>Admin Dashboard</a>]
+        AdminEditProduct[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/admin-edit-product.png'>Admin Edit Product</a>]
+        AdminPurchases[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/admin-purchases.png'>Admin Purchases</a>]
+        AdminUsers[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/admin-users.png'>Admin Users</a>]
     end
-        
-    subgraph Admin
-	    Admin-Dashboard --> Index & Market & Orders
-	    Admin-Register -->|Already registered?| Login
-	    Admin-Register -->|Registration complete| Index
-		end
+
+    subgraph LogadoAdmin
+		AdminAdmins & AdminDashboard & AdminEditProduct & AdminPurchases & AdminUsers --> AdminPages
+    end
+
+    subgraph MainPages
+        Index[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/index.png'>Index</a>]
+        Market[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/market.png'>Market</a>]
+        Orders[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/orders.png'>Orders</a>]
+        News[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/news.png'>News</a>]
+        Simulation[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/simulation.png'>Simulation</a>]
+        Wallet[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/wallet.png'>Wallet</a>]
+        Cart[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/cart.png'>Cart</a>]
+    end
+
+    subgraph Logado
+		Index & Market & Orders & News & Simulation & Wallet & Cart & StockDetail[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/stock-datail.png'>Stock Detail</a>] --> MainPages 
+    end
+
+    subgraph LogIn
+        Register[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/register.png'>Register</a>]
+        Login[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/login.png'>Login</a>]
+        AdminRegister[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/admin-register.png'>Admin Register</a>]
+        PasswordRecovery[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/password-recovery.png'>Password Recovery</a>]
+    end
+
+    Register & AdminRegister -->|Already registered?| Login
+    Register -->|Registration complete| Index
+	AdminRegister -->|Registration complete| AdminDashboard
     
-    homepage --> Market & News & Simulation & Ajuda & Login & Register & Cart
-    Stock-Detail
+	Login -->|Forgot password| PasswordRecovery -->|Remembered password| Login
+    Login -->|New user?| Register
+    Login -->|Login successful| Index
+    Login -->|Admin Login successful| AdminDashboard
+    
+    Home[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/home.png'>Home</a>] --> Login & Register
+
+    Market --> StockDetail
 ```
 
-- Página inicial → Login → Dashboard personalizado
-- Fluxo de compra: Seleção → Carrinho → Pagamento → Confirmação
-- Painel admin: Gestão de usuários → Gestão de produtos → Relatórios
+### Mockups das Páginas
+
+
+#### Página: Admin - Admins (`admin-admins.html`)
+![Admin Admins Preview](./img-previews/admin-admins.png)
 
 ### Mockups das Páginas
 
@@ -315,6 +325,170 @@ flowchart LR
 ![Wallet Preview](./img-previews/wallet.png)
 
 ---
+
+#### Página: Admin - Dashboard (`admin-dashboard.html`)
+![Admin Dashboard Preview](./img-previews/admin-dashboard.png)
+
+---
+
+#### Página: Admin - Criar e Editar Ativo (`admin-edit-product.html`)
+![Admin Edit Product Preview](./img-previews/admin-edit-product.png)
+
+---
+
+#### Página: Admin - Compras (`admin-purchases.html`)
+![Admin Purchases Preview](./img-previews/admin-purchases.png)
+
+---
+
+#### Página: Admin - Cadastro de Novos Admins (`admin-register.html`)
+![Admin Register Preview](./img-previews/admin-register.png)
+
+---
+
+#### Página: Admin - Usuários (`admin-users.html`)
+![Admin Users Preview](./img-previews/admin-users.png)
+
+---
+
+#### Página: Carrinho (`cart.html`)
+![Cart Preview](./img-previews/cart.png)
+
+---
+
+#### Página: Home (`home.html`)
+![Home Preview](./img-previews/home.png)
+
+---
+
+#### Página: Index (`index.html`)
+![Index Preview](./img-previews/index.png)
+
+---
+
+#### Página: Login (`login.html`)
+![Login Preview](./img-previews/login.png)
+
+---
+
+#### Página: Mercado (`market.html`)
+![Market Preview](./img-previews/market.png)
+
+---
+
+#### Página: Notícias (`news.html`)
+![News Preview](./img-previews/news.png)
+
+---
+
+#### Página: Histórico de Ordens (`orders.html`)
+![Orders Preview](./img-previews/orders.png)
+
+---
+
+#### Página: Recuperação de Senha (`password-recovery.html`)
+![Password Recovery Preview](./img-previews/password-recovery.png)
+
+---
+
+#### Página: Registro (`register.html`)
+![Register Preview](./img-previews/register.png)
+
+---
+
+#### Página: Simulação de Estratégias (`simulation.html`)
+![Simulation Preview](./img-previews/simulation.png)
+
+---
+
+#### Página: Detalhes do Ativo (`stock-detail.html`)
+![Stock Detail Preview](./img-previews/stock-datail.png)
+
+---
+
+#### Página: Carteira (`wallet.html`)
+![Wallet Preview](./img-previews/wallet.png)
+
+---
+
+### Diagrama de Entidade Relacionamento
+``` mermaid
+erDiagram
+    ADMIN {
+        int ID
+        string Nome
+        string Sobrenome
+        string Telefone
+        string Email
+        string Funcao
+        string Senha
+        date DataCadastro
+        string Status
+    }
+    USUARIO {
+        int ID
+        string Nome
+        string Sobrenome
+        string CPF
+        date DataNascimento
+        string Telefone
+        string Email
+        string Senha
+        string Status
+        date DataCadastro
+    }
+    ATIVO {
+        int ID
+        string Nome
+        string Categoria
+        string Simbolo
+        string Icone
+        decimal Preco
+        string Descricao
+        decimal VolumeNegociado
+        date DataCadastro
+        string Tipo "Ação ou Criptomoeda"
+        int QuantidadeDisponivelParaTrade
+    }
+    TRANSACAO {
+        int ID
+        int UsuarioID
+        string Simbolo
+        decimal Preco
+        int Quantidade
+        date Data
+        string Tipo "Compra ou Venda"
+        string Status
+    }
+    CARTEIRA {
+        int ID
+        int UsuarioID
+        decimal Dinheiro
+        date DataAtualizacao
+    }
+    CARTOES {
+        int ID
+        int UsuarioID
+        string Numero
+        string Codigo
+        date DataExpiracao
+        string Status
+    }
+    PORTFOLIO {
+        int ID
+        int UsuarioID
+        string Simbolo
+        int Quantidade
+        date DataCompra
+    }
+    
+    ADMIN ||--o| USUARIO : "gestiona"
+    USUARIO ||--o| TRANSACAO : "realiza"
+    ATIVO ||--o| TRANSACAO : "tem transações"
+    USUARIO ||--o| CARTEIRA : "possui"
+    USUARIO ||--o| CARTOES : "tem"
+    USUARIO ||--o| PORTFOLIO : "possui"
+```
 
 ## Comentários sobre o Código
 - TBD
