@@ -181,30 +181,30 @@ flowchart TB
 Talvez usar um fluxo assim? (tem q arrumar ta bugado, pq segui o atual e tem uns jump entre desautenticado e autenticado)
 ```mermaid
 flowchart LR
-    
     subgraph AdminPages
-        Admin-admins
-	    Admin-dashboard
-        Admin-edit-product 
-        Admin-purchases
-        Admin-edit-product
+        AdminAdmins[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/admin-admins.png'>Admin Admins</a>]
+        AdminDashboard[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/admin-dashboard.png'>Admin Dashboard</a>]
+        AdminEditProduct[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/admin-edit-product.png'>Admin Edit Product</a>]
+        AdminPurchases[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/admin-purchases.png'>Admin Purchases</a>]
+        AdminUsers[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/admin-users.png'>Admin Users</a>]
     end
 
     subgraph LogadoAdmin
-        Admin-admins --> AdminPages
-	    Admin-dashboard --> AdminPages
-        Admin-edit-product --> AdminPages
-        Admin-purchases --> AdminPages
+        AdminAdmins --> AdminPages
+        AdminDashboard --> AdminPages
+        AdminEditProduct --> AdminPages
+        AdminPurchases --> AdminPages
+	AdminUsers --> AdminPages
     end
 
     subgraph MainPages
-        Index
-        Market
-        Orders
-        News
-        Simulation
-        Wallet
-        Cart
+        Index[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/index.png'>Index</a>]
+        Market[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/market.png'>Market</a>]
+        Orders[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/orders.png'>Orders</a>]
+        News[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/news.png'>News</a>]
+        Simulation[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/simulation.png'>Simulation</a>]
+        Wallet[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/wallet.png'>Wallet</a>]
+        Cart[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/cart.png'>Cart</a>]
     end
 
     subgraph Logado
@@ -215,28 +215,28 @@ flowchart LR
         Simulation --> MainPages
         Wallet --> MainPages
         Cart --> MainPages
-                Stock-Detail -->MainPages
-
+        StockDetail[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/stock-datail.png'>Stock Detail</a>] --> MainPages
     end
 
-    subgraph Log-in
-        Register
-        Login
-        Admin-Register
-        PasswordRecovery     
+    subgraph LogIn
+        Register[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/register.png'>Register</a>]
+        Login[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/login.png'>Login</a>]
+        AdminRegister[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/admin-register.png'>Admin Register</a>]
+        PasswordRecovery[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/password-recovery.png'>Password Recovery</a>]
     end
 
     Register -->|Already registered?| Login
     Register -->|Registration complete| Index
 
-    Login -->|Forgot password| PasswordRecovery --> |Remembered password| Login
+    Login -->|Forgot password| PasswordRecovery -->|Remembered password| Login
     Login -->|New user?| Register
     Login -->|Login successful| Index
-    Login -->|Admin Login successful| Admin-dashboard
-    Admin-Register -->|Already registered?| Login
-    
-    homepage --> Login & Register
-    Market --> Stock-Detail 
+    Login -->|Admin Login successful| AdminDashboard
+    AdminRegister -->|Already registered?| Login
+
+    Home[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/home.png'>Home</a>] --> Login & Register
+
+    Market --> StockDetail
 ```
 
 - Página inicial → Login → Dashboard personalizado
