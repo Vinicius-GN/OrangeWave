@@ -72,7 +72,7 @@ Este projeto consiste em uma **corretora virtual de ações e criptomoedas**, de
 - **Acompanhamento de Portfólio:**  
   - Mostrar saldo virtual, ativos adquiridos e lucro/prejuízo.  
 - **Painel do Administrador:**  
-  - CRUD de ativos (ex: adicionar ação com `símbolo`, `nome`, `setor`, `preço_inicial`).  
+  - CRUD de ativos.  
 
 #### 1.2 Requisitos Não-Funcionais 
 - **Desempenho:**  
@@ -178,7 +178,6 @@ flowchart TB
   Services -->|HTTP Request| APIsExternas
 ```
 ### Fluxo de Navegação
-Talvez usar um fluxo assim? (tem q arrumar ta bugado, pq segui o atual e tem uns jump entre desautenticado e autenticado)
 ```mermaid
 flowchart LR
     subgraph AdminPages
@@ -228,10 +227,6 @@ flowchart LR
     Market --> StockDetail
 ```
 
-- Página inicial → Login → Dashboard personalizado
-- Fluxo de compra: Seleção → Carrinho → Pagamento → Confirmação
-- Painel admin: Gestão de usuários → Gestão de produtos → Relatórios
-
 ### Mockups das Páginas
 
 
@@ -245,7 +240,7 @@ flowchart LR
 
 ---
 
-#### Página: Admin - Editar Produto (`admin-edit-product.html`)
+#### Página: Admin - Criar e Editar Ativo (`admin-edit-product.html`)
 ![Admin Edit Product Preview](./img-previews/admin-edit-product.png)
 
 ---
@@ -255,7 +250,7 @@ flowchart LR
 
 ---
 
-#### Página: Admin - Cadastro de Produto (`admin-register.html`)
+#### Página: Admin - Cadastro de Novos Admins (`admin-register.html`)
 ![Admin Register Preview](./img-previews/admin-register.png)
 
 ---
@@ -324,6 +319,85 @@ flowchart LR
 ![Wallet Preview](./img-previews/wallet.png)
 
 ---
+
+### Diagrama de Entidade Relacionamento
+``` mermaid
+erDiagram
+    ADMIN {
+        int ID
+        string Nome
+        string Sobrenome
+        string Telefone
+        string Email
+        string Funcao
+        string Senha
+        date DataCadastro
+        string Status
+    }
+    USUARIO {
+        int ID
+        string Nome
+        string Sobrenome
+        string CPF
+        date DataNascimento
+        string Telefone
+        string Email
+        string Senha
+        string Status
+        date DataCadastro
+    }
+    ATIVO {
+        int ID
+        string Nome
+        string Categoria
+        string Simbolo
+        string Icone
+        decimal Preco
+        string Descricao
+        decimal VolumeNegociado
+        date DataCadastro
+        string Tipo "Ação ou Criptomoeda"
+        int QuantidadeDisponivelParaTrade
+    }
+    TRANSACAO {
+        int ID
+        int UsuarioID
+        string Simbolo
+        decimal Preco
+        int Quantidade
+        date Data
+        string Tipo "Compra ou Venda"
+        string Status
+    }
+    CARTEIRA {
+        int ID
+        int UsuarioID
+        decimal Dinheiro
+        date DataAtualizacao
+    }
+    CARTOES {
+        int ID
+        int UsuarioID
+        string Numero
+        string Codigo
+        date DataExpiracao
+        string Status
+    }
+    PORTFOLIO {
+        int ID
+        int UsuarioID
+        string Simbolo
+        int Quantidade
+        date DataCompra
+    }
+    
+    ADMIN ||--o| USUARIO : "gestiona"
+    USUARIO ||--o| TRANSACAO : "realiza"
+    ATIVO ||--o| TRANSACAO : "tem transações"
+    USUARIO ||--o| CARTEIRA : "possui"
+    USUARIO ||--o| CARTOES : "tem"
+    USUARIO ||--o| PORTFOLIO : "possui"
+```
 
 ## Comentários sobre o Código
 - TBD
