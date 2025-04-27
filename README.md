@@ -181,42 +181,62 @@ flowchart TB
 Talvez usar um fluxo assim? (tem q arrumar ta bugado, pq segui o atual e tem uns jump entre desautenticado e autenticado)
 ```mermaid
 flowchart LR
-		subgraph MainPages
-	    Index
-	    Market
-	    Orders
-	    News
-	    Simulation
-	    Wallet
-	    Cart
-		end
-		
-		subgraph Logado
-			Index --> MainPages
-			Market --> MainPages
-			Orders --> MainPages
-			News --> MainPages
-			Simulation --> MainPages
-			Wallet --> MainPages
-			Cart --> MainPages
-		end
-    subgraph Log-in
-	    Login -->|Forgot password| PasswordRecovery
-      Login -->|New user?| Register
-      Login -->|Login successful| Index
-
-      Register -->|Already registered?| Login
-      Register -->|Registration complete| Index
-    end
-        
-    subgraph Admin
-	    Admin-Dashboard --> Index & Market & Orders
-	    Admin-Register -->|Already registered?| Login
-	    Admin-Register -->|Registration complete| Index
-		end
     
-    homepage --> Market & News & Simulation & Ajuda & Login & Register & Cart
-    Stock-Detail
+    subgraph AdminPages
+        Admin-admins
+	    Admin-dashboard
+        Admin-edit-product 
+        Admin-purchases
+        Admin-edit-product
+    end
+
+    subgraph LogadoAdmin
+        Admin-admins --> AdminPages
+	    Admin-dashboard --> AdminPages
+        Admin-edit-product --> AdminPages
+        Admin-purchases --> AdminPages
+    end
+
+    subgraph MainPages
+        Index
+        Market
+        Orders
+        News
+        Simulation
+        Wallet
+        Cart
+    end
+
+    subgraph Logado
+        Index --> MainPages
+        Market --> MainPages
+        Orders --> MainPages
+        News --> MainPages
+        Simulation --> MainPages
+        Wallet --> MainPages
+        Cart --> MainPages
+                Stock-Detail -->MainPages
+
+    end
+
+    subgraph Log-in
+        Register
+        Login
+        Admin-Register
+        PasswordRecovery     
+    end
+
+    Register -->|Already registered?| Login
+    Register -->|Registration complete| Index
+
+    Login -->|Forgot password| PasswordRecovery --> |Remembered password| Login
+    Login -->|New user?| Register
+    Login -->|Login successful| Index
+    Login -->|Admin Login successful| Admin-dashboard
+    Admin-Register -->|Already registered?| Login
+    
+    homepage --> Login & Register
+    Market --> Stock-Detail 
 ```
 
 - Página inicial → Login → Dashboard personalizado
