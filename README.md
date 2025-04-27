@@ -233,6 +233,97 @@ flowchart LR
 #### Página: Admin - Admins (`admin-admins.html`)
 ![Admin Admins Preview](./img-previews/admin-admins.png)
 
+### Mockups das Páginas
+
+
+#### Página: Admin - Admins (`admin-admins.html`)
+![Admin Admins Preview](./img-previews/admin-admins.png)
+
+---
+
+#### Página: Admin - Dashboard (`admin-dashboard.html`)
+![Admin Dashboard Preview](./img-previews/admin-dashboard.png)
+
+---
+
+#### Página: Admin - Editar Produto (`admin-edit-product.html`)
+![Admin Edit Product Preview](./img-previews/admin-edit-product.png)
+
+---
+
+#### Página: Admin - Compras (`admin-purchases.html`)
+![Admin Purchases Preview](./img-previews/admin-purchases.png)
+
+---
+
+#### Página: Admin - Cadastro de Produto (`admin-register.html`)
+![Admin Register Preview](./img-previews/admin-register.png)
+
+---
+
+#### Página: Admin - Usuários (`admin-users.html`)
+![Admin Users Preview](./img-previews/admin-users.png)
+
+---
+
+#### Página: Carrinho (`cart.html`)
+![Cart Preview](./img-previews/cart.png)
+
+---
+
+#### Página: Home (`home.html`)
+![Home Preview](./img-previews/home.png)
+
+---
+
+#### Página: Index (`index.html`)
+![Index Preview](./img-previews/index.png)
+
+---
+
+#### Página: Login (`login.html`)
+![Login Preview](./img-previews/login.png)
+
+---
+
+#### Página: Mercado (`market.html`)
+![Market Preview](./img-previews/market.png)
+
+---
+
+#### Página: Notícias (`news.html`)
+![News Preview](./img-previews/news.png)
+
+---
+
+#### Página: Histórico de Ordens (`orders.html`)
+![Orders Preview](./img-previews/orders.png)
+
+---
+
+#### Página: Recuperação de Senha (`password-recovery.html`)
+![Password Recovery Preview](./img-previews/password-recovery.png)
+
+---
+
+#### Página: Registro (`register.html`)
+![Register Preview](./img-previews/register.png)
+
+---
+
+#### Página: Simulação de Estratégias (`simulation.html`)
+![Simulation Preview](./img-previews/simulation.png)
+
+---
+
+#### Página: Detalhes do Ativo (`stock-detail.html`)
+![Stock Detail Preview](./img-previews/stock-datail.png)
+
+---
+
+#### Página: Carteira (`wallet.html`)
+![Wallet Preview](./img-previews/wallet.png)
+
 ---
 
 #### Página: Admin - Dashboard (`admin-dashboard.html`)
