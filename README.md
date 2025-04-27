@@ -190,11 +190,7 @@ flowchart LR
     end
 
     subgraph LogadoAdmin
-        AdminAdmins --> AdminPages
-        AdminDashboard --> AdminPages
-        AdminEditProduct --> AdminPages
-        AdminPurchases --> AdminPages
-	AdminUsers --> AdminPages
+		AdminAdmins & AdminDashboard & AdminEditProduct & AdminPurchases & AdminUsers --> AdminPages
     end
 
     subgraph MainPages
@@ -208,14 +204,7 @@ flowchart LR
     end
 
     subgraph Logado
-        Index --> MainPages
-        Market --> MainPages
-        Orders --> MainPages
-        News --> MainPages
-        Simulation --> MainPages
-        Wallet --> MainPages
-        Cart --> MainPages
-        StockDetail[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/stock-datail.png'>Stock Detail</a>] --> MainPages
+		Index & Market & Orders & News & Simulation & Wallet & Cart & StockDetail[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/stock-datail.png'>Stock Detail</a>] --> MainPages 
     end
 
     subgraph LogIn
@@ -225,15 +214,15 @@ flowchart LR
         PasswordRecovery[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/password-recovery.png'>Password Recovery</a>]
     end
 
-    Register -->|Already registered?| Login
+    Register & AdminRegister -->|Already registered?| Login
     Register -->|Registration complete| Index
-
-    Login -->|Forgot password| PasswordRecovery -->|Remembered password| Login
+	AdminRegister -->|Registration complete| AdminDashboard
+    
+	Login -->|Forgot password| PasswordRecovery -->|Remembered password| Login
     Login -->|New user?| Register
     Login -->|Login successful| Index
     Login -->|Admin Login successful| AdminDashboard
-    AdminRegister -->|Already registered?| Login
-
+    
     Home[<a href='https://raw.githubusercontent.com/Vinicius-GN/OrangeWave/main/img-previews/home.png'>Home</a>] --> Login & Register
 
     Market --> StockDetail
