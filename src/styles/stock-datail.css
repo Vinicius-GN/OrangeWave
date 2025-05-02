@@ -192,6 +192,11 @@
   gap: 5px;
 }
 
+.form-group input{
+	background-color: var(--card-bg);
+	color: var(--text-primary);
+}
+
 .form-group.total {
   border-top: 1px solid var(--border-color);
   padding-top: 15px;
