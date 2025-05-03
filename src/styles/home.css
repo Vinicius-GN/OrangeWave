@@ -34,6 +34,7 @@
   transition: transform 0.2s, box-shadow 0.2s;
   background-color: var(--orange-primary);
   color: white;
+  border: ridge 1px var(--orange-secondary);
 }
 
 .hero-buttons .btn:hover {
