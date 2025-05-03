@@ -659,6 +659,7 @@ header {
   .nav-links {
     display: none;
     position: fixed;
+    margin: 0;
     top: 0;
     right: 0;
     width: 40%;
