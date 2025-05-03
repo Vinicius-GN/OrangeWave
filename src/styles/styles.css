@@ -55,12 +55,24 @@ header {
 
 }
 /* Bars: shape and color */
-.hamburger .bar {
+.hamburger .bar1, .hamburger .bar2, .hamburger .bar3 {
   display: block;
   width: 100%;            /* fill container width */
   height: 4px;            /* bar thickness */
   background-color: var(--text-primary); /* bar color */
   border-radius: 2px;     /* optional rounded ends */
+  transition: all 0.4s ease;
+}
+.change .bar1 {
+  transform: translate(9px, 10px) rotate(45deg);
+}
+
+.change .bar2 {
+  opacity: 0;
+}
+
+.change .bar3 {
+  transform: translate(9px, -10px) rotate(-45deg);
 }
 
 .logo {
@@ -73,6 +85,7 @@ header {
 .nav-links {
   display: flex;
   gap: 20px;
+  margin: 5px;
 }
 
 .nav-links a {
@@ -632,7 +645,6 @@ header {
   .profile{
     margin: 5px;
   }
-
 }
 
 @media(max-width: 890px) {
@@ -642,31 +654,36 @@ header {
   .hamburger{
     display: flex;
     order: 2;
+    z-index: 10;
   }
   .nav-links {
-    display: block;
+    display: none;
     position: fixed;
     top: 0;
     right: 0;
-    width: 80%;
+    width: 40%;
     height: 100%;
     background-color: var(--card-bg);
     transform: translateX(100%);
     transition: transform 0.3s ease;
     padding: 2rem;
+    z-index: 9;
   }
-
-  .nav-links.open {
+  .hamburger.change{
+    position: fixed;
+    top: 10px;
+    right: 20px;
+  }
+  .hamburger.change + .nav-links {
+    display: block;
     transform: translateX(0);
+    padding-top: 50px;
   }
 
   .nav-links a {
     display: block;
     padding: 1rem;
   }
-
-
-
 }
 
 /* Responsive */
