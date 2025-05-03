@@ -259,18 +259,26 @@
 
 @media (max-width: 600px) {
   .cart-item {
-    flex-direction: column;
-    align-items: flex-start;
     gap: 15px;
+    flex-wrap: wrap;
   }
   
-  .item-quantity, .item-total {
-    width: 100%;
-    justify-content: space-between;
+  .item-total {
+    flex-basis: 100%
   }
   
   .form-row {
     flex-direction: column;
     gap: 0;
+  }
+}
+
+@media (max-width: 460px) {
+  .cart-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .item-total, .item-quantity {
+    margin-left: 55px; /* 40px logo + 15px gap */
   }
 }

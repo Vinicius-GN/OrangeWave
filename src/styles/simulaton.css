@@ -248,7 +248,11 @@
   .stats-grid {
     grid-template-columns: 1fr 1fr;
   }
-  
+
+  .table-container{
+    overflow-x: auto;
+  }
+
   .portfolio-chart {
     height: 150px;
   }

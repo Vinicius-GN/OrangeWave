@@ -11,6 +11,11 @@
   <!-- Header from other pages -->
   <header>
     <a href="index.html" class="logo">OrangeWave</a>
+    <button class="hamburger" onclick="this.classList.toggle('change')">
+      <span class="bar1"></span>
+      <span class="bar2"></span>
+      <span class="bar3"></span>
+    </button>
     <nav class="nav-links">
       <a href="index.html">Painel</a>
       <a href="market.html">Mercado</a>
@@ -89,49 +94,49 @@
     <div class="section-container">
       <h2 class="section-title">Ativos Disponíveis</h2>
       <p class="section-subtitle">Navegue e negocie ativos disponíveis</p>
-
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Símbolo</th>
-            <th>Nome</th>
-            <th>Preço</th>
-            <th>Variação</th>
-            <th>Ação</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>AAPL</td>
-            <td>Apple Inc.</td>
-            <td>R$918,52</td>
-            <td class="change-positive">+1,95%</td>
-            <td><button class="btn btn-buy">Comprar</button></td>
-          </tr>
-          <tr>
-            <td>MSFT</td>
-            <td>Microsoft Corporation</td>
-            <td>R$2.403,28</td>
-            <td class="change-positive">+1,11%</td>
-            <td><button class="btn btn-buy">Comprar</button></td>
-          </tr>
-          <tr>
-            <td>GOOGL</td>
-            <td>Alphabet Inc.</td>
-            <td>R$1.752,42</td>
-            <td class="change-negative">-0,82%</td>
-            <td><button class="btn btn-buy">Comprar</button></td>
-          </tr>
-          <tr>
-            <td>AMZN</td>
-            <td>Amazon.com, Inc.</td>
-            <td>R$964,72</td>
-            <td class="change-positive">+0,93%</td>
-            <td><button class="btn btn-buy">Comprar</button></td>
-          </tr>
-        </tbody>
-      </table>
-
+      <div class ="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Símbolo</th>
+              <th>Nome</th>
+              <th>Preço</th>
+              <th>Variação</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>AAPL</td>
+              <td>Apple Inc.</td>
+              <td>R$918,52</td>
+              <td class="change-positive">+1,95%</td>
+              <td><button class="btn btn-buy">Comprar</button></td>
+            </tr>
+            <tr>
+              <td>MSFT</td>
+              <td>Microsoft Corporation</td>
+              <td>R$2.403,28</td>
+              <td class="change-positive">+1,11%</td>
+              <td><button class="btn btn-buy">Comprar</button></td>
+            </tr>
+            <tr>
+              <td>GOOGL</td>
+              <td>Alphabet Inc.</td>
+              <td>R$1.752,42</td>
+              <td class="change-negative">-0,82%</td>
+              <td><button class="btn btn-buy">Comprar</button></td>
+            </tr>
+            <tr>
+              <td>AMZN</td>
+              <td>Amazon.com, Inc.</td>
+              <td>R$964,72</td>
+              <td class="change-positive">+0,93%</td>
+              <td><button class="btn btn-buy">Comprar</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <div class="simulation-notice">
         <p>Simulação Iniciada</p>
         <p>Começando com R$58.000</p>

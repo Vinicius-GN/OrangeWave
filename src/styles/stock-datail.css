@@ -24,6 +24,9 @@
   font-size: 1.1rem;
 }
 
+.stock-actions button{
+  margin: 5px;
+}
 .current-price {
   margin-bottom: 30px;
 }
@@ -192,6 +195,11 @@
   gap: 5px;
 }
 
+.form-group input{
+	background-color: var(--card-bg);
+	color: var(--text-primary);
+}
+
 .form-group.total {
   border-top: 1px solid var(--border-color);
   padding-top: 15px;
@@ -217,5 +225,10 @@
 @media (max-width: 768px) {
   .stock-details-grid {
     grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 480px) {
+  .stock-header{
+    flex-wrap: wrap;
   }
 }
