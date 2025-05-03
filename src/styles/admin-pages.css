@@ -88,6 +88,9 @@ h1 {
 }
 
 /* Table Styles */
+.table-container{
+  overflow-x: auto;
+}
 .admin-table td {
   padding: 1rem;
   vertical-align: middle;

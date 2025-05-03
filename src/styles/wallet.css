@@ -352,7 +352,10 @@
   .wallet-grid {
     grid-template-columns: 1fr;
   }
-  
+  .wallet-grid > *{
+    overflow-x: auto;
+  }
+
   .balance-header {
     flex-direction: column;
     align-items: flex-start;
@@ -373,7 +376,10 @@
   .amount {
     font-size: 2rem;
   }
-  
+
+  .tabs{
+    flex-wrap: wrap;
+  }
   .transaction {
     flex-direction: column;
     align-items: flex-start;

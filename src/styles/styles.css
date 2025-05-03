@@ -157,6 +157,7 @@ header {
   border: 1px solid var(--border-color);
   padding: 20px;
   margin-bottom: 20px;
+  overflow-x: auto;
 }
 
 .section-title {
@@ -436,9 +437,12 @@ header {
 }
 
 .total-value {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 700;
   margin: 10px 0;
+}
+.quick-action-item > *{
+  font-size: 0.75rem;
 }
 
 /* Filter Buttons */
@@ -493,7 +497,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 15px;
+  padding: 12px 10px;
   background-color: rgba(255, 255, 255, 0.03);
   border-radius: 6px;
   cursor: pointer;
@@ -678,7 +682,7 @@ header {
   .hamburger.change + .nav-links {
     display: block;
     transform: translateX(0);
-    padding-top: 50px;
+    padding: 50px 20px 32px 32px;
   }
 
   .nav-links a {
@@ -707,6 +711,9 @@ header {
   
   .data-table th, .data-table td {
     padding: 10px;
+  }
+  .search-bar{
+    flex-wrap: wrap;
   }
 }
 
