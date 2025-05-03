@@ -6,11 +6,24 @@
   <title>OrangeWave - Painel</title>
   <link rel="stylesheet" href="../styles/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+  </script>
 </head>
 <body>
   <!-- Header Navigation -->
   <header>
     <a href="index.html" class="logo">OrangeWave</a>
+    <button class="hamburger">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
     <nav class="nav-links">
       <a href="index.html" class="active-orange">Painel</a>
       <a href="market.html">Mercado</a>

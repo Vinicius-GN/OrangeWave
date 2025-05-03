@@ -40,6 +40,29 @@ header {
   border-bottom: 1px solid var(--border-color);
 }
 
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;            /* total icon width */
+  height: 24px;           /* total icon height */
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;        /* pointer on hover */
+  align-self: center;
+  margin: 5px;
+
+}
+/* Bars: shape and color */
+.hamburger .bar {
+  display: block;
+  width: 100%;            /* fill container width */
+  height: 4px;            /* bar thickness */
+  background-color: var(--text-primary); /* bar color */
+  border-radius: 2px;     /* optional rounded ends */
+}
+
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
@@ -85,6 +108,7 @@ header {
   align-items: center;
   color: var(--text-primary);
   cursor: pointer;
+  margin:4px;
 }
 
 .profile img {
@@ -599,6 +623,50 @@ header {
 
 .order-buttons .btn {
   flex: 1;
+}
+
+@media(max-width: 1040px) {
+  .profile span{
+    display: none;
+  }
+  .profile{
+    margin: 5px;
+  }
+
+}
+
+@media(max-width: 890px) {
+  .user-section{
+    margin: 0 20px 0 auto;
+  }
+  .hamburger{
+    display: flex;
+    order: 2;
+  }
+  .nav-links {
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 80%;
+    height: 100%;
+    background-color: var(--card-bg);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    padding: 2rem;
+  }
+
+  .nav-links.open {
+    transform: translateX(0);
+  }
+
+  .nav-links a {
+    display: block;
+    padding: 1rem;
+  }
+
+
+
 }
 
 /* Responsive */
