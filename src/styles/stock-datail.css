@@ -24,6 +24,9 @@
   font-size: 1.1rem;
 }
 
+.stock-actions button{
+  margin: 5px;
+}
 .current-price {
   margin-bottom: 30px;
 }
