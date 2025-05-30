@@ -1,0 +1,121 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 9%;
+    --foreground: 0 0% 98%;
+
+    --card: 240 10% 4%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 10% 4%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 24 100% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 4% 16%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 240 4% 16%;
+    --muted-foreground: 240 5% 65%;
+
+    --accent: 24 100% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 4% 16%;
+    --input: 240 4% 16%;
+    --ring: 24 100% 50%;
+
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Chart customizations */
+  .recharts-cartesian-grid-horizontal line,
+  .recharts-cartesian-grid-vertical line {
+    @apply stroke-muted/30;
+  }
+
+  .recharts-tooltip-wrapper {
+    @apply !shadow-lg;
+  }
+
+  .recharts-tooltip-wrapper .recharts-default-tooltip {
+    @apply !bg-card !border-border !rounded-md !p-2;
+  }
+
+  .recharts-default-tooltip .recharts-tooltip-label {
+    @apply !text-sm !text-foreground;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-muted/30 rounded;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted rounded;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted/70;
+  }
+}
+
+@layer components {
+  .card-hover {
+    @apply transition-all hover:bg-secondary hover:shadow-md;
+  }
+
+  .glass-card {
+    @apply border border-primary/20 bg-card/95 backdrop-blur-sm shadow-sm hover:shadow-md transition-all;
+  }
+  
+  /* New modern UI elements */
+  .glow-effect {
+    @apply relative overflow-hidden;
+  }
+  
+  .glow-effect::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent opacity-0 transition-opacity duration-300;
+  }
+  
+  .glow-effect:hover::before {
+    @apply opacity-100;
+  }
+  
+  .gradient-border {
+    @apply relative rounded-lg p-[1px];
+    background: linear-gradient(to right, hsl(var(--primary)), transparent);
+  }
+  
+  .gradient-border > * {
+    @apply rounded-lg bg-card;
+  }
+  
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70;
+  }
+}
