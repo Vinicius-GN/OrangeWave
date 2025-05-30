@@ -466,10 +466,10 @@ Siga os seguintes passos:
 
 ```sh
 # Etapa 1: Clone o repositório usando a URL do Git do projeto.
-git clone [<SUA_URL_GIT>](https://github.com/Vinicius-GN/Orange_Wave-Platform)
+git clone [<SUA_URL_GIT>](https://github.com/Vinicius-GN/OrangeWave.git)
 
 # Etapa 2: Navegue até o diretório do projeto.
-cd Orange_Wave-Platform
+cd OrangeWave
 
 # Etapa 3: Instale as dependências necessárias.
 npm install
