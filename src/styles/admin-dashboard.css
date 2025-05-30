@@ -310,11 +310,10 @@
   }
   
   .filter-row {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
   }
   
-  .search-box {
+  .search-box, .search-box input {
     width: 100%;
   }
 }
