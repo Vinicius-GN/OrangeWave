@@ -1,0 +1,107 @@
+[
+  {
+    "_id": "admin-1",
+    "fullName": "System Admin",
+    "email": "admin@gmail.com",
+    "password": "$2b$12$NsHbBAZKj5Xp4ZxTJImEZuAm4.T9mKOIg3ozzMeCIAO19FMbqdh/K",
+    "role": "admin",
+    "phone": "+1234567890",
+    "address": {
+      "country": "United States",
+      "state": "California",
+      "city": "San Francisco",
+      "street": "Market Street",
+      "number": "1"
+    }
+  },
+  {
+    "_id": "user-1",
+    "fullName": "John Doe",
+    "email": "john.doe@example.com",
+    "password": "$2b$12$Z5T3plBrh2s/k9hTITdq7eNrxFw2rCx5Q1QNmqJGsodYHoLBYCBAy",
+    "role": "client",
+    "phone": "+1234567891",
+    "address": {
+      "country": "United States",
+      "state": "New York",
+      "city": "New York",
+      "street": "5th Avenue",
+      "number": "101"
+    }
+  },
+  {
+    "_id": "user-2",
+    "fullName": "Jane Smith",
+    "email": "jane.smith@example.com",
+    "password": "$2b$12$1r1DmNWBMMSTYMzeXUDEeu876uVvkfXpvMsiUdiNPcblb4nVi4KDS",
+    "role": "client",
+    "phone": "+1234567892",
+    "address": {
+      "country": "Canada",
+      "state": "Ontario",
+      "city": "Toronto",
+      "street": "Queen St W",
+      "number": "202"
+    }
+  },
+  {
+    "_id": "user-3",
+    "fullName": "Robert Jones",
+    "email": "robert.jones@example.com",
+    "password": "$2b$12$3eLNpoT.EIKnQKQRxdoc/eRfe4Kl/1Y36BiPUpis/De3QQjLRO/CC",
+    "role": "admin",
+    "phone": "+1234567893",
+    "address": {
+      "country": "United Kingdom",
+      "state": "England",
+      "city": "London",
+      "street": "Baker Street",
+      "number": "221B"
+    }
+  },
+  {
+    "_id": "user-4",
+    "fullName": "Emily Brown",
+    "email": "emily.brown@example.com",
+    "password": "$2b$12$H5bfTqaiExTS/54JS0/sb.N3oZTFLGZbpCyCf5zcw3HvFEl6MTQzC",
+    "role": "client",
+    "phone": "+1234567894",
+    "address": {
+      "country": "Australia",
+      "state": "New South Wales",
+      "city": "Sydney",
+      "street": "George Street",
+      "number": "50"
+    }
+  },
+  {
+    "_id": "user-5",
+    "fullName": "Michael Davis",
+    "email": "michael.davis@example.com",
+    "password": "$2b$12$JRa6/mfJLW0brKcbtDr/le/OsTaNP81dcsOTaTdzXNyGEgTXAmdDe",
+    "role": "client",
+    "phone": "+1234567895",
+    "address": {
+      "country": "Brazil",
+      "state": "São Paulo",
+      "city": "São Paulo",
+      "street": "Avenida Paulista",
+      "number": "1500"
+    }
+  },
+  {
+    "_id": "user-6",
+    "fullName": "Michael Davisdsad",
+    "email": "michael212.davis@example.com",
+    "password": "$2b$12$JRa6/mfJLW0brKcbtDr/le/OsTaNP81dcsOTaTdzXNyGEgTXAmdDe",
+    "role": "client",
+    "phone": "+1234567655",
+    "address": {
+      "country": "Brazil",
+      "state": "São Paulo",
+      "city": "São Paulo",
+      "street": "Avenida Paulista12",
+      "number": "1510"
+  }
+}
+]

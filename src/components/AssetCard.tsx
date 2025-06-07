@@ -12,6 +12,7 @@ import { ArrowDownRight, ArrowUpRight, DollarSign, Minus, Plus } from "lucide-re
 import { AssetData } from "@/services/marketService";
 import { usePortfolio } from '@/contexts/PortfolioContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { useBalance } from '@/hooks/api/useBalance';
 import { cn } from "@/lib/utils";
 
 interface AssetCardProps {
@@ -23,6 +24,7 @@ const AssetCard = ({ asset }: AssetCardProps) => {
   const { toast } = useToast();
   const { user } = useAuth();
   const { assets, sellAsset, addAsset } = usePortfolio();
+  const { balance } = useBalance();
   
   const [showBuyDialog, setShowBuyDialog] = useState(false);
   const [showSellDialog, setShowSellDialog] = useState(false);
@@ -44,7 +46,7 @@ const AssetCard = ({ asset }: AssetCardProps) => {
     
     const total = asset.price * quantity;
     
-    if (total > user.balance.wallet) {
+    if (total > balance) {
       toast({
         title: "Insufficient funds",
         description: `You need $${total.toLocaleString()} to complete this purchase.`,
@@ -58,11 +60,8 @@ const AssetCard = ({ asset }: AssetCardProps) => {
       symbol: asset.symbol,
       name: asset.name,
       type: asset.type,
-      logoUrl: asset.logoUrl || asset.logo, // Use logoUrl or logo whichever is available
-      quantity,
-      averagePrice: asset.price,
       currentPrice: asset.price
-    });
+    }, quantity);
     
     toast({
       title: "Purchase successful",

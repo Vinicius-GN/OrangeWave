@@ -1,0 +1,26 @@
+[
+  {
+    "userId": "user-1",
+    "assetId": "asset-aapl",
+    "symbol": "AAPL",
+    "type": "stock",
+    "quantity": 5,
+    "buyPrice": 178.32
+  },
+  {
+    "userId": "user-1",
+    "assetId": "asset-msft",
+    "symbol": "MSFT",
+    "type": "stock",
+    "quantity": 3,
+    "buyPrice": 356.53
+  },
+  {
+    "userId": "user-1",
+    "assetId": "asset-btc",
+    "symbol": "BTC",
+    "type": "crypto",
+    "quantity": 0.05,
+    "buyPrice": 68452.15
+  }
+]

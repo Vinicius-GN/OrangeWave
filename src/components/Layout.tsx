@@ -103,7 +103,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Check if the user is an admin
-  const isAdmin = user?.id?.includes('admin') || false;
+  const isAdmin = user?.role === 'admin';
 
   // Close mobile menu when route changes
   useEffect(() => {
@@ -181,7 +181,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     <User className="h-4 w-4" />
                     {!isMobile && (
                       <>
-                        <span>{user?.name}</span>
+                        <span>{user?.fullName}</span>
                         <ChevronDown className="h-3 w-3" />
                       </>
                     )}
@@ -190,7 +190,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
                 <PopoverContent className="z-50 w-56 p-0">
                   <div className="p-2 text-sm">
-                    <p className="font-medium">{user?.name}</p>
+                    <p className="font-medium">{user?.fullName}</p>
                     <p className="text-muted-foreground">{user?.email}</p>
                   </div>
                   <div className="border-t my-1"></div>

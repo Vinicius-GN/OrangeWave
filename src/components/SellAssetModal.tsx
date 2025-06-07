@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import {
   Dialog,
@@ -12,8 +11,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
-import { usePortfolio } from '@/contexts/PortfolioContext';
-import { incrementStock } from '@/services/stockService';
+import { useAuth } from '@/contexts/AuthContext';
+import { useBalance } from '@/hooks/api/useBalance';
+import { useNavigate } from 'react-router-dom';
+
+const API_URL = 'http://localhost:3001/api';
 
 interface SellAssetModalProps {
   isOpen: boolean;
@@ -29,14 +31,28 @@ interface SellAssetModalProps {
   ownedQuantity: number;
 }
 
-const SellAssetModal = ({ isOpen, onClose, asset, ownedQuantity }: SellAssetModalProps) => {
+const SellAssetModal = ({
+  isOpen,
+  onClose,
+  asset,
+  ownedQuantity,
+}: SellAssetModalProps) => {
   const [quantity, setQuantity] = useState<number>(1);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const { sellAsset } = usePortfolio();
+  const { user } = useAuth();
+  const { refreshBalance } = useBalance();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
-  // Reset form when modal opens
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem('authToken');
+    return {
+      'Content-Type': 'application/json',
+      ...(token && { Authorization: `Bearer ${token}` }),
+    };
+  };
+
   useEffect(() => {
     if (isOpen) {
       setQuantity(1);
@@ -44,61 +60,142 @@ const SellAssetModal = ({ isOpen, onClose, asset, ownedQuantity }: SellAssetModa
     }
   }, [isOpen]);
 
-  // Handle quantity change
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value);
-    if (!isNaN(value) && value > 0) {
-      setQuantity(value);
-      
-      // Validate against owned quantity
-      if (value > ownedQuantity) {
-        setError(`You only own ${ownedQuantity} ${asset.symbol}`);
-      } else {
-        setError(null);
-      }
+    const v = parseInt(e.target.value);
+    if (!isNaN(v) && v > 0) {
+      setQuantity(v);
+      setError(v > ownedQuantity ? `You only own ${ownedQuantity}` : null);
     }
   };
 
-  // Handle form submission
+  const createSellOrder = async () => {
+    const res = await fetch(`${API_URL}/orders`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({
+        userId: user!._id,
+        assetId: asset.id,
+        assetName: asset.name,
+        symbol: asset.symbol,
+        type: asset.type,
+        quantity,
+        price: asset.price,
+        total: asset.price * quantity,
+        fees: 0,
+        status: 'completed',
+        timestamp: new Date().toISOString(),
+        side: 'sell',
+      }),
+    });
+    if (!res.ok) throw new Error('Failed to create sell order');
+    return res.json();
+  };
+
+  const updateWalletBalance = async (amount: number) => {
+    const res = await fetch(`${API_URL}/wallet/${user!._id}/deposit`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ amount, paymentMethod: 'sale' }),
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.message || 'Failed to update wallet');
+    }
+    return res.json();
+  };
+
+  const updateAssetStock = async (soldQty: number) => {
+    const res = await fetch(`${API_URL}/assets/${asset.id}`, {
+      method: 'PUT',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({
+        availableStock: (asset.availableStock || 0) + soldQty,
+      }),
+    });
+    if (!res.ok) throw new Error('Failed to update asset stock');
+  };
+
+  // === refatoração aqui ===
+  const removeFromPortfolio = async (assetId: string, soldQty: number) => {
+    // 1) Busca todo o portfólio
+    const listRes = await fetch(
+      `${API_URL}/portfolio/${user!._id}`,
+      { headers: getAuthHeaders() }
+    );
+    if (!listRes.ok) throw new Error('Failed to fetch portfolio');
+    const portfolio: Array<{
+      assetId: string;
+      symbol: string;
+      quantity: number;
+      buyPrice: number;
+    }> = await listRes.json();
+
+    // 2) Encontra a entrada deste ativo
+    const entry = portfolio.find((p) => p.assetId === assetId);
+    if (!entry) return; // nada a fazer se não existe
+
+    const remaining = entry.quantity - soldQty;
+
+    if (remaining > 0) {
+      // 3a) Se sobrar quantidade, atualiza via POST
+      const updRes = await fetch(
+        `${API_URL}/portfolio/${user!._id}`,
+        {
+          method: 'POST',
+          headers: getAuthHeaders(),
+          body: JSON.stringify({
+            assetId,
+            symbol: entry.symbol,
+            type: asset.type,
+            quantity: remaining,
+            buyPrice: entry.buyPrice, // mantém preço original
+          }),
+        }
+      );
+      if (!updRes.ok) throw new Error('Failed to update portfolio');
+    } else {
+      // 3b) Se vendeu tudo, remove via DELETE
+      const delRes = await fetch(
+        `${API_URL}/portfolio/${user!._id}/${entry.symbol}`,
+        {
+          method: 'DELETE',
+          headers: getAuthHeaders(),
+        }
+      );
+      if (!delRes.ok) throw new Error('Failed to remove from portfolio');
+    }
+  };
+  // === fim da refatoração ===
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (quantity <= 0) {
-      setError('Quantity must be greater than zero');
+    if (quantity < 1 || quantity > ownedQuantity) {
+      setError('Invalid quantity');
       return;
     }
-    
-    if (quantity > ownedQuantity) {
-      setError(`You only own ${ownedQuantity} ${asset.symbol}`);
-      return;
-    }
-    
+
     try {
       setIsSubmitting(true);
-      setError(null);
-      
-      // Call the sellAsset function from the portfolio context
-      await sellAsset(asset.id, quantity, asset.price);
-      
-      // Update stock quantity after successful sale
-      incrementStock(asset.id, quantity, asset.availableStock);
-      
+      await createSellOrder();
+      const saleAmt = quantity * asset.price;
+      await updateWalletBalance(saleAmt);
+      await updateAssetStock(quantity);
+      await removeFromPortfolio(asset.id, quantity);
+      await refreshBalance();
+
       toast({
-        title: 'Asset sold successfully',
-        description: `You sold ${quantity} ${asset.symbol} for $${(quantity * asset.price).toFixed(2)}`,
+        title: 'Sold!',
+        description: `You sold ${quantity} ${asset.symbol}`,
       });
-      
       onClose();
-    } catch (err) {
-      console.error('Error selling asset:', err);
-      setError(err instanceof Error ? err.message : 'Failed to sell asset');
+      navigate('/dashboard', { replace: true });
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message);
     } finally {
       setIsSubmitting(false);
     }
   };
-
-  // Calculate total sale amount
-  const totalSaleAmount = asset.price * quantity;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -106,42 +203,38 @@ const SellAssetModal = ({ isOpen, onClose, asset, ownedQuantity }: SellAssetModa
         <DialogHeader>
           <DialogTitle>Sell {asset.name}</DialogTitle>
           <DialogDescription>
-            Current price: ${asset.price.toFixed(2)} per {asset.type === 'stock' ? 'share' : 'unit'}
+            Price: ${asset.price.toFixed(2)}
           </DialogDescription>
         </DialogHeader>
-        
         <form onSubmit={handleSubmit} className="space-y-4 py-4">
           <div className="grid gap-2">
-            <Label htmlFor="quantity">Quantity (You own: {ownedQuantity})</Label>
+            <Label htmlFor="qty">Quantity (You own: {ownedQuantity})</Label>
             <Input
-              id="quantity"
+              id="qty"
               type="number"
               min="1"
               max={ownedQuantity}
               value={quantity}
               onChange={handleQuantityChange}
-              className="col-span-3"
             />
-            {error && (
-              <p className="text-sm text-destructive">{error}</p>
-            )}
+            {error && <p className="text-sm text-destructive">{error}</p>}
           </div>
-          
           <div className="grid gap-2">
-            <Label>Total Sale Amount</Label>
-            <div className="text-2xl font-bold">${totalSaleAmount.toFixed(2)}</div>
+            <Label>Total</Label>
+            <div className="text-2xl font-bold">
+              ${(asset.price * quantity).toFixed(2)}
+            </div>
           </div>
-          
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={onClose}>
+            <Button variant="outline" onClick={onClose}>
               Cancel
             </Button>
-            <Button 
-              type="submit" 
-              disabled={isSubmitting || quantity <= 0 || quantity > ownedQuantity}
+            <Button
+              type="submit"
+              disabled={isSubmitting}
               className="bg-red-600 hover:bg-red-700"
             >
-              {isSubmitting ? 'Processing...' : 'Sell Now'}
+              {isSubmitting ? 'Processing…' : 'Sell Now'}
             </Button>
           </DialogFooter>
         </form>
@@ -151,3 +244,4 @@ const SellAssetModal = ({ isOpen, onClose, asset, ownedQuantity }: SellAssetModa
 };
 
 export default SellAssetModal;
+

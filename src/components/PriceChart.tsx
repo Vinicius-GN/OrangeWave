@@ -3,7 +3,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { PricePoint, getPriceHistory } from '@/services/marketService';
+import { getPriceHistory, PricePoint } from '@/services/marketService';
 import { formatDistanceToNow, format } from 'date-fns';
 import { cn } from '@/lib/utils';
 
@@ -92,6 +92,8 @@ const PriceChart = ({ assetId, currentPrice, priceChange, priceChangePercent }: 
         }
       } catch (error) {
         console.error('Failed to load price history:', error);
+        // Keep empty array on error - the chart will show a loading state
+        setPriceData([]);
       } finally {
         setIsLoading(false);
       }

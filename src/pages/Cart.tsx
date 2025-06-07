@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Layout from '@/components/Layout';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { usePortfolio } from '@/contexts/PortfolioContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -12,15 +13,16 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useToast } from '@/components/ui/use-toast';
-import { usePortfolio } from '@/contexts/PortfolioContext';
+import { useBalance } from '@/hooks/api/useBalance';
+import { fetchAssetById } from '@/services/marketService';
 
-// Import the function to get asset stock data
-import { getAssetById } from '@/services/marketService';
+const API_URL = 'http://localhost:3001/api';
 
 const CartPage = () => {
-  const { items, removeFromCart, updateQuantity, clearCart, getCartTotal, completePurchase } = useCart();
+  const { items, removeFromCart, updateQuantity, clearCart, getCartTotal } = useCart();
   const { user } = useAuth();
-  const { buyAsset } = usePortfolio();
+  const { balance, refreshBalance } = useBalance();
+  const { forceRefresh } = usePortfolio();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [paymentMethod, setPaymentMethod] = useState<'balance' | 'credit_card'>('balance');
@@ -29,39 +31,18 @@ const CartPage = () => {
   const [isLoadingStock, setIsLoadingStock] = useState(true);
   const [quantityInputs, setQuantityInputs] = useState<Record<string, string>>({});
   
-  const walletBalance = user?.balance?.wallet || 0;
   const total = getCartTotal();
-  
-  // Only show credit card option if user has a credit card stored
-  const hasCreditCard = true; // In a real implementation, check if user has credit card info stored
-  
-  // ----------------------------  Function to make a POST request to Beeceptor -> As asked in the MIlestone 2 ---------------------------- 
-  const postPurchaseToBeeceptor = async (product) => {
-  try {
-    const response = await fetch(`https://orangewave.free.beeceptor.com/product/:id`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        productId: product.id,
-        nameProduct: product.name,
-        price: product.price,
-        stock: product.stock,
-        quantity: product.quantity,
-      }),
-    });
+  const hasCreditCard = true;
 
-    const data = await response.json(); // Beeceptor pode ou não retornar um corpo útil
-    console.log('POST to Beeceptor:', data);
-    return data;
-  } catch (error) {
-    console.error('POST request failed:', error);
-    return null;
-  }
-};
-
-
+  // Get authentication token
+  const getAuthToken = () => localStorage.getItem('authToken');
+  const getAuthHeaders = () => {
+    const token = getAuthToken();
+    return {
+      'Content-Type': 'application/json',
+      ...(token && { 'Authorization': `Bearer ${token}` })
+    };
+  };
 
   // Initialize quantity inputs when items change
   useEffect(() => {
@@ -84,13 +65,11 @@ const CartPage = () => {
       const limits: Record<string, number> = {};
       
       try {
-        // Fetch stock data for each item in the cart
         for (const item of items) {
-          const assetData = await getAssetById(item.assetId);
+          const assetData = await fetchAssetById(item.assetId);
           if (assetData && assetData.availableStock !== undefined) {
             limits[item.id] = assetData.availableStock;
             
-            // Check if current quantity exceeds available stock and adjust if needed
             if (item.quantity > assetData.availableStock) {
               updateQuantity(item.id, assetData.availableStock);
               toast({
@@ -100,7 +79,6 @@ const CartPage = () => {
               });
             }
           } else {
-            // Default to a high number if stock data is not available
             limits[item.id] = 9999;
           }
         }
@@ -120,7 +98,130 @@ const CartPage = () => {
     
     fetchStockData();
   }, [items, updateQuantity, toast]);
-  
+
+  const updateAssetStock = async (assetId: string, purchasedQuantity: number, currentStock: number) => {
+    try {
+      const response = await fetch(`${API_URL}/assets/${assetId}`, {
+        method: 'PUT',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({
+          availableStock: Math.max(0, currentStock - purchasedQuantity),
+          quantityBougth: purchasedQuantity
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update asset stock');
+      }
+    } catch (error) {
+      console.error('Error updating asset stock:', error);
+      throw error;
+    }
+  };
+
+  const createOrder = async (item: any) => {
+    try {
+      const response = await fetch(`${API_URL}/orders`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({
+          userId: user!._id,
+          assetId: item.assetId,
+          assetName: item.name,
+          symbol: item.symbol,
+          type: item.type,
+          quantity: item.quantity,
+          price: item.price,
+          total: item.price * item.quantity,
+          fees: 0,
+          status: 'completed',
+          timestamp: new Date().toISOString(),
+          side: 'buy'
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create order');
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error creating order:', error);
+      throw error;
+    }
+  };
+
+  const addToPortfolio = async (assetId: string, addedQty: number) => {
+    const symbol = items.find(i => i.assetId === assetId)!.symbol;
+    const type   = items.find(i => i.assetId === assetId)!.type;
+    const price  = items.find(i => i.assetId === assetId)!.price;
+
+    try {
+      // 1. Pega toda a lista de ativos do usuário
+      const listRes = await fetch(
+        `${API_URL}/portfolio/${user!._id}`,
+        { headers: getAuthHeaders() }
+      );
+      if (!listRes.ok) {
+        throw new Error('Falha ao buscar portfólio');
+      }
+      const portfolio: Array<{ assetId: string; quantity: number }> =
+        await listRes.json();
+
+      // 2. Verifica se já existe esse ativo
+      const existing = portfolio.find(p => p.assetId === assetId);
+      const finalQty = existing
+        ? existing.quantity + addedQty    // soma à existente
+        : addedQty;                       // cria nova
+
+      // 3. Atualiza ou cria entry via POST
+      const saveRes = await fetch(
+        `${API_URL}/portfolio/${user!._id}`,
+        {
+          method: 'POST',
+          headers: getAuthHeaders(),
+          body: JSON.stringify({
+            assetId,
+            symbol,
+            type,
+            quantity: finalQty,
+            buyPrice: price
+          })
+        }
+      );
+      if (!saveRes.ok) {
+        throw new Error('Falha ao adicionar/atualizar portfólio');
+      }
+    } catch (err) {
+      console.error('Erro no addToPortfolio:', err);
+      throw err;
+    }
+  };
+
+
+  const updateWalletBalance = async (amount: number) => {
+    try {
+      const response = await fetch(`${API_URL}/wallet/${user!._id}/withdraw`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({
+          amount,
+          paymentMethod: paymentMethod === 'balance' ? 'wallet' : 'credit_card'
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update wallet balance');
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error updating wallet balance:', error);
+      throw error;
+    }
+  };
+
   const handleQuantityChange = (itemId: string, delta: number, currentQuantity: number) => {
     const stockLimit = stockLimits[itemId];
     const newQuantity = Math.max(1, currentQuantity + delta);
@@ -137,17 +238,14 @@ const CartPage = () => {
     }
   };
 
-  // Handle direct quantity input change
   const handleQuantityInputChange = (itemId: string, value: string) => {
     setQuantityInputs(prev => ({ ...prev, [itemId]: value }));
   };
 
-  // Handle quantity input blur (when user finishes typing)
   const handleQuantityInputBlur = (itemId: string, item: any) => {
     const inputValue = quantityInputs[itemId];
     let parsedValue: number;
     
-    // Support fractional amounts for crypto
     if (item.type === 'crypto') {
       parsedValue = parseFloat(inputValue) || 0.00000001;
       parsedValue = Math.max(0.00000001, parsedValue);
@@ -189,16 +287,15 @@ const CartPage = () => {
       return;
     }
     
-    if (paymentMethod === 'balance' && walletBalance < total) {
+    if (paymentMethod === 'balance' && balance < total) {
       toast({
         title: "Insufficient balance",
-        description: `Your wallet balance ($${walletBalance.toFixed(2)}) is less than the total ($${total.toFixed(2)}).`,
+        description: `Your wallet balance ($${balance.toFixed(2)}) is less than the total ($${total.toFixed(2)}).`,
         variant: "destructive"
       });
       return;
     }
     
-    // Check stock availability before proceeding
     let stockAvailable = true;
     for (const item of items) {
       const limit = stockLimits[item.id];
@@ -218,49 +315,41 @@ const CartPage = () => {
     try {
       setIsProcessing(true);
       
-      // Store purchased items for stock update
-      const purchasedItems = [...items];
-      
       // Process each item in the cart
       for (const item of items) {
-        // Always use buyAsset regardless of payment method to ensure assets are added to portfolio
-        await buyAsset({
-          symbol: item.symbol,
-          name: item.name,
-          type: item.type,
-          currentPrice: item.price
-        }, item.quantity);
-
-        // Simulate purchase via Beeceptor
-        await postPurchaseToBeeceptor({
-          id: item.id,
-          name: item.name,
-          price: item.price,
-          stock: stockLimits[item.id], // estoque antes da compra
-          quantity: item.quantity
-        });
-
+        const currentStock = stockLimits[item.id] || 0;
+        
+        // 1. Update asset stock and quantity bought
+        await updateAssetStock(item.assetId, item.quantity, currentStock);
+        
+        // 2. Create order
+        await createOrder(item);
+        
+        // 3. Add to portfolio
+        await addToPortfolio(item.assetId, item.quantity);
       }
       
-      // Update stock quantities after successful purchase
-      await completePurchase(purchasedItems);
+      // 4. Update wallet balance
+      await updateWalletBalance(total);
+      
+      // 5. Refresh balance and portfolio
+      await refreshBalance();
+      await forceRefresh();
       
       // Clear the cart after successful purchase
       clearCart();
       
-      // Show success toast with payment method information
       toast({
         title: "Purchase successful",
         description: `Your order has been processed using ${paymentMethod === 'balance' ? 'your wallet balance' : 'your credit card'}.`,
       });
       
-      // Redirect to dashboard
       navigate('/dashboard');
-    } catch (error) {
+    } catch (error: any) {
       console.error("Checkout error:", error);
       toast({
         title: "Checkout failed",
-        description: "There was an error processing your purchase. Please try again.",
+        description: error.message || "There was an error processing your purchase. Please try again.",
         variant: "destructive"
       });
     } finally {
@@ -321,7 +410,6 @@ const CartPage = () => {
                             </div>
                             
                             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                              {/* Enhanced quantity controls with direct input */}
                               <div className="flex items-center gap-2">
                                 <div className="flex items-center border rounded-md">
                                   <Button 
@@ -417,7 +505,7 @@ const CartPage = () => {
                           <RadioGroupItem value="balance" id="payment-balance" />
                           <Label htmlFor="payment-balance" className="flex items-center">
                             <Wallet className="h-4 w-4 mr-2" />
-                            Wallet Balance (${walletBalance.toFixed(2)})
+                            Wallet Balance (${balance.toFixed(2)})
                           </Label>
                         </div>
                         
@@ -432,7 +520,7 @@ const CartPage = () => {
                         )}
                       </RadioGroup>
                       
-                      {paymentMethod === 'balance' && walletBalance < total && (
+                      {paymentMethod === 'balance' && balance < total && (
                         <p className="text-destructive text-sm mt-2">
                           Insufficient balance. Please add funds or choose another payment method.
                         </p>
@@ -444,7 +532,7 @@ const CartPage = () => {
                   <Button 
                     className="w-full" 
                     onClick={handleCheckout}
-                    disabled={isProcessing || items.length === 0 || (paymentMethod === 'balance' && walletBalance < total)}
+                    disabled={isProcessing || items.length === 0 || (paymentMethod === 'balance' && balance < total)}
                   >
                     {isProcessing ? "Processing..." : "Complete Purchase"}
                   </Button>

@@ -13,7 +13,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -21,44 +20,37 @@ import { useAuth } from '@/contexts/AuthContext';
 
 // Form validation schema
 const formSchema = z.object({
-  name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
+  fullName: z.string().min(2, { message: 'Full name must be at least 2 characters.' }),
   email: z.string().email({ message: 'Please enter a valid email address.' }),
-  password: z.string().min(8, { message: 'Password must be at least 8 characters.' }),
-  confirmPassword: z.string(),
-  idNumber: z.string().min(1, { message: 'ID number is required.' }),
+  password: z.string().min(6, { message: 'Password must be at least 6 characters.' }),
   phone: z.string().min(10, { message: 'Please enter a valid phone number.' }),
-  street: z.string().min(1, { message: 'Street address is required.' }),
-  city: z.string().min(1, { message: 'City is required.' }),
-  state: z.string().min(1, { message: 'State is required.' }),
-  zipCode: z.string().min(1, { message: 'Zip code is required.' }),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
+  country: z.string().min(2, { message: 'Country is required.' }),
+  state: z.string().min(2, { message: 'State is required.' }),
+  city: z.string().min(2, { message: 'City is required.' }),
+  street: z.string().min(2, { message: 'Street is required.' }),
+  number: z.string().min(1, { message: 'Number is required.' }),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
 const Register = () => {
-  const { register: registerUser } = useAuth();
+  const { register } = useAuth();
   const navigate = useNavigate();
-  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
+      fullName: '',
       email: '',
       password: '',
-      confirmPassword: '',
-      idNumber: '',
       phone: '',
-      street: '',
-      city: '',
+      country: '',
       state: '',
-      zipCode: '',
+      city: '',
+      street: '',
+      number: '',
     },
   });
   
@@ -66,38 +58,19 @@ const Register = () => {
     setIsLoading(true);
     
     try {
-      // Create user address object
-      const address = {
-        street: data.street,
-        city: data.city,
-        state: data.state,
-        zipCode: data.zipCode
-      };
+      const { fullName, email, password, phone, country, state, city, street, number } = data;
       
-      // Register the user with additional fields
-      await registerUser(
-        data.email, 
-        data.password, 
-        data.name,
-        data.idNumber,
-        data.phone,
-        address
+      await register(
+        fullName,
+        email,
+        password,
+        phone,
+        { country, state, city, street, number }
       );
       
-      toast({
-        title: 'Account created',
-        description: 'Your account has been successfully created.',
-      });
-      
-      // Redirect to dashboard
-      navigate('/dashboard');
+      navigate('/login');
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Registration failed';
-      toast({
-        title: 'Registration failed',
-        description: errorMessage,
-        variant: 'destructive',
-      });
+      // Error handling is done in the AuthContext register function
     } finally {
       setIsLoading(false);
     }
@@ -105,174 +78,137 @@ const Register = () => {
   
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-xl glass-card">
+      <Card className="w-full max-w-2xl glass-card">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Create an Account</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">Create Account</CardTitle>
           <CardDescription className="text-center">
-            Enter your information to create an account
+            Enter your information to create your OrangeWave account
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <h3 className="text-lg font-medium">Personal Information</h3>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Full Name</FormLabel>
-                          <FormControl>
-                            <Input placeholder="John Doe" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Email</FormLabel>
-                          <FormControl>
-                            <Input type="email" placeholder="example@email.com" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="idNumber"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>ID Number</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Government ID/Passport" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={form.control}
-                      name="phone"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Phone Number</FormLabel>
-                          <FormControl>
-                            <Input placeholder="+1 123 456 7890" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </div>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="fullName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Full Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="John Doe" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 
-                <div className="space-y-2">
-                  <h3 className="text-lg font-medium">Address</h3>
-                  
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="your@email.com" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <div className="relative">
+                        <FormControl>
+                          <Input 
+                            type={showPassword ? "text" : "password"} 
+                            placeholder="********" 
+                            {...field} 
+                          />
+                        </FormControl>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          className="absolute right-0 top-0 h-full px-3 py-1 text-muted-foreground"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? (
+                            <EyeOff className="h-4 w-4" />
+                          ) : (
+                            <Eye className="h-4 w-4" />
+                          )}
+                        </Button>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Phone</FormLabel>
+                      <FormControl>
+                        <Input placeholder="(555) 123-4567" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <h3 className="text-sm font-medium">Address</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
-                    name="street"
+                    name="country"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Street Address</FormLabel>
+                        <FormLabel>Country</FormLabel>
                         <FormControl>
-                          <Input placeholder="123 Main St" {...field} />
+                          <Input placeholder="United States" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                   
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="city"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>City</FormLabel>
-                          <FormControl>
-                            <Input placeholder="City" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={form.control}
-                      name="state"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>State</FormLabel>
-                          <FormControl>
-                            <Input placeholder="State" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={form.control}
-                      name="zipCode"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Zip Code</FormLabel>
-                          <FormControl>
-                            <Input placeholder="12345" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <h3 className="text-lg font-medium">Security</h3>
-                  
                   <FormField
                     control={form.control}
-                    name="password"
+                    name="state"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Password</FormLabel>
-                        <div className="relative">
-                          <FormControl>
-                            <Input 
-                              type={showPassword ? "text" : "password"} 
-                              placeholder="********" 
-                              {...field} 
-                            />
-                          </FormControl>
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="icon"
-                            className="absolute right-0 top-0 h-full px-3 py-1 text-muted-foreground"
-                            onClick={() => setShowPassword(!showPassword)}
-                          >
-                            {showPassword ? (
-                              <EyeOff className="h-4 w-4" />
-                            ) : (
-                              <Eye className="h-4 w-4" />
-                            )}
-                          </Button>
-                        </div>
+                        <FormLabel>State</FormLabel>
+                        <FormControl>
+                          <Input placeholder="California" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="city"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>City</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Los Angeles" {...field} />
+                        </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -280,32 +216,27 @@ const Register = () => {
                   
                   <FormField
                     control={form.control}
-                    name="confirmPassword"
+                    name="street"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Confirm Password</FormLabel>
-                        <div className="relative">
-                          <FormControl>
-                            <Input 
-                              type={showConfirmPassword ? "text" : "password"} 
-                              placeholder="********" 
-                              {...field} 
-                            />
-                          </FormControl>
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="icon"
-                            className="absolute right-0 top-0 h-full px-3 py-1 text-muted-foreground"
-                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                          >
-                            {showConfirmPassword ? (
-                              <EyeOff className="h-4 w-4" />
-                            ) : (
-                              <Eye className="h-4 w-4" />
-                            )}
-                          </Button>
-                        </div>
+                        <FormLabel>Street</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Main Street" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="number"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Number</FormLabel>
+                        <FormControl>
+                          <Input placeholder="123" {...field} />
+                        </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -321,7 +252,7 @@ const Register = () => {
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Creating Account...
+                    Creating account...
                   </>
                 ) : (
                   'Create Account'

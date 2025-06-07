@@ -314,6 +314,12 @@
 }
 
 /* Responsive */
+@media (max-width: 832px) {
+  .search-box, .search-box input{
+    width: 100%;
+  }
+}
+
 @media (max-width: 768px) {
   .featured-news {
     grid-template-columns: 1fr;
@@ -324,7 +330,7 @@
     align-items: stretch;
   }
 
-  .search-box {
+  .search-box, .search-box input{
     width: 100%;
   }
 

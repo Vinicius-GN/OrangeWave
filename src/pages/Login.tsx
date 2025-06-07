@@ -58,10 +58,10 @@ const Login = () => {
     
     try {
       await login(data.email, data.password);
-      
-      // Redirection is now handled by the useEffect hook above
+      // Redirection is handled by the useEffect hook above
     } catch (error) {
       // Error handling is done in the AuthContext login function
+    } finally {
       setIsLoading(false);
     }
   };

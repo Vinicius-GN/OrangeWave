@@ -1,10 +1,9 @@
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
-import { format, subDays, subMonths, isAfter, parseISO } from 'date-fns';
-import { useAuth } from '@/contexts/AuthContext';
-import { usePortfolio } from '@/contexts/PortfolioContext';
+import { format } from 'date-fns';
 import { Button } from '@/components/ui/button';
+import { usePortfolioHistory } from '@/hooks/api/usePortfolioHistory';
 
 interface PortfolioEvolutionChartProps {
   className?: string;
@@ -17,114 +16,8 @@ interface DataPoint {
 }
 
 const PortfolioEvolutionChart = ({ className }: PortfolioEvolutionChartProps) => {
-  const [timeframe, setTimeframe] = useState<'1w' | '1m' | '6m' | '1y'>('1m');
-  const [chartData, setChartData] = useState<DataPoint[]>([]);
-  const { user } = useAuth();
-  const { getAssetsValue, transactions } = usePortfolio();
-
-  // Generate historical data based on transactions
-  useEffect(() => {
-    if (!user) return;
-    
-    const currentValue = user.balance.wallet + getAssetsValue();
-    const today = new Date();
-    let startDate: Date;
-    let dateStep: number;
-    
-    // Determine timeframe parameters
-    switch (timeframe) {
-      case '1w':
-        startDate = subDays(today, 7);
-        dateStep = 1; // 1 day step
-        break;
-      case '1m':
-        startDate = subMonths(today, 1);
-        dateStep = 2; // 2 day step
-        break;
-      case '6m':
-        startDate = subMonths(today, 6);
-        dateStep = 7; // 7 day step
-        break;
-      case '1y':
-        startDate = subMonths(today, 12);
-        dateStep = 15; // 15 day step
-        break;
-      default:
-        startDate = subMonths(today, 1);
-        dateStep = 2;
-    }
-    
-    const data: DataPoint[] = [];
-    const totalDays = Math.ceil((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
-    
-    // Base value calculations - fixed to use more realistic values
-    const baseValue = Math.max(currentValue * 0.8, 1000); // Start with 80% of current or minimum $1000
-    
-    // Capture all valid points for the time period
-    const validDates: Date[] = [];
-    for (let i = 0; i <= totalDays; i += dateStep) {
-      const currentDate = new Date(startDate);
-      currentDate.setDate(startDate.getDate() + i);
-      
-      // Skip weekends for a more realistic stock portfolio simulation
-      const day = currentDate.getDay();
-      if (day === 0 || day === 6) continue;
-      
-      validDates.push(new Date(currentDate));
-    }
-
-    // Sort transactions by date (oldest first)
-    const relevantTransactions = [...transactions]
-      .filter(txn => isAfter(new Date(txn.timestamp), startDate))
-      .sort((a, b) => a.timestamp - b.timestamp);
-
-    // Create data points with more realistic value progression
-    let runningValue = baseValue;
-    
-    validDates.forEach((date, index) => {
-      // Apply transactions that happened up to this date
-      relevantTransactions.forEach(txn => {
-        const txnDate = new Date(txn.timestamp);
-        if (txnDate <= date && txnDate > (index > 0 ? validDates[index-1] : new Date(0))) {
-          if (txn.type === 'deposit') {
-            runningValue += txn.total;
-          } else if (txn.type === 'withdrawal') {
-            runningValue -= txn.total;
-          }
-          // Buy/sell transactions affect available cash but not total portfolio value directly
-        }
-      });
-      
-      // Add slight market movement (smaller, more realistic fluctuations)
-      // Less volatile for longer timeframes
-      const volatilityFactor = timeframe === '1w' ? 0.01 : 
-                              timeframe === '1m' ? 0.008 : 
-                              timeframe === '6m' ? 0.006 : 0.005;
-                              
-      const movementFactor = 1 + ((Math.random() * 2 - 1) * volatilityFactor); 
-      runningValue *= movementFactor;
-      
-      // Add upward trend over time (average market growth)
-      const growthFactor = 1 + (0.0005 * dateStep); // slight compounding growth
-      runningValue *= growthFactor;
-      
-      // Ensure value stays positive
-      runningValue = Math.max(runningValue, 100);
-      
-      // For the last point, match the current portfolio value exactly
-      if (index === validDates.length - 1) {
-        runningValue = currentValue;
-      }
-      
-      data.push({
-        date: date.toISOString(),
-        value: Math.round(runningValue * 100) / 100, // Round to 2 decimal places
-        formattedDate: format(date, 'MMM dd, yyyy')
-      });
-    });
-    
-    setChartData(data);
-  }, [timeframe, user, getAssetsValue, transactions]);
+  const [timeframe, setTimeframe] = useState<'1W' | '1M' | '6M' | '1Y'>('1M');
+  const { history, isLoading, error } = usePortfolioHistory(timeframe);
 
   const formatCurrency = (value: number) => {
     return `$${value.toLocaleString(undefined, {
@@ -132,6 +25,13 @@ const PortfolioEvolutionChart = ({ className }: PortfolioEvolutionChartProps) =>
       maximumFractionDigits: 2
     })}`;
   };
+
+  // Transform API data to chart format
+  const chartData: DataPoint[] = history.map(item => ({
+    date: item.date,
+    value: item.totalValue,
+    formattedDate: format(new Date(item.date), 'MMM dd, yyyy')
+  }));
 
   // Calculate if portfolio is up or down
   const isPositive = chartData.length >= 2 && 
@@ -152,32 +52,52 @@ const PortfolioEvolutionChart = ({ className }: PortfolioEvolutionChartProps) =>
     return null;
   };
 
+  if (isLoading) {
+    return (
+      <div className={className}>
+        <div className="h-[300px] w-full flex items-center justify-center">
+          <p className="text-muted-foreground">Loading portfolio history...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={className}>
+        <div className="h-[300px] w-full flex items-center justify-center">
+          <p className="text-red-500">{error}</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={className}>
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-medium">Portfolio Evolution</h3>
         <div className="flex space-x-2">
           <Button 
-            onClick={() => setTimeframe('1w')}
-            className={`px-2 py-1 text-xs rounded ${timeframe === '1w' ? 'bg-primary text-white' : 'bg-secondary text-muted-foreground'}`}
+            onClick={() => setTimeframe('1W')}
+            className={`px-2 py-1 text-xs rounded ${timeframe === '1W' ? 'bg-primary text-white' : 'bg-secondary text-muted-foreground'}`}
           >
             1W
           </Button>
           <Button 
-            onClick={() => setTimeframe('1m')}
-            className={`px-2 py-1 text-xs rounded ${timeframe === '1m' ? 'bg-primary text-white' : 'bg-secondary text-muted-foreground'}`}
+            onClick={() => setTimeframe('1M')}
+            className={`px-2 py-1 text-xs rounded ${timeframe === '1M' ? 'bg-primary text-white' : 'bg-secondary text-muted-foreground'}`}
           >
             1M
           </Button>
           <Button 
-            onClick={() => setTimeframe('6m')}
-            className={`px-2 py-1 text-xs rounded ${timeframe === '6m' ? 'bg-primary text-white' : 'bg-secondary text-muted-foreground'}`}
+            onClick={() => setTimeframe('6M')}
+            className={`px-2 py-1 text-xs rounded ${timeframe === '6M' ? 'bg-primary text-white' : 'bg-secondary text-muted-foreground'}`}
           >
             6M
           </Button>
           <Button 
-            onClick={() => setTimeframe('1y')}
-            className={`px-2 py-1 text-xs rounded ${timeframe === '1y' ? 'bg-primary text-white' : 'bg-secondary text-muted-foreground'}`}
+            onClick={() => setTimeframe('1Y')}
+            className={`px-2 py-1 text-xs rounded ${timeframe === '1Y' ? 'bg-primary text-white' : 'bg-secondary text-muted-foreground'}`}
           >
             1Y
           </Button>
@@ -198,13 +118,13 @@ const PortfolioEvolutionChart = ({ className }: PortfolioEvolutionChartProps) =>
                 tickFormatter={(date) => {
                   const dateObj = new Date(date);
                   switch(timeframe) {
-                    case '1w':
+                    case '1W':
                       return format(dateObj, 'EEE');
-                    case '1m': 
+                    case '1M': 
                       return format(dateObj, 'dd MMM');
-                    case '6m':
+                    case '6M':
                       return format(dateObj, 'dd MMM');
-                    case '1y':
+                    case '1Y':
                       return format(dateObj, 'MMM yyyy');
                     default:
                       return format(dateObj, 'dd MMM');
@@ -226,7 +146,9 @@ const PortfolioEvolutionChart = ({ className }: PortfolioEvolutionChartProps) =>
                 width={80}
               />
               <Tooltip content={<CustomTooltip />} />
-              <ReferenceLine y={chartData[0]?.value} stroke="#888" strokeDasharray="3 3" />
+              {chartData[0] && (
+                <ReferenceLine y={chartData[0].value} stroke="#888" strokeDasharray="3 3" />
+              )}
               <Line 
                 type="monotone" 
                 dataKey="value" 

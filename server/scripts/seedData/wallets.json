@@ -1,0 +1,32 @@
+[
+  {
+    "userId": "admin-1",
+    "balance": 0,
+    "cardNumber": "4111111111111111"
+  },
+  {
+    "userId": "user-1",
+    "balance": 1500,
+    "cardNumber": "5555444433332222"
+  },
+  {
+    "userId": "user-2",
+    "balance": 500,
+    "cardNumber": "4000000000000002"
+  },
+  {
+    "userId": "user-3",
+    "balance": 2500,
+    "cardNumber": "378282246310005"
+  },
+  {
+    "userId": "user-4",
+    "balance": 100,
+    "cardNumber": "6011111111111117"
+  },
+  {
+    "userId": "user-5",
+    "balance": 800,
+    "cardNumber": "3530111333300000"
+  }
+]
