@@ -28,9 +28,20 @@ import {
 } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { Search, UserPlus, Trash2, User as UserIcon, Edit } from 'lucide-react';
+import { Search, UserPlus, Trash2, User as UserIcon, Edit, Loader2 } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  Form,
+  FormField,
+  FormItem, 
+  FormLabel,
+  FormControl,
+  FormMessage
+} from '@/components/ui/form';
 
 const API_URL = 'http://localhost:3001/api';
 
@@ -49,6 +60,30 @@ interface User {
   };
 }
 
+// schema for create user form
+const createUserSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters').max(50, 'Name must be less than 50 characters'),
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+  confirmPassword: z.string(),
+  phone: z.string().min(1, 'Phone number is required'),
+  role: z.enum(['admin', 'client'], {
+    required_error: 'Please select a role',
+  }),
+  address: z.object({
+    country: z.string().min(1, 'Country is required'),
+    state: z.string().min(1, 'State is required'),
+    city: z.string().min(1, 'City is required'),
+    street: z.string().min(1, 'Street is required'),
+    number: z.string().min(1, 'Street number is required'),
+  }),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+});
+
+type CreateUserFormData = z.infer<typeof createUserSchema>;
+
 const UsersManagement = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
@@ -57,6 +92,7 @@ const UsersManagement = () => {
   const [roleFilter, setRoleFilter] = useState<string>('all');
   const [isViewUserDialogOpen, setIsViewUserDialogOpen] = useState(false);
   const [isEditUserDialogOpen, setIsEditUserDialogOpen] = useState(false);
+  const [isCreateUserDialogOpen, setIsCreateUserDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [editForm, setEditForm] = useState({
     fullName: '',
@@ -69,6 +105,7 @@ const UsersManagement = () => {
       number: ''
     }
   });
+  const [createUserLoading, setCreateUserLoading] = useState(false);
   
   const { user } = useAuth();
   const { toast } = useToast();
@@ -197,6 +234,56 @@ const UsersManagement = () => {
     }
   };
 
+  const handleCreateUser = async (data: CreateUserFormData) => {
+    setCreateUserLoading(true);
+    
+    try {
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        throw new Error('Authentication required');
+      }
+      
+      const response = await fetch(`${API_URL}/auth/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          fullName: data.name,
+          email: data.email,
+          password: data.password,
+          role: data.role,
+          phone: data.phone,
+          address: data.address
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to create user');
+      }
+
+      await fetchUsers(); // Refresh the list
+      setIsCreateUserDialogOpen(false);
+      createForm.reset();
+      
+      toast({
+        title: "Success",
+        description: `User ${data.name} created successfully`,
+      });
+    } catch (error) {
+      console.error('Error creating user:', error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : 'Failed to create user',
+        variant: "destructive",
+      });
+    } finally {
+      setCreateUserLoading(false);
+    }
+  };
+
   const openEditDialog = (user: User) => {
     setSelectedUser(user);
     setEditForm({
@@ -217,6 +304,10 @@ const UsersManagement = () => {
     setSelectedUser(user);
     setIsViewUserDialogOpen(true);
   };
+
+  const createForm = useForm<CreateUserFormData>({
+    resolver: zodResolver(createUserSchema),
+  });
 
   return (
     <AdminLayout title="Manage Users" description="View and manage all platform users">
@@ -246,6 +337,13 @@ const UsersManagement = () => {
             </Select>
           </div>
         </div>
+        <Button 
+          onClick={() => setIsCreateUserDialogOpen(true)}
+          className="flex items-center gap-2"
+        >
+          <UserPlus className="h-4 w-4" />
+          Create User
+        </Button>
       </div>
 
       {/* Users table */}
@@ -427,6 +525,234 @@ const UsersManagement = () => {
             </Button>
             <Button onClick={handleEditUser}>Update User</Button>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Create User Dialog */}
+      <Dialog open={isCreateUserDialogOpen} onOpenChange={setIsCreateUserDialogOpen}>
+        <DialogContent className="sm:max-w-[700px]">
+          <DialogHeader>
+            <DialogTitle>Create New User</DialogTitle>
+            <DialogDescription>
+              Fill in the details to create a new user account.
+            </DialogDescription>
+          </DialogHeader>
+          <Form {...createForm}>
+            <form onSubmit={createForm.handleSubmit(handleCreateUser)} className="space-y-4 py-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <FormField
+                  control={createForm.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Full Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter full name"
+                          {...field}
+                          disabled={createUserLoading}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={createForm.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email Address</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          placeholder="Enter email address"
+                          {...field}
+                          disabled={createUserLoading}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <FormField
+                  control={createForm.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="password"
+                          placeholder="Enter password"
+                          {...field}
+                          disabled={createUserLoading}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={createForm.control}
+                  name="confirmPassword"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Confirm Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="password"
+                          placeholder="Confirm password"
+                          {...field}
+                          disabled={createUserLoading}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={createForm.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Phone Number</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="tel"
+                        placeholder="Enter phone number"
+                        {...field}
+                        disabled={createUserLoading}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={createForm.control}
+                name="role"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>User Role</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      disabled={createUserLoading}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a role" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="client">Client</SelectItem>
+                        <SelectItem value="admin">Admin</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <FormField
+                  control={createForm.control}
+                  name="address.country"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Country</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder="Country" disabled={createUserLoading} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={createForm.control}
+                  name="address.state"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>State</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder="State" disabled={createUserLoading} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <FormField
+                  control={createForm.control}
+                  name="address.city"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>City</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder="City" disabled={createUserLoading} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={createForm.control}
+                  name="address.street"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Street</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder="Street" disabled={createUserLoading} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={createForm.control}
+                name="address.number"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Street Number</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder="Street number" disabled={createUserLoading} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <DialogFooter className="pt-4">
+                <Button 
+                  variant="outline" 
+                  type="button" 
+                  onClick={() => setIsCreateUserDialogOpen(false)}
+                  disabled={createUserLoading}
+                >
+                  Cancel
+                </Button>
+                <Button type="submit" disabled={createUserLoading}>
+                  {createUserLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  Create User
+                </Button>
+              </DialogFooter>
+            </form>
+          </Form>
         </DialogContent>
       </Dialog>
     </AdminLayout>
