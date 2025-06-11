@@ -13,6 +13,15 @@ import { usePortfolio } from '@/contexts/PortfolioContext';
 import { useBalance } from '@/hooks/api/useBalance';
 import { useNavigate } from 'react-router-dom';
 
+const API_URL = 'http://localhost:3001/api';
+
+interface AssetDetails {
+  _id: string;
+  symbol: string;
+  name: string;
+  logoUrl?: string;
+}
+
 const Dashboard = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -28,6 +37,7 @@ const Dashboard = () => {
   const { balance, isLoading: balanceLoading } = useBalance();
   
   const [showBalance, setShowBalance] = useState(true);
+  const [assetDetails, setAssetDetails] = useState<{ [key: string]: AssetDetails }>({});
 
   const stocks = getAssetsByType('stock');
   const crypto = getAssetsByType('crypto');
@@ -41,6 +51,44 @@ const Dashboard = () => {
     { name: 'Stocks', value: stocks.reduce((sum, asset) => sum + asset.totalValue, 0) },
     { name: 'Crypto', value: crypto.reduce((sum, asset) => sum + asset.totalValue, 0) }
   ].filter(item => item.value > 0); // Only show categories with values > 0
+
+  const fetchAssetDetails = async (assetId: string) => {
+    const authToken = localStorage.getItem('authToken');
+    if (!authToken) return null;
+
+    try {
+      const response = await fetch(`${API_URL}/assets/${assetId}`, {
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        return data;
+      }
+    } catch (error) {
+      console.error('Error fetching asset details:', error);
+    }
+    return null;
+  };
+
+  const loadAssetDetails = async () => {
+    const detailsMap: { [key: string]: AssetDetails } = {};
+    
+    // Get unique asset IDs from portfolio
+    const assetIds = [...new Set(assets.map(asset => asset.id))];
+    
+    for (const assetId of assetIds) {
+      const details = await fetchAssetDetails(assetId);
+      if (details) {
+        detailsMap[assetId] = details;
+      }
+    }
+    
+    setAssetDetails(detailsMap);
+  };
   
   // Format currency display
   const formatCurrency = (amount: number, showValue: boolean = true) => {
@@ -63,10 +111,42 @@ const Dashboard = () => {
     navigate('/market');
   };
 
+  const renderAssetIcon = (asset: any) => {
+    const details = assetDetails[asset.id];
+    
+    if (details?.logoUrl) {
+      return (
+        <img 
+          src={details.logoUrl} 
+          alt={`${asset.symbol} logo`}
+          className="w-10 h-10 rounded-full object-cover"
+          onError={(e) => {
+            // Fallback to text icon if image fails to load
+            e.currentTarget.style.display = 'none';
+            e.currentTarget.nextElementSibling?.removeAttribute('style');
+          }}
+        />
+      );
+    }
+    
+    return (
+      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+        <span className="text-xs font-bold">{asset.symbol.substring(0, 2)}</span>
+      </div>
+    );
+  };
+
   useEffect(() => {
     // Update asset prices on component mount
     updateAssetPrices();
   }, []);
+
+  useEffect(() => {
+    // Load asset details when assets change
+    if (assets.length > 0) {
+      loadAssetDetails();
+    }
+  }, [assets]);
 
   if (isLoading || balanceLoading) {
     return (
@@ -213,12 +293,15 @@ const Dashboard = () => {
                     {assets.map((asset) => (
                       <div key={asset.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-accent/50 transition-colors">
                         <div className="flex items-center space-x-3">
-                          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                            <span className="text-xs font-bold">{asset.symbol.substring(0, 2)}</span>
+                          <div className="relative">
+                            {renderAssetIcon(asset)}
+                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center" style={{ display: 'none' }}>
+                              <span className="text-xs font-bold">{asset.symbol.substring(0, 2)}</span>
+                            </div>
                           </div>
                           <div>
                             <p className="font-medium">{asset.symbol}</p>
-                            <p className="text-sm text-muted-foreground">{asset.name}</p>
+                            <p className="text-sm text-muted-foreground">{assetDetails[asset.id]?.name || asset.name}</p>
                           </div>
                         </div>
                         
@@ -248,12 +331,15 @@ const Dashboard = () => {
                     {stocks.map((asset) => (
                       <div key={asset.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-accent/50 transition-colors">
                         <div className="flex items-center space-x-3">
-                          <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
-                            <span className="text-xs font-bold text-blue-600">{asset.symbol.substring(0, 2)}</span>
+                          <div className="relative">
+                            {renderAssetIcon(asset)}
+                            <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center" style={{ display: 'none' }}>
+                              <span className="text-xs font-bold text-blue-600">{asset.symbol.substring(0, 2)}</span>
+                            </div>
                           </div>
                           <div>
                             <p className="font-medium">{asset.symbol}</p>
-                            <p className="text-sm text-muted-foreground">{asset.name}</p>
+                            <p className="text-sm text-muted-foreground">{assetDetails[asset.id]?.name || asset.name}</p>
                           </div>
                         </div>
                         
@@ -283,12 +369,15 @@ const Dashboard = () => {
                     {crypto.map((asset) => (
                       <div key={asset.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-accent/50 transition-colors">
                         <div className="flex items-center space-x-3">
-                          <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
-                            <span className="text-xs font-bold text-orange-600">{asset.symbol.substring(0, 2)}</span>
+                          <div className="relative">
+                            {renderAssetIcon(asset)}
+                            <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center" style={{ display: 'none' }}>
+                              <span className="text-xs font-bold text-orange-600">{asset.symbol.substring(0, 2)}</span>
+                            </div>
                           </div>
                           <div>
                             <p className="font-medium">{asset.symbol}</p>
-                            <p className="text-sm text-muted-foreground">{asset.name}</p>
+                            <p className="text-sm text-muted-foreground">{assetDetails[asset.id]?.name || asset.name}</p>
                           </div>
                         </div>
                         

@@ -79,25 +79,29 @@ const PortfolioEvolutionChart = ({ className }: PortfolioEvolutionChartProps) =>
         <div className="flex space-x-2">
           <Button 
             onClick={() => setTimeframe('1W')}
-            className={`px-2 py-1 text-xs rounded ${timeframe === '1W' ? 'bg-primary text-white' : 'bg-secondary text-muted-foreground'}`}
+            variant={timeframe === '1W' ? 'default' : 'outline'}
+            size="sm"
           >
             1W
           </Button>
           <Button 
             onClick={() => setTimeframe('1M')}
-            className={`px-2 py-1 text-xs rounded ${timeframe === '1M' ? 'bg-primary text-white' : 'bg-secondary text-muted-foreground'}`}
+            variant={timeframe === '1M' ? 'default' : 'outline'}
+            size="sm"
           >
             1M
           </Button>
           <Button 
             onClick={() => setTimeframe('6M')}
-            className={`px-2 py-1 text-xs rounded ${timeframe === '6M' ? 'bg-primary text-white' : 'bg-secondary text-muted-foreground'}`}
+            variant={timeframe === '6M' ? 'default' : 'outline'}
+            size="sm"
           >
             6M
           </Button>
           <Button 
             onClick={() => setTimeframe('1Y')}
-            className={`px-2 py-1 text-xs rounded ${timeframe === '1Y' ? 'bg-primary text-white' : 'bg-secondary text-muted-foreground'}`}
+            variant={timeframe === '1Y' ? 'default' : 'outline'}
+            size="sm"
           >
             1Y
           </Button>
@@ -161,7 +165,7 @@ const PortfolioEvolutionChart = ({ className }: PortfolioEvolutionChartProps) =>
           </ResponsiveContainer>
         ) : (
           <div className="h-full flex items-center justify-center">
-            <p className="text-muted-foreground">Not enough data to display chart</p>
+            <p className="text-muted-foreground">Insufficient data to display portfolio evolution</p>
           </div>
         )}
       </div>

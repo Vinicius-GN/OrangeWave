@@ -30,9 +30,11 @@ const CartPage = () => {
   const [stockLimits, setStockLimits] = useState<Record<string, number>>({});
   const [isLoadingStock, setIsLoadingStock] = useState(true);
   const [quantityInputs, setQuantityInputs] = useState<Record<string, string>>({});
+  const [hasCreditCard, setHasCreditCard] = useState(false);
+  const [isLoadingCard, setIsLoadingCard] = useState(true);
+  const [cardInfo, setCardInfo] = useState<{ maskedNumber?: string } | null>(null);
   
   const total = getCartTotal();
-  const hasCreditCard = true;
 
   // Get authentication token
   const getAuthToken = () => localStorage.getItem('authToken');
@@ -43,6 +45,44 @@ const CartPage = () => {
       ...(token && { 'Authorization': `Bearer ${token}` })
     };
   };
+
+  // Fetch credit card information
+  useEffect(() => {
+    const fetchCardInfo = async () => {
+      if (!user) return;
+      
+      setIsLoadingCard(true);
+      try {
+        const response = await fetch(`${API_URL}/wallet/${user._id}/balance`, {
+          headers: getAuthHeaders()
+        });
+        
+        if (response.ok) {
+          const data: { cardNumber?: string } = await response.json();
+          if (data && data.cardNumber) {
+            setHasCreditCard(true);
+            // Create masked version for display
+            const maskedNumber = data.cardNumber.replace(/\d(?=\d{4})/g, '*');
+            setCardInfo({ maskedNumber });
+          } else {
+            setHasCreditCard(false);
+            setCardInfo(null);
+          }
+        } else {
+          setHasCreditCard(false);
+          setCardInfo(null);
+        }
+      } catch (error) {
+        console.error('Error fetching card info:', error);
+        setHasCreditCard(false);
+        setCardInfo(null);
+      } finally {
+        setIsLoadingCard(false);
+      }
+    };
+    
+    fetchCardInfo();
+  }, [user]);
 
   // Initialize quantity inputs when items change
   useEffect(() => {
@@ -509,16 +549,41 @@ const CartPage = () => {
                           </Label>
                         </div>
                         
-                        {hasCreditCard && (
-                          <div className="flex items-center space-x-2 p-2 rounded border">
-                            <RadioGroupItem value="credit_card" id="payment-cc" />
-                            <Label htmlFor="payment-cc" className="flex items-center">
-                              <CreditCard className="h-4 w-4 mr-2" />
-                              Credit Card (•••• 4242)
-                            </Label>
-                          </div>
-                        )}
+                        <div className="flex items-center space-x-2 p-2 rounded border">
+                          <RadioGroupItem 
+                            value="credit_card" 
+                            id="payment-cc" 
+                            disabled={!hasCreditCard}
+                          />
+                          <Label htmlFor="payment-cc" className="flex items-center">
+                            <CreditCard className="h-4 w-4 mr-2" />
+                            {isLoadingCard ? (
+                              "Loading card info..."
+                            ) : hasCreditCard && cardInfo ? (
+                              `Credit Card (${cardInfo.maskedNumber})`
+                            ) : (
+                              "Credit Card (Not available)"
+                            )}
+                          </Label>
+                        </div>
                       </RadioGroup>
+                      
+                      {!hasCreditCard && !isLoadingCard && (
+                        <Alert className="mt-3">
+                          <AlertTriangle className="h-4 w-4" />
+                          <AlertDescription>
+                            No credit card found. Please add one in your{' '}
+                            <Button 
+                              variant="link" 
+                              className="p-0 h-auto"
+                              onClick={() => navigate('/wallet')}
+                            >
+                              wallet settings
+                            </Button>
+                            {' '}to complete your purchase.
+                          </AlertDescription>
+                        </Alert>
+                      )}
                       
                       {paymentMethod === 'balance' && balance < total && (
                         <p className="text-destructive text-sm mt-2">
@@ -532,7 +597,12 @@ const CartPage = () => {
                   <Button 
                     className="w-full" 
                     onClick={handleCheckout}
-                    disabled={isProcessing || items.length === 0 || (paymentMethod === 'balance' && balance < total)}
+                    disabled={
+                      isProcessing || 
+                      items.length === 0 || 
+                      (paymentMethod === 'balance' && balance < total) ||
+                      (paymentMethod === 'credit_card' && !hasCreditCard)
+                    }
                   >
                     {isProcessing ? "Processing..." : "Complete Purchase"}
                   </Button>

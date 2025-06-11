@@ -9,6 +9,9 @@ interface PortfolioHistoryItem {
   userId: string;
   date: string;
   totalValue: number;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 }
 
 export const usePortfolioHistory = (timeframe: '1W' | '1M' | '6M' | '1Y' = '1M') => {
@@ -17,46 +20,46 @@ export const usePortfolioHistory = (timeframe: '1W' | '1M' | '6M' | '1Y' = '1M')
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const authToken = localStorage.getItem('authToken');
-
-  const fetchHistory = async () => {
-    if (!user || !authToken) return;
-    
-    try {
+  useEffect(() => {
+    const fetchPortfolioHistory = async () => {
+      if (!user?._id) {
+        setIsLoading(false);
+        return;
+      }
+      
       setIsLoading(true);
       setError(null);
       
-      const response = await fetch(`${API_URL}/portfolio-history/${user._id}?timeframe=${timeframe}`, {
-        headers: {
-          'Authorization': `Bearer ${authToken}`,
-          'Content-Type': 'application/json'
+      try {
+        const authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+          throw new Error('No authentication token found');
         }
-      });
-      
-      if (response.ok) {
-        const data: PortfolioHistoryItem[] = await response.json();
-        setHistory(data);
-      } else {
-        setError('Failed to fetch portfolio history');
+
+        const response = await fetch(`${API_URL}/portfolio-history/${user._id}?timeframe=${timeframe}`, {
+          headers: {
+            'Authorization': `Bearer ${authToken}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch portfolio history: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        setHistory(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error('Error fetching portfolio history:', err);
+        setError(err instanceof Error ? err.message : 'Failed to fetch portfolio history');
+        setHistory([]);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (err) {
-      console.error('Error fetching portfolio history:', err);
-      setError('Failed to fetch portfolio history');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    };
 
-  useEffect(() => {
-    if (user && authToken) {
-      fetchHistory();
-    }
-  }, [user, authToken, timeframe]);
+    fetchPortfolioHistory();
+  }, [user?._id, timeframe]);
 
-  return {
-    history,
-    isLoading,
-    error,
-    refreshHistory: fetchHistory
-  };
+  return { history, isLoading, error };
 };

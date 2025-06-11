@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/components/ui/use-toast';
 import { useWallet } from '@/hooks/api/useWallet';
+import CreditCardForm from '@/components/CreditCardForm';
 
 const Wallet = () => {
   const { balance, transactions, isLoading, error, deposit, withdraw } = useWallet();
@@ -99,20 +100,44 @@ const Wallet = () => {
     }).format(amount);
   };
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) {
-      return 'Invalid Date';
+  const formatDate = (dateInput: string | Date) => {
+    try {
+      let date: Date;
+      
+      // Handle different date formats from the backend
+      if (typeof dateInput === 'string') {
+        // Try ISO format first, then timestamp
+        if (dateInput.includes('T') || dateInput.includes('-')) {
+          date = new Date(dateInput);
+        } else if (/^\d+$/.test(dateInput)) {
+          // Handle timestamp (number as string)
+          date = new Date(parseInt(dateInput));
+        } else {
+          date = new Date(dateInput);
+        }
+      } else {
+        date = dateInput;
+      }
+      
+      // Check if date is valid
+      if (isNaN(date.getTime())) {
+        console.warn('Invalid date input:', dateInput);
+        return 'Invalid date';
+      }
+      
+      // Format to match the orders page style: "Jun 07, 2025 – 15:30"
+      return new Intl.DateTimeFormat('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      }).format(date);
+    } catch (error) {
+      console.error('Error formatting date:', error, 'Input:', dateInput);
+      return 'Invalid date';
     }
-    
-    return new Intl.DateTimeFormat('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false
-    }).format(date);
   };
 
   const getTransactionIcon = (type: string) => {
@@ -255,6 +280,11 @@ const Wallet = () => {
           </CardContent>
         </Card>
 
+        {/* Credit Card Form */}
+        <div className="mb-8">
+          <CreditCardForm />
+        </div>
+
         {/* Transaction History */}
         <Card className="glass-card">
           <CardHeader>
@@ -291,7 +321,7 @@ const Wallet = () => {
                         {transaction.type === 'deposit' ? '+' : '-'}{formatCurrency(Math.abs(transaction.amount))}
                       </p>
                       <p className="text-sm text-muted-foreground">
-                        {formatDate(transaction.createdAt)}
+                        {formatDate(transaction.timestamp || transaction.createdAt)}
                       </p>
                     </div>
                   </div>

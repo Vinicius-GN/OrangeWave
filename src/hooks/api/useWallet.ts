@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -14,6 +13,7 @@ interface Transaction {
   amount: number;
   description: string;
   createdAt: string;
+  timestamp?: string; // Adding timestamp property that backend sends
 }
 
 export const useWallet = () => {

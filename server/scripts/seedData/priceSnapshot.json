@@ -2,1921 +2,2371 @@
   {
     "assetId": "asset-aapl",
     "timeframe": "day",
-    "timestamp": "2025-05-05T19:00:00.000Z",
-    "price": 185.67
+    "timestamp": "2025-06-09T19:00:00.000Z",
+    "price": 188.17
   },
   {
     "assetId": "asset-aapl",
     "timeframe": "day",
-    "timestamp": "2025-05-06T19:00:00.000Z",
-    "price": 185.39
+    "timestamp": "2025-06-08T19:00:00.000Z",
+    "price": 183.11
   },
   {
     "assetId": "asset-aapl",
     "timeframe": "day",
-    "timestamp": "2025-05-07T19:00:00.000Z",
-    "price": 186.77
+    "timestamp": "2025-06-07T19:00:00.000Z",
+    "price": 186.62
   },
   {
     "assetId": "asset-aapl",
     "timeframe": "day",
-    "timestamp": "2025-05-08T19:00:00.000Z",
-    "price": 185.88
+    "timestamp": "2025-06-06T19:00:00.000Z",
+    "price": 183.2
   },
   {
     "assetId": "asset-aapl",
     "timeframe": "day",
-    "timestamp": "2025-05-09T19:00:00.000Z",
+    "timestamp": "2025-06-05T19:00:00.000Z",
+    "price": 187.62
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "day",
+    "timestamp": "2025-06-04T19:00:00.000Z",
+    "price": 188.27
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "day",
+    "timestamp": "2025-06-03T19:00:00.000Z",
+    "price": 186.35
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "day",
+    "timestamp": "2025-06-02T19:00:00.000Z",
+    "price": 183.91
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "day",
+    "timestamp": "2025-06-01T19:00:00.000Z",
+    "price": 186.5
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "day",
+    "timestamp": "2025-05-31T19:00:00.000Z",
+    "price": 189.61
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "day",
+    "timestamp": "2025-05-30T19:00:00.000Z",
+    "price": 187.39
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "day",
+    "timestamp": "2025-05-29T19:00:00.000Z",
+    "price": 189.3
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "day",
+    "timestamp": "2025-05-28T19:00:00.000Z",
+    "price": 188.6
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "day",
+    "timestamp": "2025-05-27T19:00:00.000Z",
+    "price": 182.92
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "day",
+    "timestamp": "2025-05-26T19:00:00.000Z",
+    "price": 187.8
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "day",
+    "timestamp": "2025-05-25T19:00:00.000Z",
+    "price": 182.54
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "day",
+    "timestamp": "2025-05-24T19:00:00.000Z",
+    "price": 182.34
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "day",
+    "timestamp": "2025-05-23T19:00:00.000Z",
+    "price": 183.6
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "day",
+    "timestamp": "2025-05-22T19:00:00.000Z",
+    "price": 189.08
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "day",
+    "timestamp": "2025-05-21T19:00:00.000Z",
+    "price": 184.56
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "day",
+    "timestamp": "2025-05-20T19:00:00.000Z",
+    "price": 185.99
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "day",
+    "timestamp": "2025-05-19T19:00:00.000Z",
+    "price": 188.15
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "day",
+    "timestamp": "2025-05-18T19:00:00.000Z",
     "price": 186.02
   },
   {
     "assetId": "asset-aapl",
     "timeframe": "day",
-    "timestamp": "2025-05-12T19:00:00.000Z",
-    "price": 185.38
-  },
-  {
-    "assetId": "asset-aapl",
-    "timeframe": "day",
-    "timestamp": "2025-05-13T19:00:00.000Z",
-    "price": 186.12
-  },
-  {
-    "assetId": "asset-aapl",
-    "timeframe": "day",
-    "timestamp": "2025-05-14T19:00:00.000Z",
-    "price": 185.96
-  },
-  {
-    "assetId": "asset-aapl",
-    "timeframe": "day",
-    "timestamp": "2025-05-15T19:00:00.000Z",
-    "price": 186.4
+    "timestamp": "2025-05-17T19:00:00.000Z",
+    "price": 184.68
   },
   {
     "assetId": "asset-aapl",
     "timeframe": "day",
     "timestamp": "2025-05-16T19:00:00.000Z",
-    "price": 185.24
+    "price": 184.56
   },
   {
     "assetId": "asset-aapl",
     "timeframe": "day",
-    "timestamp": "2025-05-19T19:00:00.000Z",
-    "price": 186.75
+    "timestamp": "2025-05-15T19:00:00.000Z",
+    "price": 187.51
   },
   {
     "assetId": "asset-aapl",
     "timeframe": "day",
-    "timestamp": "2025-05-20T19:00:00.000Z",
-    "price": 185.41
+    "timestamp": "2025-05-14T19:00:00.000Z",
+    "price": 186.17
   },
   {
     "assetId": "asset-aapl",
     "timeframe": "day",
-    "timestamp": "2025-05-21T19:00:00.000Z",
-    "price": 186.51
+    "timestamp": "2025-05-13T19:00:00.000Z",
+    "price": 184.21
   },
   {
     "assetId": "asset-aapl",
     "timeframe": "day",
-    "timestamp": "2025-05-22T19:00:00.000Z",
-    "price": 186.63
+    "timestamp": "2025-05-12T19:00:00.000Z",
+    "price": 187.68
   },
   {
     "assetId": "asset-aapl",
     "timeframe": "day",
-    "timestamp": "2025-05-23T19:00:00.000Z",
-    "price": 186.33
-  },
-  {
-    "assetId": "asset-aapl",
-    "timeframe": "day",
-    "timestamp": "2025-05-26T19:00:00.000Z",
-    "price": 185.08
-  },
-  {
-    "assetId": "asset-aapl",
-    "timeframe": "day",
-    "timestamp": "2025-05-27T19:00:00.000Z",
-    "price": 186.47
-  },
-  {
-    "assetId": "asset-aapl",
-    "timeframe": "day",
-    "timestamp": "2025-05-28T19:00:00.000Z",
-    "price": 185.21
-  },
-  {
-    "assetId": "asset-aapl",
-    "timeframe": "day",
-    "timestamp": "2025-05-29T19:00:00.000Z",
-    "price": 185.46
-  },
-  {
-    "assetId": "asset-aapl",
-    "timeframe": "day",
-    "timestamp": "2025-05-30T19:00:00.000Z",
-    "price": 185.23
-  },
-  {
-    "assetId": "asset-aapl",
-    "timeframe": "day",
-    "timestamp": "2025-06-02T19:00:00.000Z",
-    "price": 185
-  },
-  {
-    "assetId": "asset-aapl",
-    "timeframe": "day",
-    "timestamp": "2025-06-03T19:00:00.000Z",
-    "price": 185.4
-  },
-  {
-    "assetId": "asset-aapl",
-    "timeframe": "month",
-    "timestamp": "2024-07-01T03:00:00.000Z",
-    "price": 185.43
-  },
-  {
-    "assetId": "asset-aapl",
-    "timeframe": "month",
-    "timestamp": "2024-08-01T03:00:00.000Z",
-    "price": 182.1
-  },
-  {
-    "assetId": "asset-aapl",
-    "timeframe": "month",
-    "timestamp": "2024-09-01T03:00:00.000Z",
-    "price": 189.48
-  },
-  {
-    "assetId": "asset-aapl",
-    "timeframe": "month",
-    "timestamp": "2024-10-01T03:00:00.000Z",
-    "price": 192.68
-  },
-  {
-    "assetId": "asset-aapl",
-    "timeframe": "month",
-    "timestamp": "2024-11-01T03:00:00.000Z",
-    "price": 190.52
-  },
-  {
-    "assetId": "asset-aapl",
-    "timeframe": "month",
-    "timestamp": "2024-12-01T03:00:00.000Z",
-    "price": 187.64
-  },
-  {
-    "assetId": "asset-aapl",
-    "timeframe": "month",
-    "timestamp": "2025-01-01T03:00:00.000Z",
-    "price": 182.13
-  },
-  {
-    "assetId": "asset-aapl",
-    "timeframe": "month",
-    "timestamp": "2025-02-01T03:00:00.000Z",
-    "price": 186.79
-  },
-  {
-    "assetId": "asset-aapl",
-    "timeframe": "month",
-    "timestamp": "2025-03-01T03:00:00.000Z",
-    "price": 189.34
-  },
-  {
-    "assetId": "asset-aapl",
-    "timeframe": "month",
-    "timestamp": "2025-04-01T03:00:00.000Z",
-    "price": 188.59
-  },
-  {
-    "assetId": "asset-aapl",
-    "timeframe": "month",
-    "timestamp": "2025-05-01T03:00:00.000Z",
-    "price": 185.23
+    "timestamp": "2025-05-11T19:00:00.000Z",
+    "price": 188.62
   },
   {
     "assetId": "asset-aapl",
     "timeframe": "month",
     "timestamp": "2025-06-01T03:00:00.000Z",
-    "price": 179.64
+    "price": 167.82
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "month",
+    "timestamp": "2025-05-01T03:00:00.000Z",
+    "price": 184.51
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "month",
+    "timestamp": "2025-04-01T03:00:00.000Z",
+    "price": 177.59
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "month",
+    "timestamp": "2025-03-01T03:00:00.000Z",
+    "price": 174.08
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "month",
+    "timestamp": "2025-02-01T03:00:00.000Z",
+    "price": 180.29
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "month",
+    "timestamp": "2025-01-01T03:00:00.000Z",
+    "price": 172.45
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "month",
+    "timestamp": "2024-12-01T03:00:00.000Z",
+    "price": 186.78
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "month",
+    "timestamp": "2024-11-01T03:00:00.000Z",
+    "price": 185.37
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "month",
+    "timestamp": "2024-10-01T03:00:00.000Z",
+    "price": 199.57
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "month",
+    "timestamp": "2024-09-01T03:00:00.000Z",
+    "price": 194.95
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "month",
+    "timestamp": "2024-08-01T03:00:00.000Z",
+    "price": 201.88
+  },
+  {
+    "assetId": "asset-aapl",
+    "timeframe": "month",
+    "timestamp": "2024-07-01T03:00:00.000Z",
+    "price": 199.09
   },
   {
     "assetId": "asset-msft",
     "timeframe": "day",
-    "timestamp": "2025-05-05T19:00:00.000Z",
-    "price": 412.23
+    "timestamp": "2025-06-09T19:00:00.000Z",
+    "price": 406.92
   },
   {
     "assetId": "asset-msft",
     "timeframe": "day",
-    "timestamp": "2025-05-06T19:00:00.000Z",
-    "price": 414.51
+    "timestamp": "2025-06-08T19:00:00.000Z",
+    "price": 416.25
   },
   {
     "assetId": "asset-msft",
     "timeframe": "day",
-    "timestamp": "2025-05-07T19:00:00.000Z",
-    "price": 412.89
+    "timestamp": "2025-06-07T19:00:00.000Z",
+    "price": 418.56
   },
   {
     "assetId": "asset-msft",
     "timeframe": "day",
-    "timestamp": "2025-05-08T19:00:00.000Z",
-    "price": 413.52
+    "timestamp": "2025-06-06T19:00:00.000Z",
+    "price": 415.6
   },
   {
     "assetId": "asset-msft",
     "timeframe": "day",
-    "timestamp": "2025-05-09T19:00:00.000Z",
-    "price": 413.41
+    "timestamp": "2025-06-05T19:00:00.000Z",
+    "price": 408.75
   },
   {
     "assetId": "asset-msft",
     "timeframe": "day",
-    "timestamp": "2025-05-12T19:00:00.000Z",
-    "price": 415.96
+    "timestamp": "2025-06-04T19:00:00.000Z",
+    "price": 421.89
   },
   {
     "assetId": "asset-msft",
     "timeframe": "day",
-    "timestamp": "2025-05-13T19:00:00.000Z",
-    "price": 415.76
-  },
-  {
-    "assetId": "asset-msft",
-    "timeframe": "day",
-    "timestamp": "2025-05-14T19:00:00.000Z",
-    "price": 413.47
-  },
-  {
-    "assetId": "asset-msft",
-    "timeframe": "day",
-    "timestamp": "2025-05-15T19:00:00.000Z",
-    "price": 415.76
-  },
-  {
-    "assetId": "asset-msft",
-    "timeframe": "day",
-    "timestamp": "2025-05-16T19:00:00.000Z",
-    "price": 413.52
-  },
-  {
-    "assetId": "asset-msft",
-    "timeframe": "day",
-    "timestamp": "2025-05-19T19:00:00.000Z",
-    "price": 412.49
-  },
-  {
-    "assetId": "asset-msft",
-    "timeframe": "day",
-    "timestamp": "2025-05-20T19:00:00.000Z",
-    "price": 412.81
-  },
-  {
-    "assetId": "asset-msft",
-    "timeframe": "day",
-    "timestamp": "2025-05-21T19:00:00.000Z",
-    "price": 416.04
-  },
-  {
-    "assetId": "asset-msft",
-    "timeframe": "day",
-    "timestamp": "2025-05-22T19:00:00.000Z",
-    "price": 412.42
-  },
-  {
-    "assetId": "asset-msft",
-    "timeframe": "day",
-    "timestamp": "2025-05-23T19:00:00.000Z",
-    "price": 414.01
-  },
-  {
-    "assetId": "asset-msft",
-    "timeframe": "day",
-    "timestamp": "2025-05-26T19:00:00.000Z",
-    "price": 415.51
-  },
-  {
-    "assetId": "asset-msft",
-    "timeframe": "day",
-    "timestamp": "2025-05-27T19:00:00.000Z",
-    "price": 412.55
-  },
-  {
-    "assetId": "asset-msft",
-    "timeframe": "day",
-    "timestamp": "2025-05-28T19:00:00.000Z",
-    "price": 414.12
-  },
-  {
-    "assetId": "asset-msft",
-    "timeframe": "day",
-    "timestamp": "2025-05-29T19:00:00.000Z",
-    "price": 415.7
-  },
-  {
-    "assetId": "asset-msft",
-    "timeframe": "day",
-    "timestamp": "2025-05-30T19:00:00.000Z",
-    "price": 412.83
+    "timestamp": "2025-06-03T19:00:00.000Z",
+    "price": 422.14
   },
   {
     "assetId": "asset-msft",
     "timeframe": "day",
     "timestamp": "2025-06-02T19:00:00.000Z",
+    "price": 413.9
+  },
+  {
+    "assetId": "asset-msft",
+    "timeframe": "day",
+    "timestamp": "2025-06-01T19:00:00.000Z",
+    "price": 421.56
+  },
+  {
+    "assetId": "asset-msft",
+    "timeframe": "day",
+    "timestamp": "2025-05-31T19:00:00.000Z",
+    "price": 421.93
+  },
+  {
+    "assetId": "asset-msft",
+    "timeframe": "day",
+    "timestamp": "2025-05-30T19:00:00.000Z",
+    "price": 412.14
+  },
+  {
+    "assetId": "asset-msft",
+    "timeframe": "day",
+    "timestamp": "2025-05-29T19:00:00.000Z",
+    "price": 409.06
+  },
+  {
+    "assetId": "asset-msft",
+    "timeframe": "day",
+    "timestamp": "2025-05-28T19:00:00.000Z",
+    "price": 421.59
+  },
+  {
+    "assetId": "asset-msft",
+    "timeframe": "day",
+    "timestamp": "2025-05-27T19:00:00.000Z",
+    "price": 410.07
+  },
+  {
+    "assetId": "asset-msft",
+    "timeframe": "day",
+    "timestamp": "2025-05-26T19:00:00.000Z",
+    "price": 422.38
+  },
+  {
+    "assetId": "asset-msft",
+    "timeframe": "day",
+    "timestamp": "2025-05-25T19:00:00.000Z",
+    "price": 421.08
+  },
+  {
+    "assetId": "asset-msft",
+    "timeframe": "day",
+    "timestamp": "2025-05-24T19:00:00.000Z",
+    "price": 409.34
+  },
+  {
+    "assetId": "asset-msft",
+    "timeframe": "day",
+    "timestamp": "2025-05-23T19:00:00.000Z",
+    "price": 419.22
+  },
+  {
+    "assetId": "asset-msft",
+    "timeframe": "day",
+    "timestamp": "2025-05-22T19:00:00.000Z",
+    "price": 413.26
+  },
+  {
+    "assetId": "asset-msft",
+    "timeframe": "day",
+    "timestamp": "2025-05-21T19:00:00.000Z",
     "price": 415.61
   },
   {
     "assetId": "asset-msft",
     "timeframe": "day",
-    "timestamp": "2025-06-03T19:00:00.000Z",
-    "price": 412.81
+    "timestamp": "2025-05-20T19:00:00.000Z",
+    "price": 414.04
   },
   {
     "assetId": "asset-msft",
-    "timeframe": "month",
-    "timestamp": "2024-07-01T03:00:00.000Z",
-    "price": 415.29
+    "timeframe": "day",
+    "timestamp": "2025-05-19T19:00:00.000Z",
+    "price": 410.36
   },
   {
     "assetId": "asset-msft",
-    "timeframe": "month",
-    "timestamp": "2024-08-01T03:00:00.000Z",
-    "price": 401.33
+    "timeframe": "day",
+    "timestamp": "2025-05-18T19:00:00.000Z",
+    "price": 409.22
   },
   {
     "assetId": "asset-msft",
-    "timeframe": "month",
-    "timestamp": "2024-09-01T03:00:00.000Z",
-    "price": 411.4
+    "timeframe": "day",
+    "timestamp": "2025-05-17T19:00:00.000Z",
+    "price": 407.73
   },
   {
     "assetId": "asset-msft",
-    "timeframe": "month",
-    "timestamp": "2024-10-01T03:00:00.000Z",
-    "price": 396.37
+    "timeframe": "day",
+    "timestamp": "2025-05-16T19:00:00.000Z",
+    "price": 415.13
   },
   {
     "assetId": "asset-msft",
-    "timeframe": "month",
-    "timestamp": "2024-11-01T03:00:00.000Z",
-    "price": 402.3
+    "timeframe": "day",
+    "timestamp": "2025-05-15T19:00:00.000Z",
+    "price": 407.83
   },
   {
     "assetId": "asset-msft",
-    "timeframe": "month",
-    "timestamp": "2024-12-01T03:00:00.000Z",
-    "price": 432.15
+    "timeframe": "day",
+    "timestamp": "2025-05-14T19:00:00.000Z",
+    "price": 418.19
   },
   {
     "assetId": "asset-msft",
-    "timeframe": "month",
-    "timestamp": "2025-01-01T03:00:00.000Z",
-    "price": 404.8
+    "timeframe": "day",
+    "timestamp": "2025-05-13T19:00:00.000Z",
+    "price": 418.88
   },
   {
     "assetId": "asset-msft",
-    "timeframe": "month",
-    "timestamp": "2025-02-01T03:00:00.000Z",
-    "price": 398.08
+    "timeframe": "day",
+    "timestamp": "2025-05-12T19:00:00.000Z",
+    "price": 406.38
   },
   {
     "assetId": "asset-msft",
-    "timeframe": "month",
-    "timestamp": "2025-03-01T03:00:00.000Z",
-    "price": 402.68
-  },
-  {
-    "assetId": "asset-msft",
-    "timeframe": "month",
-    "timestamp": "2025-04-01T03:00:00.000Z",
-    "price": 403.33
-  },
-  {
-    "assetId": "asset-msft",
-    "timeframe": "month",
-    "timestamp": "2025-05-01T03:00:00.000Z",
-    "price": 422.12
+    "timeframe": "day",
+    "timestamp": "2025-05-11T19:00:00.000Z",
+    "price": 422.23
   },
   {
     "assetId": "asset-msft",
     "timeframe": "month",
     "timestamp": "2025-06-01T03:00:00.000Z",
-    "price": 398.73
+    "price": 374.71
+  },
+  {
+    "assetId": "asset-msft",
+    "timeframe": "month",
+    "timestamp": "2025-05-01T03:00:00.000Z",
+    "price": 415.22
+  },
+  {
+    "assetId": "asset-msft",
+    "timeframe": "month",
+    "timestamp": "2025-04-01T03:00:00.000Z",
+    "price": 448.7
+  },
+  {
+    "assetId": "asset-msft",
+    "timeframe": "month",
+    "timestamp": "2025-03-01T03:00:00.000Z",
+    "price": 404.76
+  },
+  {
+    "assetId": "asset-msft",
+    "timeframe": "month",
+    "timestamp": "2025-02-01T03:00:00.000Z",
+    "price": 446.71
+  },
+  {
+    "assetId": "asset-msft",
+    "timeframe": "month",
+    "timestamp": "2025-01-01T03:00:00.000Z",
+    "price": 429.58
+  },
+  {
+    "assetId": "asset-msft",
+    "timeframe": "month",
+    "timestamp": "2024-12-01T03:00:00.000Z",
+    "price": 388.49
+  },
+  {
+    "assetId": "asset-msft",
+    "timeframe": "month",
+    "timestamp": "2024-11-01T03:00:00.000Z",
+    "price": 400.23
+  },
+  {
+    "assetId": "asset-msft",
+    "timeframe": "month",
+    "timestamp": "2024-10-01T03:00:00.000Z",
+    "price": 415.58
+  },
+  {
+    "assetId": "asset-msft",
+    "timeframe": "month",
+    "timestamp": "2024-09-01T03:00:00.000Z",
+    "price": 400.13
+  },
+  {
+    "assetId": "asset-msft",
+    "timeframe": "month",
+    "timestamp": "2024-08-01T03:00:00.000Z",
+    "price": 419.89
+  },
+  {
+    "assetId": "asset-msft",
+    "timeframe": "month",
+    "timestamp": "2024-07-01T03:00:00.000Z",
+    "price": 446.16
   },
   {
     "assetId": "asset-googl",
     "timeframe": "day",
-    "timestamp": "2025-05-05T19:00:00.000Z",
-    "price": 151.76
+    "timestamp": "2025-06-09T19:00:00.000Z",
+    "price": 152.39
   },
   {
     "assetId": "asset-googl",
     "timeframe": "day",
-    "timestamp": "2025-05-06T19:00:00.000Z",
-    "price": 153.08
+    "timestamp": "2025-06-08T19:00:00.000Z",
+    "price": 153.12
   },
   {
     "assetId": "asset-googl",
     "timeframe": "day",
-    "timestamp": "2025-05-07T19:00:00.000Z",
-    "price": 152.17
+    "timestamp": "2025-06-07T19:00:00.000Z",
+    "price": 154.16
   },
   {
     "assetId": "asset-googl",
     "timeframe": "day",
-    "timestamp": "2025-05-08T19:00:00.000Z",
-    "price": 152.46
+    "timestamp": "2025-06-06T19:00:00.000Z",
+    "price": 152.01
   },
   {
     "assetId": "asset-googl",
     "timeframe": "day",
-    "timestamp": "2025-05-09T19:00:00.000Z",
-    "price": 152.15
+    "timestamp": "2025-06-05T19:00:00.000Z",
+    "price": 155.36
   },
   {
     "assetId": "asset-googl",
     "timeframe": "day",
-    "timestamp": "2025-05-12T19:00:00.000Z",
-    "price": 152.3
-  },
-  {
-    "assetId": "asset-googl",
-    "timeframe": "day",
-    "timestamp": "2025-05-13T19:00:00.000Z",
-    "price": 152.19
-  },
-  {
-    "assetId": "asset-googl",
-    "timeframe": "day",
-    "timestamp": "2025-05-14T19:00:00.000Z",
-    "price": 152.32
-  },
-  {
-    "assetId": "asset-googl",
-    "timeframe": "day",
-    "timestamp": "2025-05-15T19:00:00.000Z",
-    "price": 152.11
-  },
-  {
-    "assetId": "asset-googl",
-    "timeframe": "day",
-    "timestamp": "2025-05-16T19:00:00.000Z",
-    "price": 152.74
-  },
-  {
-    "assetId": "asset-googl",
-    "timeframe": "day",
-    "timestamp": "2025-05-19T19:00:00.000Z",
-    "price": 152.92
-  },
-  {
-    "assetId": "asset-googl",
-    "timeframe": "day",
-    "timestamp": "2025-05-20T19:00:00.000Z",
-    "price": 153.17
-  },
-  {
-    "assetId": "asset-googl",
-    "timeframe": "day",
-    "timestamp": "2025-05-21T19:00:00.000Z",
-    "price": 151.91
-  },
-  {
-    "assetId": "asset-googl",
-    "timeframe": "day",
-    "timestamp": "2025-05-22T19:00:00.000Z",
-    "price": 152.64
-  },
-  {
-    "assetId": "asset-googl",
-    "timeframe": "day",
-    "timestamp": "2025-05-23T19:00:00.000Z",
-    "price": 153.09
-  },
-  {
-    "assetId": "asset-googl",
-    "timeframe": "day",
-    "timestamp": "2025-05-26T19:00:00.000Z",
-    "price": 152.79
-  },
-  {
-    "assetId": "asset-googl",
-    "timeframe": "day",
-    "timestamp": "2025-05-27T19:00:00.000Z",
-    "price": 152.97
-  },
-  {
-    "assetId": "asset-googl",
-    "timeframe": "day",
-    "timestamp": "2025-05-28T19:00:00.000Z",
-    "price": 152.18
-  },
-  {
-    "assetId": "asset-googl",
-    "timeframe": "day",
-    "timestamp": "2025-05-29T19:00:00.000Z",
-    "price": 152.55
-  },
-  {
-    "assetId": "asset-googl",
-    "timeframe": "day",
-    "timestamp": "2025-05-30T19:00:00.000Z",
-    "price": 152.72
-  },
-  {
-    "assetId": "asset-googl",
-    "timeframe": "day",
-    "timestamp": "2025-06-02T19:00:00.000Z",
-    "price": 152
+    "timestamp": "2025-06-04T19:00:00.000Z",
+    "price": 151.04
   },
   {
     "assetId": "asset-googl",
     "timeframe": "day",
     "timestamp": "2025-06-03T19:00:00.000Z",
-    "price": 152.66
+    "price": 151.78
   },
   {
     "assetId": "asset-googl",
-    "timeframe": "month",
-    "timestamp": "2024-07-01T03:00:00.000Z",
-    "price": 157.71
+    "timeframe": "day",
+    "timestamp": "2025-06-02T19:00:00.000Z",
+    "price": 155.19
   },
   {
     "assetId": "asset-googl",
-    "timeframe": "month",
-    "timestamp": "2024-08-01T03:00:00.000Z",
-    "price": 147.7
+    "timeframe": "day",
+    "timestamp": "2025-06-01T19:00:00.000Z",
+    "price": 152.2
   },
   {
     "assetId": "asset-googl",
-    "timeframe": "month",
-    "timestamp": "2024-09-01T03:00:00.000Z",
-    "price": 159.11
+    "timeframe": "day",
+    "timestamp": "2025-05-31T19:00:00.000Z",
+    "price": 154.67
   },
   {
     "assetId": "asset-googl",
-    "timeframe": "month",
-    "timestamp": "2024-10-01T03:00:00.000Z",
-    "price": 154.89
+    "timeframe": "day",
+    "timestamp": "2025-05-30T19:00:00.000Z",
+    "price": 154.36
   },
   {
     "assetId": "asset-googl",
-    "timeframe": "month",
-    "timestamp": "2024-11-01T03:00:00.000Z",
-    "price": 158.25
+    "timeframe": "day",
+    "timestamp": "2025-05-29T19:00:00.000Z",
+    "price": 152.93
   },
   {
     "assetId": "asset-googl",
-    "timeframe": "month",
-    "timestamp": "2024-12-01T03:00:00.000Z",
-    "price": 157.36
+    "timeframe": "day",
+    "timestamp": "2025-05-28T19:00:00.000Z",
+    "price": 152.58
   },
   {
     "assetId": "asset-googl",
-    "timeframe": "month",
-    "timestamp": "2025-01-01T03:00:00.000Z",
-    "price": 152.79
+    "timeframe": "day",
+    "timestamp": "2025-05-27T19:00:00.000Z",
+    "price": 151.12
   },
   {
     "assetId": "asset-googl",
-    "timeframe": "month",
-    "timestamp": "2025-02-01T03:00:00.000Z",
-    "price": 156.13
+    "timeframe": "day",
+    "timestamp": "2025-05-26T19:00:00.000Z",
+    "price": 151.07
   },
   {
     "assetId": "asset-googl",
-    "timeframe": "month",
-    "timestamp": "2025-03-01T03:00:00.000Z",
-    "price": 147.05
+    "timeframe": "day",
+    "timestamp": "2025-05-25T19:00:00.000Z",
+    "price": 152.94
   },
   {
     "assetId": "asset-googl",
-    "timeframe": "month",
-    "timestamp": "2025-04-01T03:00:00.000Z",
-    "price": 155.18
+    "timeframe": "day",
+    "timestamp": "2025-05-24T19:00:00.000Z",
+    "price": 151.6
   },
   {
     "assetId": "asset-googl",
-    "timeframe": "month",
-    "timestamp": "2025-05-01T03:00:00.000Z",
+    "timeframe": "day",
+    "timestamp": "2025-05-23T19:00:00.000Z",
+    "price": 151.36
+  },
+  {
+    "assetId": "asset-googl",
+    "timeframe": "day",
+    "timestamp": "2025-05-22T19:00:00.000Z",
+    "price": 154.69
+  },
+  {
+    "assetId": "asset-googl",
+    "timeframe": "day",
+    "timestamp": "2025-05-21T19:00:00.000Z",
+    "price": 153.45
+  },
+  {
+    "assetId": "asset-googl",
+    "timeframe": "day",
+    "timestamp": "2025-05-20T19:00:00.000Z",
+    "price": 152.13
+  },
+  {
+    "assetId": "asset-googl",
+    "timeframe": "day",
+    "timestamp": "2025-05-19T19:00:00.000Z",
+    "price": 151.52
+  },
+  {
+    "assetId": "asset-googl",
+    "timeframe": "day",
+    "timestamp": "2025-05-18T19:00:00.000Z",
     "price": 151.47
   },
   {
     "assetId": "asset-googl",
-    "timeframe": "month",
-    "timestamp": "2025-06-01T03:00:00.000Z",
-    "price": 155.79
-  },
-  {
-    "assetId": "asset-amzn",
     "timeframe": "day",
-    "timestamp": "2025-05-05T19:00:00.000Z",
-    "price": 184.13
+    "timestamp": "2025-05-17T19:00:00.000Z",
+    "price": 155.47
   },
   {
-    "assetId": "asset-amzn",
-    "timeframe": "day",
-    "timestamp": "2025-05-06T19:00:00.000Z",
-    "price": 184.02
-  },
-  {
-    "assetId": "asset-amzn",
-    "timeframe": "day",
-    "timestamp": "2025-05-07T19:00:00.000Z",
-    "price": 184.85
-  },
-  {
-    "assetId": "asset-amzn",
-    "timeframe": "day",
-    "timestamp": "2025-05-08T19:00:00.000Z",
-    "price": 185.18
-  },
-  {
-    "assetId": "asset-amzn",
-    "timeframe": "day",
-    "timestamp": "2025-05-09T19:00:00.000Z",
-    "price": 185.38
-  },
-  {
-    "assetId": "asset-amzn",
-    "timeframe": "day",
-    "timestamp": "2025-05-12T19:00:00.000Z",
-    "price": 184.75
-  },
-  {
-    "assetId": "asset-amzn",
-    "timeframe": "day",
-    "timestamp": "2025-05-13T19:00:00.000Z",
-    "price": 185.32
-  },
-  {
-    "assetId": "asset-amzn",
-    "timeframe": "day",
-    "timestamp": "2025-05-14T19:00:00.000Z",
-    "price": 185.04
-  },
-  {
-    "assetId": "asset-amzn",
-    "timeframe": "day",
-    "timestamp": "2025-05-15T19:00:00.000Z",
-    "price": 185.41
-  },
-  {
-    "assetId": "asset-amzn",
+    "assetId": "asset-googl",
     "timeframe": "day",
     "timestamp": "2025-05-16T19:00:00.000Z",
-    "price": 185.31
+    "price": 153.37
+  },
+  {
+    "assetId": "asset-googl",
+    "timeframe": "day",
+    "timestamp": "2025-05-15T19:00:00.000Z",
+    "price": 153.45
+  },
+  {
+    "assetId": "asset-googl",
+    "timeframe": "day",
+    "timestamp": "2025-05-14T19:00:00.000Z",
+    "price": 154.93
+  },
+  {
+    "assetId": "asset-googl",
+    "timeframe": "day",
+    "timestamp": "2025-05-13T19:00:00.000Z",
+    "price": 151.17
+  },
+  {
+    "assetId": "asset-googl",
+    "timeframe": "day",
+    "timestamp": "2025-05-12T19:00:00.000Z",
+    "price": 153.36
+  },
+  {
+    "assetId": "asset-googl",
+    "timeframe": "day",
+    "timestamp": "2025-05-11T19:00:00.000Z",
+    "price": 153.05
+  },
+  {
+    "assetId": "asset-googl",
+    "timeframe": "month",
+    "timestamp": "2025-06-01T03:00:00.000Z",
+    "price": 158.23
+  },
+  {
+    "assetId": "asset-googl",
+    "timeframe": "month",
+    "timestamp": "2025-05-01T03:00:00.000Z",
+    "price": 138.13
+  },
+  {
+    "assetId": "asset-googl",
+    "timeframe": "month",
+    "timestamp": "2025-04-01T03:00:00.000Z",
+    "price": 142.92
+  },
+  {
+    "assetId": "asset-googl",
+    "timeframe": "month",
+    "timestamp": "2025-03-01T03:00:00.000Z",
+    "price": 148.58
+  },
+  {
+    "assetId": "asset-googl",
+    "timeframe": "month",
+    "timestamp": "2025-02-01T03:00:00.000Z",
+    "price": 154.14
+  },
+  {
+    "assetId": "asset-googl",
+    "timeframe": "month",
+    "timestamp": "2025-01-01T03:00:00.000Z",
+    "price": 137.78
+  },
+  {
+    "assetId": "asset-googl",
+    "timeframe": "month",
+    "timestamp": "2024-12-01T03:00:00.000Z",
+    "price": 139.75
+  },
+  {
+    "assetId": "asset-googl",
+    "timeframe": "month",
+    "timestamp": "2024-11-01T03:00:00.000Z",
+    "price": 154.42
+  },
+  {
+    "assetId": "asset-googl",
+    "timeframe": "month",
+    "timestamp": "2024-10-01T03:00:00.000Z",
+    "price": 166.82
+  },
+  {
+    "assetId": "asset-googl",
+    "timeframe": "month",
+    "timestamp": "2024-09-01T03:00:00.000Z",
+    "price": 139.02
+  },
+  {
+    "assetId": "asset-googl",
+    "timeframe": "month",
+    "timestamp": "2024-08-01T03:00:00.000Z",
+    "price": 144.34
+  },
+  {
+    "assetId": "asset-googl",
+    "timeframe": "month",
+    "timestamp": "2024-07-01T03:00:00.000Z",
+    "price": 160.39
   },
   {
     "assetId": "asset-amzn",
     "timeframe": "day",
-    "timestamp": "2025-05-19T19:00:00.000Z",
-    "price": 183.95
+    "timestamp": "2025-06-09T19:00:00.000Z",
+    "price": 184.94
   },
   {
     "assetId": "asset-amzn",
     "timeframe": "day",
-    "timestamp": "2025-05-20T19:00:00.000Z",
-    "price": 184.77
+    "timestamp": "2025-06-08T19:00:00.000Z",
+    "price": 181.04
   },
   {
     "assetId": "asset-amzn",
     "timeframe": "day",
-    "timestamp": "2025-05-21T19:00:00.000Z",
-    "price": 184.1
+    "timestamp": "2025-06-07T19:00:00.000Z",
+    "price": 182.96
   },
   {
     "assetId": "asset-amzn",
     "timeframe": "day",
-    "timestamp": "2025-05-22T19:00:00.000Z",
-    "price": 184.63
+    "timestamp": "2025-06-06T19:00:00.000Z",
+    "price": 183.34
   },
   {
     "assetId": "asset-amzn",
     "timeframe": "day",
-    "timestamp": "2025-05-23T19:00:00.000Z",
-    "price": 183.87
+    "timestamp": "2025-06-05T19:00:00.000Z",
+    "price": 182.16
   },
   {
     "assetId": "asset-amzn",
     "timeframe": "day",
-    "timestamp": "2025-05-26T19:00:00.000Z",
-    "price": 184.37
-  },
-  {
-    "assetId": "asset-amzn",
-    "timeframe": "day",
-    "timestamp": "2025-05-27T19:00:00.000Z",
-    "price": 184.91
-  },
-  {
-    "assetId": "asset-amzn",
-    "timeframe": "day",
-    "timestamp": "2025-05-28T19:00:00.000Z",
-    "price": 183.98
-  },
-  {
-    "assetId": "asset-amzn",
-    "timeframe": "day",
-    "timestamp": "2025-05-29T19:00:00.000Z",
-    "price": 184.18
-  },
-  {
-    "assetId": "asset-amzn",
-    "timeframe": "day",
-    "timestamp": "2025-05-30T19:00:00.000Z",
-    "price": 184.52
-  },
-  {
-    "assetId": "asset-amzn",
-    "timeframe": "day",
-    "timestamp": "2025-06-02T19:00:00.000Z",
-    "price": 185.48
+    "timestamp": "2025-06-04T19:00:00.000Z",
+    "price": 183.94
   },
   {
     "assetId": "asset-amzn",
     "timeframe": "day",
     "timestamp": "2025-06-03T19:00:00.000Z",
-    "price": 185.52
+    "price": 184.12
   },
   {
     "assetId": "asset-amzn",
-    "timeframe": "month",
-    "timestamp": "2024-07-01T03:00:00.000Z",
-    "price": 192.22
+    "timeframe": "day",
+    "timestamp": "2025-06-02T19:00:00.000Z",
+    "price": 186.04
   },
   {
     "assetId": "asset-amzn",
-    "timeframe": "month",
-    "timestamp": "2024-08-01T03:00:00.000Z",
-    "price": 186.86
+    "timeframe": "day",
+    "timestamp": "2025-06-01T19:00:00.000Z",
+    "price": 185.27
   },
   {
     "assetId": "asset-amzn",
-    "timeframe": "month",
-    "timestamp": "2024-09-01T03:00:00.000Z",
-    "price": 186.94
+    "timeframe": "day",
+    "timestamp": "2025-05-31T19:00:00.000Z",
+    "price": 183.52
   },
   {
     "assetId": "asset-amzn",
-    "timeframe": "month",
-    "timestamp": "2024-10-01T03:00:00.000Z",
-    "price": 187.28
+    "timeframe": "day",
+    "timestamp": "2025-05-30T19:00:00.000Z",
+    "price": 181.6
   },
   {
     "assetId": "asset-amzn",
-    "timeframe": "month",
-    "timestamp": "2024-11-01T03:00:00.000Z",
-    "price": 185.2
+    "timeframe": "day",
+    "timestamp": "2025-05-29T19:00:00.000Z",
+    "price": 184.53
   },
   {
     "assetId": "asset-amzn",
-    "timeframe": "month",
-    "timestamp": "2024-12-01T03:00:00.000Z",
-    "price": 178.28
+    "timeframe": "day",
+    "timestamp": "2025-05-28T19:00:00.000Z",
+    "price": 188.4
   },
   {
     "assetId": "asset-amzn",
-    "timeframe": "month",
-    "timestamp": "2025-01-01T03:00:00.000Z",
-    "price": 184.41
+    "timeframe": "day",
+    "timestamp": "2025-05-27T19:00:00.000Z",
+    "price": 187.61
   },
   {
     "assetId": "asset-amzn",
-    "timeframe": "month",
-    "timestamp": "2025-02-01T03:00:00.000Z",
-    "price": 183.07
+    "timeframe": "day",
+    "timestamp": "2025-05-26T19:00:00.000Z",
+    "price": 186.45
   },
   {
     "assetId": "asset-amzn",
-    "timeframe": "month",
-    "timestamp": "2025-03-01T03:00:00.000Z",
-    "price": 177.62
+    "timeframe": "day",
+    "timestamp": "2025-05-25T19:00:00.000Z",
+    "price": 186.18
   },
   {
     "assetId": "asset-amzn",
-    "timeframe": "month",
-    "timestamp": "2025-04-01T03:00:00.000Z",
-    "price": 193.25
+    "timeframe": "day",
+    "timestamp": "2025-05-24T19:00:00.000Z",
+    "price": 186.11
   },
   {
     "assetId": "asset-amzn",
-    "timeframe": "month",
-    "timestamp": "2025-05-01T03:00:00.000Z",
-    "price": 176.42
+    "timeframe": "day",
+    "timestamp": "2025-05-23T19:00:00.000Z",
+    "price": 186.05
+  },
+  {
+    "assetId": "asset-amzn",
+    "timeframe": "day",
+    "timestamp": "2025-05-22T19:00:00.000Z",
+    "price": 181.99
+  },
+  {
+    "assetId": "asset-amzn",
+    "timeframe": "day",
+    "timestamp": "2025-05-21T19:00:00.000Z",
+    "price": 186.15
+  },
+  {
+    "assetId": "asset-amzn",
+    "timeframe": "day",
+    "timestamp": "2025-05-20T19:00:00.000Z",
+    "price": 186.45
+  },
+  {
+    "assetId": "asset-amzn",
+    "timeframe": "day",
+    "timestamp": "2025-05-19T19:00:00.000Z",
+    "price": 186.1
+  },
+  {
+    "assetId": "asset-amzn",
+    "timeframe": "day",
+    "timestamp": "2025-05-18T19:00:00.000Z",
+    "price": 182.81
+  },
+  {
+    "assetId": "asset-amzn",
+    "timeframe": "day",
+    "timestamp": "2025-05-17T19:00:00.000Z",
+    "price": 181.98
+  },
+  {
+    "assetId": "asset-amzn",
+    "timeframe": "day",
+    "timestamp": "2025-05-16T19:00:00.000Z",
+    "price": 183.49
+  },
+  {
+    "assetId": "asset-amzn",
+    "timeframe": "day",
+    "timestamp": "2025-05-15T19:00:00.000Z",
+    "price": 186.29
+  },
+  {
+    "assetId": "asset-amzn",
+    "timeframe": "day",
+    "timestamp": "2025-05-14T19:00:00.000Z",
+    "price": 184.83
+  },
+  {
+    "assetId": "asset-amzn",
+    "timeframe": "day",
+    "timestamp": "2025-05-13T19:00:00.000Z",
+    "price": 187.9
+  },
+  {
+    "assetId": "asset-amzn",
+    "timeframe": "day",
+    "timestamp": "2025-05-12T19:00:00.000Z",
+    "price": 183.91
+  },
+  {
+    "assetId": "asset-amzn",
+    "timeframe": "day",
+    "timestamp": "2025-05-11T19:00:00.000Z",
+    "price": 187.37
   },
   {
     "assetId": "asset-amzn",
     "timeframe": "month",
     "timestamp": "2025-06-01T03:00:00.000Z",
-    "price": 181.04
+    "price": 184.1
+  },
+  {
+    "assetId": "asset-amzn",
+    "timeframe": "month",
+    "timestamp": "2025-05-01T03:00:00.000Z",
+    "price": 182.56
+  },
+  {
+    "assetId": "asset-amzn",
+    "timeframe": "month",
+    "timestamp": "2025-04-01T03:00:00.000Z",
+    "price": 197.97
+  },
+  {
+    "assetId": "asset-amzn",
+    "timeframe": "month",
+    "timestamp": "2025-03-01T03:00:00.000Z",
+    "price": 181.43
+  },
+  {
+    "assetId": "asset-amzn",
+    "timeframe": "month",
+    "timestamp": "2025-02-01T03:00:00.000Z",
+    "price": 177.95
+  },
+  {
+    "assetId": "asset-amzn",
+    "timeframe": "month",
+    "timestamp": "2025-01-01T03:00:00.000Z",
+    "price": 190.44
+  },
+  {
+    "assetId": "asset-amzn",
+    "timeframe": "month",
+    "timestamp": "2024-12-01T03:00:00.000Z",
+    "price": 185.65
+  },
+  {
+    "assetId": "asset-amzn",
+    "timeframe": "month",
+    "timestamp": "2024-11-01T03:00:00.000Z",
+    "price": 186.21
+  },
+  {
+    "assetId": "asset-amzn",
+    "timeframe": "month",
+    "timestamp": "2024-10-01T03:00:00.000Z",
+    "price": 170.72
+  },
+  {
+    "assetId": "asset-amzn",
+    "timeframe": "month",
+    "timestamp": "2024-09-01T03:00:00.000Z",
+    "price": 190.36
+  },
+  {
+    "assetId": "asset-amzn",
+    "timeframe": "month",
+    "timestamp": "2024-08-01T03:00:00.000Z",
+    "price": 188.55
+  },
+  {
+    "assetId": "asset-amzn",
+    "timeframe": "month",
+    "timestamp": "2024-07-01T03:00:00.000Z",
+    "price": 177.23
   },
   {
     "assetId": "asset-tsla",
     "timeframe": "day",
-    "timestamp": "2025-05-05T19:00:00.000Z",
-    "price": 1014.77
+    "timestamp": "2025-06-09T19:00:00.000Z",
+    "price": 1010.49
   },
   {
     "assetId": "asset-tsla",
     "timeframe": "day",
-    "timestamp": "2025-05-06T19:00:00.000Z",
-    "price": 1011.55
+    "timestamp": "2025-06-08T19:00:00.000Z",
+    "price": 1020.45
   },
   {
     "assetId": "asset-tsla",
     "timeframe": "day",
-    "timestamp": "2025-05-07T19:00:00.000Z",
-    "price": 1014
+    "timestamp": "2025-06-07T19:00:00.000Z",
+    "price": 1006
   },
   {
     "assetId": "asset-tsla",
     "timeframe": "day",
-    "timestamp": "2025-05-08T19:00:00.000Z",
-    "price": 1011.91
+    "timestamp": "2025-06-06T19:00:00.000Z",
+    "price": 1033.52
   },
   {
     "assetId": "asset-tsla",
     "timeframe": "day",
-    "timestamp": "2025-05-09T19:00:00.000Z",
-    "price": 1016.97
+    "timestamp": "2025-06-05T19:00:00.000Z",
+    "price": 1016.21
   },
   {
     "assetId": "asset-tsla",
     "timeframe": "day",
-    "timestamp": "2025-05-12T19:00:00.000Z",
-    "price": 1010.17
+    "timestamp": "2025-06-04T19:00:00.000Z",
+    "price": 1029.04
   },
   {
     "assetId": "asset-tsla",
     "timeframe": "day",
-    "timestamp": "2025-05-13T19:00:00.000Z",
-    "price": 1018.24
+    "timestamp": "2025-06-03T19:00:00.000Z",
+    "price": 1000.55
   },
   {
     "assetId": "asset-tsla",
     "timeframe": "day",
-    "timestamp": "2025-05-14T19:00:00.000Z",
-    "price": 1011.84
+    "timestamp": "2025-06-02T19:00:00.000Z",
+    "price": 1016.16
   },
   {
     "assetId": "asset-tsla",
     "timeframe": "day",
-    "timestamp": "2025-05-15T19:00:00.000Z",
-    "price": 1016.54
+    "timestamp": "2025-06-01T19:00:00.000Z",
+    "price": 1018.49
   },
   {
     "assetId": "asset-tsla",
     "timeframe": "day",
-    "timestamp": "2025-05-16T19:00:00.000Z",
-    "price": 1017.58
+    "timestamp": "2025-05-31T19:00:00.000Z",
+    "price": 1019.8
   },
   {
     "assetId": "asset-tsla",
     "timeframe": "day",
-    "timestamp": "2025-05-19T19:00:00.000Z",
-    "price": 1010.9
-  },
-  {
-    "assetId": "asset-tsla",
-    "timeframe": "day",
-    "timestamp": "2025-05-20T19:00:00.000Z",
-    "price": 1010.56
-  },
-  {
-    "assetId": "asset-tsla",
-    "timeframe": "day",
-    "timestamp": "2025-05-21T19:00:00.000Z",
-    "price": 1009.55
-  },
-  {
-    "assetId": "asset-tsla",
-    "timeframe": "day",
-    "timestamp": "2025-05-22T19:00:00.000Z",
-    "price": 1015.56
-  },
-  {
-    "assetId": "asset-tsla",
-    "timeframe": "day",
-    "timestamp": "2025-05-23T19:00:00.000Z",
-    "price": 1010.72
-  },
-  {
-    "assetId": "asset-tsla",
-    "timeframe": "day",
-    "timestamp": "2025-05-26T19:00:00.000Z",
-    "price": 1013.08
-  },
-  {
-    "assetId": "asset-tsla",
-    "timeframe": "day",
-    "timestamp": "2025-05-27T19:00:00.000Z",
-    "price": 1011.97
-  },
-  {
-    "assetId": "asset-tsla",
-    "timeframe": "day",
-    "timestamp": "2025-05-28T19:00:00.000Z",
-    "price": 1013.57
+    "timestamp": "2025-05-30T19:00:00.000Z",
+    "price": 1012.96
   },
   {
     "assetId": "asset-tsla",
     "timeframe": "day",
     "timestamp": "2025-05-29T19:00:00.000Z",
+    "price": 1026.6
+  },
+  {
+    "assetId": "asset-tsla",
+    "timeframe": "day",
+    "timestamp": "2025-05-28T19:00:00.000Z",
+    "price": 1025.84
+  },
+  {
+    "assetId": "asset-tsla",
+    "timeframe": "day",
+    "timestamp": "2025-05-27T19:00:00.000Z",
+    "price": 1021.31
+  },
+  {
+    "assetId": "asset-tsla",
+    "timeframe": "day",
+    "timestamp": "2025-05-26T19:00:00.000Z",
+    "price": 1020.08
+  },
+  {
+    "assetId": "asset-tsla",
+    "timeframe": "day",
+    "timestamp": "2025-05-25T19:00:00.000Z",
+    "price": 1024.54
+  },
+  {
+    "assetId": "asset-tsla",
+    "timeframe": "day",
+    "timestamp": "2025-05-24T19:00:00.000Z",
+    "price": 1026.19
+  },
+  {
+    "assetId": "asset-tsla",
+    "timeframe": "day",
+    "timestamp": "2025-05-23T19:00:00.000Z",
+    "price": 1012.65
+  },
+  {
+    "assetId": "asset-tsla",
+    "timeframe": "day",
+    "timestamp": "2025-05-22T19:00:00.000Z",
     "price": 1015
   },
   {
     "assetId": "asset-tsla",
     "timeframe": "day",
-    "timestamp": "2025-05-30T19:00:00.000Z",
-    "price": 1017.88
+    "timestamp": "2025-05-21T19:00:00.000Z",
+    "price": 1030.57
   },
   {
     "assetId": "asset-tsla",
     "timeframe": "day",
-    "timestamp": "2025-06-02T19:00:00.000Z",
-    "price": 1017.89
+    "timestamp": "2025-05-20T19:00:00.000Z",
+    "price": 1030.58
   },
   {
     "assetId": "asset-tsla",
     "timeframe": "day",
-    "timestamp": "2025-06-03T19:00:00.000Z",
-    "price": 1012.33
+    "timestamp": "2025-05-19T19:00:00.000Z",
+    "price": 1017.93
   },
   {
     "assetId": "asset-tsla",
-    "timeframe": "month",
-    "timestamp": "2024-07-01T03:00:00.000Z",
-    "price": 984.15
+    "timeframe": "day",
+    "timestamp": "2025-05-18T19:00:00.000Z",
+    "price": 1003.6
   },
   {
     "assetId": "asset-tsla",
-    "timeframe": "month",
-    "timestamp": "2024-08-01T03:00:00.000Z",
-    "price": 973.29
+    "timeframe": "day",
+    "timestamp": "2025-05-17T19:00:00.000Z",
+    "price": 996.96
   },
   {
     "assetId": "asset-tsla",
-    "timeframe": "month",
-    "timestamp": "2024-09-01T03:00:00.000Z",
-    "price": 1006.85
+    "timeframe": "day",
+    "timestamp": "2025-05-16T19:00:00.000Z",
+    "price": 1021.9
   },
   {
     "assetId": "asset-tsla",
-    "timeframe": "month",
-    "timestamp": "2024-10-01T03:00:00.000Z",
-    "price": 980.31
+    "timeframe": "day",
+    "timestamp": "2025-05-15T19:00:00.000Z",
+    "price": 1027.1
   },
   {
     "assetId": "asset-tsla",
-    "timeframe": "month",
-    "timestamp": "2024-11-01T03:00:00.000Z",
-    "price": 977.92
+    "timeframe": "day",
+    "timestamp": "2025-05-14T19:00:00.000Z",
+    "price": 1023.04
   },
   {
     "assetId": "asset-tsla",
-    "timeframe": "month",
-    "timestamp": "2024-12-01T03:00:00.000Z",
-    "price": 1019.28
+    "timeframe": "day",
+    "timestamp": "2025-05-13T19:00:00.000Z",
+    "price": 1026.08
   },
   {
     "assetId": "asset-tsla",
-    "timeframe": "month",
-    "timestamp": "2025-01-01T03:00:00.000Z",
-    "price": 1030.14
+    "timeframe": "day",
+    "timestamp": "2025-05-12T19:00:00.000Z",
+    "price": 1005.62
   },
   {
     "assetId": "asset-tsla",
-    "timeframe": "month",
-    "timestamp": "2025-02-01T03:00:00.000Z",
-    "price": 1014.71
-  },
-  {
-    "assetId": "asset-tsla",
-    "timeframe": "month",
-    "timestamp": "2025-03-01T03:00:00.000Z",
-    "price": 1002
-  },
-  {
-    "assetId": "asset-tsla",
-    "timeframe": "month",
-    "timestamp": "2025-04-01T03:00:00.000Z",
-    "price": 993.84
-  },
-  {
-    "assetId": "asset-tsla",
-    "timeframe": "month",
-    "timestamp": "2025-05-01T03:00:00.000Z",
-    "price": 1012.16
+    "timeframe": "day",
+    "timestamp": "2025-05-11T19:00:00.000Z",
+    "price": 1028.44
   },
   {
     "assetId": "asset-tsla",
     "timeframe": "month",
     "timestamp": "2025-06-01T03:00:00.000Z",
-    "price": 969.81
+    "price": 1101.96
+  },
+  {
+    "assetId": "asset-tsla",
+    "timeframe": "month",
+    "timestamp": "2025-05-01T03:00:00.000Z",
+    "price": 971.82
+  },
+  {
+    "assetId": "asset-tsla",
+    "timeframe": "month",
+    "timestamp": "2025-04-01T03:00:00.000Z",
+    "price": 1078.79
+  },
+  {
+    "assetId": "asset-tsla",
+    "timeframe": "month",
+    "timestamp": "2025-03-01T03:00:00.000Z",
+    "price": 957.46
+  },
+  {
+    "assetId": "asset-tsla",
+    "timeframe": "month",
+    "timestamp": "2025-02-01T03:00:00.000Z",
+    "price": 1021.84
+  },
+  {
+    "assetId": "asset-tsla",
+    "timeframe": "month",
+    "timestamp": "2025-01-01T03:00:00.000Z",
+    "price": 1105.48
+  },
+  {
+    "assetId": "asset-tsla",
+    "timeframe": "month",
+    "timestamp": "2024-12-01T03:00:00.000Z",
+    "price": 1065.36
+  },
+  {
+    "assetId": "asset-tsla",
+    "timeframe": "month",
+    "timestamp": "2024-11-01T03:00:00.000Z",
+    "price": 1089.05
+  },
+  {
+    "assetId": "asset-tsla",
+    "timeframe": "month",
+    "timestamp": "2024-10-01T03:00:00.000Z",
+    "price": 1016.44
+  },
+  {
+    "assetId": "asset-tsla",
+    "timeframe": "month",
+    "timestamp": "2024-09-01T03:00:00.000Z",
+    "price": 991.61
+  },
+  {
+    "assetId": "asset-tsla",
+    "timeframe": "month",
+    "timestamp": "2024-08-01T03:00:00.000Z",
+    "price": 1069.32
+  },
+  {
+    "assetId": "asset-tsla",
+    "timeframe": "month",
+    "timestamp": "2024-07-01T03:00:00.000Z",
+    "price": 1009.64
   },
   {
     "assetId": "asset-btc",
     "timeframe": "day",
-    "timestamp": "2025-05-05T19:00:00.000Z",
-    "price": 68089.14
+    "timestamp": "2025-06-09T19:00:00.000Z",
+    "price": 69565.86
   },
   {
     "assetId": "asset-btc",
     "timeframe": "day",
-    "timestamp": "2025-05-06T19:00:00.000Z",
-    "price": 68139.52
+    "timestamp": "2025-06-08T19:00:00.000Z",
+    "price": 67589.82
   },
   {
     "assetId": "asset-btc",
     "timeframe": "day",
-    "timestamp": "2025-05-07T19:00:00.000Z",
-    "price": 68515.27
+    "timestamp": "2025-06-07T19:00:00.000Z",
+    "price": 66964.37
   },
   {
     "assetId": "asset-btc",
     "timeframe": "day",
-    "timestamp": "2025-05-08T19:00:00.000Z",
-    "price": 68125.06
+    "timestamp": "2025-06-06T19:00:00.000Z",
+    "price": 68528.29
   },
   {
     "assetId": "asset-btc",
     "timeframe": "day",
-    "timestamp": "2025-05-09T19:00:00.000Z",
-    "price": 68315.76
+    "timestamp": "2025-06-05T19:00:00.000Z",
+    "price": 67933.97
   },
   {
     "assetId": "asset-btc",
     "timeframe": "day",
-    "timestamp": "2025-05-12T19:00:00.000Z",
-    "price": 67969.76
+    "timestamp": "2025-06-04T19:00:00.000Z",
+    "price": 69564.9
   },
   {
     "assetId": "asset-btc",
     "timeframe": "day",
-    "timestamp": "2025-05-13T19:00:00.000Z",
-    "price": 68179.02
+    "timestamp": "2025-06-03T19:00:00.000Z",
+    "price": 66931.8
   },
   {
     "assetId": "asset-btc",
     "timeframe": "day",
-    "timestamp": "2025-05-14T19:00:00.000Z",
-    "price": 68468.88
+    "timestamp": "2025-06-02T19:00:00.000Z",
+    "price": 67721.66
   },
   {
     "assetId": "asset-btc",
     "timeframe": "day",
-    "timestamp": "2025-05-15T19:00:00.000Z",
-    "price": 68238.59
+    "timestamp": "2025-06-01T19:00:00.000Z",
+    "price": 68304.71
   },
   {
     "assetId": "asset-btc",
     "timeframe": "day",
-    "timestamp": "2025-05-16T19:00:00.000Z",
-    "price": 68496.11
+    "timestamp": "2025-05-31T19:00:00.000Z",
+    "price": 67322.91
   },
   {
     "assetId": "asset-btc",
     "timeframe": "day",
-    "timestamp": "2025-05-19T19:00:00.000Z",
-    "price": 67950.39
-  },
-  {
-    "assetId": "asset-btc",
-    "timeframe": "day",
-    "timestamp": "2025-05-20T19:00:00.000Z",
-    "price": 68167.41
-  },
-  {
-    "assetId": "asset-btc",
-    "timeframe": "day",
-    "timestamp": "2025-05-21T19:00:00.000Z",
-    "price": 68015.32
-  },
-  {
-    "assetId": "asset-btc",
-    "timeframe": "day",
-    "timestamp": "2025-05-22T19:00:00.000Z",
-    "price": 68044.98
-  },
-  {
-    "assetId": "asset-btc",
-    "timeframe": "day",
-    "timestamp": "2025-05-23T19:00:00.000Z",
-    "price": 68392
-  },
-  {
-    "assetId": "asset-btc",
-    "timeframe": "day",
-    "timestamp": "2025-05-26T19:00:00.000Z",
-    "price": 68251.35
-  },
-  {
-    "assetId": "asset-btc",
-    "timeframe": "day",
-    "timestamp": "2025-05-27T19:00:00.000Z",
-    "price": 68480.6
-  },
-  {
-    "assetId": "asset-btc",
-    "timeframe": "day",
-    "timestamp": "2025-05-28T19:00:00.000Z",
-    "price": 68519.1
+    "timestamp": "2025-05-30T19:00:00.000Z",
+    "price": 68564.27
   },
   {
     "assetId": "asset-btc",
     "timeframe": "day",
     "timestamp": "2025-05-29T19:00:00.000Z",
-    "price": 68286.82
+    "price": 68390.86
   },
   {
     "assetId": "asset-btc",
     "timeframe": "day",
-    "timestamp": "2025-05-30T19:00:00.000Z",
-    "price": 67905.15
+    "timestamp": "2025-05-28T19:00:00.000Z",
+    "price": 67838
   },
   {
     "assetId": "asset-btc",
     "timeframe": "day",
-    "timestamp": "2025-06-02T19:00:00.000Z",
-    "price": 68045.43
+    "timestamp": "2025-05-27T19:00:00.000Z",
+    "price": 68889.41
   },
   {
     "assetId": "asset-btc",
     "timeframe": "day",
-    "timestamp": "2025-06-03T19:00:00.000Z",
-    "price": 68217.72
+    "timestamp": "2025-05-26T19:00:00.000Z",
+    "price": 67850.15
   },
   {
     "assetId": "asset-btc",
-    "timeframe": "month",
-    "timestamp": "2024-07-01T03:00:00.000Z",
-    "price": 67018.59
+    "timeframe": "day",
+    "timestamp": "2025-05-25T19:00:00.000Z",
+    "price": 67428.9
   },
   {
     "assetId": "asset-btc",
-    "timeframe": "month",
-    "timestamp": "2024-08-01T03:00:00.000Z",
-    "price": 67394.71
+    "timeframe": "day",
+    "timestamp": "2025-05-24T19:00:00.000Z",
+    "price": 68673.27
   },
   {
     "assetId": "asset-btc",
-    "timeframe": "month",
-    "timestamp": "2024-09-01T03:00:00.000Z",
-    "price": 71616.59
+    "timeframe": "day",
+    "timestamp": "2025-05-23T19:00:00.000Z",
+    "price": 68796.29
   },
   {
     "assetId": "asset-btc",
-    "timeframe": "month",
-    "timestamp": "2024-10-01T03:00:00.000Z",
-    "price": 70361.29
+    "timeframe": "day",
+    "timestamp": "2025-05-22T19:00:00.000Z",
+    "price": 69516.25
   },
   {
     "assetId": "asset-btc",
-    "timeframe": "month",
-    "timestamp": "2024-11-01T03:00:00.000Z",
-    "price": 65323.18
+    "timeframe": "day",
+    "timestamp": "2025-05-21T19:00:00.000Z",
+    "price": 67011.89
   },
   {
     "assetId": "asset-btc",
-    "timeframe": "month",
-    "timestamp": "2024-12-01T03:00:00.000Z",
-    "price": 70038.61
+    "timeframe": "day",
+    "timestamp": "2025-05-20T19:00:00.000Z",
+    "price": 68254.68
   },
   {
     "assetId": "asset-btc",
-    "timeframe": "month",
-    "timestamp": "2025-01-01T03:00:00.000Z",
-    "price": 68521
+    "timeframe": "day",
+    "timestamp": "2025-05-19T19:00:00.000Z",
+    "price": 69432.62
   },
   {
     "assetId": "asset-btc",
-    "timeframe": "month",
-    "timestamp": "2025-02-01T03:00:00.000Z",
-    "price": 66284.74
+    "timeframe": "day",
+    "timestamp": "2025-05-18T19:00:00.000Z",
+    "price": 67509.23
   },
   {
     "assetId": "asset-btc",
-    "timeframe": "month",
-    "timestamp": "2025-03-01T03:00:00.000Z",
-    "price": 68571.13
+    "timeframe": "day",
+    "timestamp": "2025-05-17T19:00:00.000Z",
+    "price": 67035
   },
   {
     "assetId": "asset-btc",
-    "timeframe": "month",
-    "timestamp": "2025-04-01T03:00:00.000Z",
-    "price": 69889.67
+    "timeframe": "day",
+    "timestamp": "2025-05-16T19:00:00.000Z",
+    "price": 67581.34
   },
   {
     "assetId": "asset-btc",
-    "timeframe": "month",
-    "timestamp": "2025-05-01T03:00:00.000Z",
-    "price": 71108.53
+    "timeframe": "day",
+    "timestamp": "2025-05-15T19:00:00.000Z",
+    "price": 66953.26
+  },
+  {
+    "assetId": "asset-btc",
+    "timeframe": "day",
+    "timestamp": "2025-05-14T19:00:00.000Z",
+    "price": 67561.18
+  },
+  {
+    "assetId": "asset-btc",
+    "timeframe": "day",
+    "timestamp": "2025-05-13T19:00:00.000Z",
+    "price": 69187.5
+  },
+  {
+    "assetId": "asset-btc",
+    "timeframe": "day",
+    "timestamp": "2025-05-12T19:00:00.000Z",
+    "price": 68872.17
+  },
+  {
+    "assetId": "asset-btc",
+    "timeframe": "day",
+    "timestamp": "2025-05-11T19:00:00.000Z",
+    "price": 68134.64
   },
   {
     "assetId": "asset-btc",
     "timeframe": "month",
     "timestamp": "2025-06-01T03:00:00.000Z",
-    "price": 66477.25
+    "price": 64031.23
+  },
+  {
+    "assetId": "asset-btc",
+    "timeframe": "month",
+    "timestamp": "2025-05-01T03:00:00.000Z",
+    "price": 72355.09
+  },
+  {
+    "assetId": "asset-btc",
+    "timeframe": "month",
+    "timestamp": "2025-04-01T03:00:00.000Z",
+    "price": 71090.38
+  },
+  {
+    "assetId": "asset-btc",
+    "timeframe": "month",
+    "timestamp": "2025-03-01T03:00:00.000Z",
+    "price": 69503.98
+  },
+  {
+    "assetId": "asset-btc",
+    "timeframe": "month",
+    "timestamp": "2025-02-01T03:00:00.000Z",
+    "price": 73454.51
+  },
+  {
+    "assetId": "asset-btc",
+    "timeframe": "month",
+    "timestamp": "2025-01-01T03:00:00.000Z",
+    "price": 65560.95
+  },
+  {
+    "assetId": "asset-btc",
+    "timeframe": "month",
+    "timestamp": "2024-12-01T03:00:00.000Z",
+    "price": 64386.93
+  },
+  {
+    "assetId": "asset-btc",
+    "timeframe": "month",
+    "timestamp": "2024-11-01T03:00:00.000Z",
+    "price": 68313.37
+  },
+  {
+    "assetId": "asset-btc",
+    "timeframe": "month",
+    "timestamp": "2024-10-01T03:00:00.000Z",
+    "price": 65901.92
+  },
+  {
+    "assetId": "asset-btc",
+    "timeframe": "month",
+    "timestamp": "2024-09-01T03:00:00.000Z",
+    "price": 68686.96
+  },
+  {
+    "assetId": "asset-btc",
+    "timeframe": "month",
+    "timestamp": "2024-08-01T03:00:00.000Z",
+    "price": 64170.72
+  },
+  {
+    "assetId": "asset-btc",
+    "timeframe": "month",
+    "timestamp": "2024-07-01T03:00:00.000Z",
+    "price": 65497.5
   },
   {
     "assetId": "asset-eth",
     "timeframe": "day",
-    "timestamp": "2025-05-05T19:00:00.000Z",
-    "price": 4806.27
+    "timestamp": "2025-06-09T19:00:00.000Z",
+    "price": 4735.01
   },
   {
     "assetId": "asset-eth",
     "timeframe": "day",
-    "timestamp": "2025-05-06T19:00:00.000Z",
-    "price": 4835.44
+    "timestamp": "2025-06-08T19:00:00.000Z",
+    "price": 4787.55
   },
   {
     "assetId": "asset-eth",
     "timeframe": "day",
-    "timestamp": "2025-05-07T19:00:00.000Z",
-    "price": 4820.84
+    "timestamp": "2025-06-07T19:00:00.000Z",
+    "price": 4837.18
   },
   {
     "assetId": "asset-eth",
     "timeframe": "day",
-    "timestamp": "2025-05-08T19:00:00.000Z",
-    "price": 4810.7
+    "timestamp": "2025-06-06T19:00:00.000Z",
+    "price": 4829.21
   },
   {
     "assetId": "asset-eth",
     "timeframe": "day",
-    "timestamp": "2025-05-09T19:00:00.000Z",
-    "price": 4810.86
+    "timestamp": "2025-06-05T19:00:00.000Z",
+    "price": 4833.95
   },
   {
     "assetId": "asset-eth",
     "timeframe": "day",
-    "timestamp": "2025-05-12T19:00:00.000Z",
-    "price": 4826.83
+    "timestamp": "2025-06-04T19:00:00.000Z",
+    "price": 4823.63
   },
   {
     "assetId": "asset-eth",
     "timeframe": "day",
-    "timestamp": "2025-05-13T19:00:00.000Z",
-    "price": 4818.31
+    "timestamp": "2025-06-03T19:00:00.000Z",
+    "price": 4860.58
   },
   {
     "assetId": "asset-eth",
     "timeframe": "day",
-    "timestamp": "2025-05-14T19:00:00.000Z",
-    "price": 4833.05
+    "timestamp": "2025-06-02T19:00:00.000Z",
+    "price": 4769.27
   },
   {
     "assetId": "asset-eth",
     "timeframe": "day",
-    "timestamp": "2025-05-15T19:00:00.000Z",
-    "price": 4836.77
+    "timestamp": "2025-06-01T19:00:00.000Z",
+    "price": 4859.7
   },
   {
     "assetId": "asset-eth",
     "timeframe": "day",
-    "timestamp": "2025-05-16T19:00:00.000Z",
-    "price": 4816.17
+    "timestamp": "2025-05-31T19:00:00.000Z",
+    "price": 4798.4
   },
   {
     "assetId": "asset-eth",
     "timeframe": "day",
-    "timestamp": "2025-05-19T19:00:00.000Z",
-    "price": 4830.22
-  },
-  {
-    "assetId": "asset-eth",
-    "timeframe": "day",
-    "timestamp": "2025-05-20T19:00:00.000Z",
-    "price": 4811.42
-  },
-  {
-    "assetId": "asset-eth",
-    "timeframe": "day",
-    "timestamp": "2025-05-21T19:00:00.000Z",
-    "price": 4833.48
-  },
-  {
-    "assetId": "asset-eth",
-    "timeframe": "day",
-    "timestamp": "2025-05-22T19:00:00.000Z",
-    "price": 4843.22
-  },
-  {
-    "assetId": "asset-eth",
-    "timeframe": "day",
-    "timestamp": "2025-05-23T19:00:00.000Z",
-    "price": 4817.56
-  },
-  {
-    "assetId": "asset-eth",
-    "timeframe": "day",
-    "timestamp": "2025-05-26T19:00:00.000Z",
-    "price": 4803.66
-  },
-  {
-    "assetId": "asset-eth",
-    "timeframe": "day",
-    "timestamp": "2025-05-27T19:00:00.000Z",
-    "price": 4833.92
-  },
-  {
-    "assetId": "asset-eth",
-    "timeframe": "day",
-    "timestamp": "2025-05-28T19:00:00.000Z",
-    "price": 4834.15
+    "timestamp": "2025-05-30T19:00:00.000Z",
+    "price": 4835.22
   },
   {
     "assetId": "asset-eth",
     "timeframe": "day",
     "timestamp": "2025-05-29T19:00:00.000Z",
-    "price": 4806.56
+    "price": 4840.69
   },
   {
     "assetId": "asset-eth",
     "timeframe": "day",
-    "timestamp": "2025-05-30T19:00:00.000Z",
-    "price": 4831.1
+    "timestamp": "2025-05-28T19:00:00.000Z",
+    "price": 4900.83
   },
   {
     "assetId": "asset-eth",
     "timeframe": "day",
-    "timestamp": "2025-06-02T19:00:00.000Z",
-    "price": 4799.64
+    "timestamp": "2025-05-27T19:00:00.000Z",
+    "price": 4831.27
   },
   {
     "assetId": "asset-eth",
     "timeframe": "day",
-    "timestamp": "2025-06-03T19:00:00.000Z",
-    "price": 4802.05
+    "timestamp": "2025-05-26T19:00:00.000Z",
+    "price": 4754.72
   },
   {
     "assetId": "asset-eth",
-    "timeframe": "month",
-    "timestamp": "2024-07-01T03:00:00.000Z",
-    "price": 4664.54
+    "timeframe": "day",
+    "timestamp": "2025-05-25T19:00:00.000Z",
+    "price": 4889.78
   },
   {
     "assetId": "asset-eth",
-    "timeframe": "month",
-    "timestamp": "2024-08-01T03:00:00.000Z",
-    "price": 4982.26
+    "timeframe": "day",
+    "timestamp": "2025-05-24T19:00:00.000Z",
+    "price": 4826.52
   },
   {
     "assetId": "asset-eth",
-    "timeframe": "month",
-    "timestamp": "2024-09-01T03:00:00.000Z",
-    "price": 4922.06
+    "timeframe": "day",
+    "timestamp": "2025-05-23T19:00:00.000Z",
+    "price": 4734.78
   },
   {
     "assetId": "asset-eth",
-    "timeframe": "month",
-    "timestamp": "2024-10-01T03:00:00.000Z",
-    "price": 4708.5
+    "timeframe": "day",
+    "timestamp": "2025-05-22T19:00:00.000Z",
+    "price": 4751.17
   },
   {
     "assetId": "asset-eth",
-    "timeframe": "month",
-    "timestamp": "2024-11-01T03:00:00.000Z",
-    "price": 4628.97
+    "timeframe": "day",
+    "timestamp": "2025-05-21T19:00:00.000Z",
+    "price": 4785.77
   },
   {
     "assetId": "asset-eth",
-    "timeframe": "month",
-    "timestamp": "2024-12-01T03:00:00.000Z",
-    "price": 4873.81
+    "timeframe": "day",
+    "timestamp": "2025-05-20T19:00:00.000Z",
+    "price": 4909.47
   },
   {
     "assetId": "asset-eth",
-    "timeframe": "month",
-    "timestamp": "2025-01-01T03:00:00.000Z",
-    "price": 4589.58
+    "timeframe": "day",
+    "timestamp": "2025-05-19T19:00:00.000Z",
+    "price": 4774.3
   },
   {
     "assetId": "asset-eth",
-    "timeframe": "month",
-    "timestamp": "2025-02-01T03:00:00.000Z",
-    "price": 4844.62
+    "timeframe": "day",
+    "timestamp": "2025-05-18T19:00:00.000Z",
+    "price": 4823.35
   },
   {
     "assetId": "asset-eth",
-    "timeframe": "month",
-    "timestamp": "2025-03-01T03:00:00.000Z",
-    "price": 4981.1
+    "timeframe": "day",
+    "timestamp": "2025-05-17T19:00:00.000Z",
+    "price": 4871.05
   },
   {
     "assetId": "asset-eth",
-    "timeframe": "month",
-    "timestamp": "2025-04-01T03:00:00.000Z",
-    "price": 4663.7
+    "timeframe": "day",
+    "timestamp": "2025-05-16T19:00:00.000Z",
+    "price": 4913.14
   },
   {
     "assetId": "asset-eth",
-    "timeframe": "month",
-    "timestamp": "2025-05-01T03:00:00.000Z",
-    "price": 4821.96
+    "timeframe": "day",
+    "timestamp": "2025-05-15T19:00:00.000Z",
+    "price": 4919.44
+  },
+  {
+    "assetId": "asset-eth",
+    "timeframe": "day",
+    "timestamp": "2025-05-14T19:00:00.000Z",
+    "price": 4914.21
+  },
+  {
+    "assetId": "asset-eth",
+    "timeframe": "day",
+    "timestamp": "2025-05-13T19:00:00.000Z",
+    "price": 4880.9
+  },
+  {
+    "assetId": "asset-eth",
+    "timeframe": "day",
+    "timestamp": "2025-05-12T19:00:00.000Z",
+    "price": 4839.23
+  },
+  {
+    "assetId": "asset-eth",
+    "timeframe": "day",
+    "timestamp": "2025-05-11T19:00:00.000Z",
+    "price": 4746.76
   },
   {
     "assetId": "asset-eth",
     "timeframe": "month",
     "timestamp": "2025-06-01T03:00:00.000Z",
-    "price": 4709.26
+    "price": 4813
+  },
+  {
+    "assetId": "asset-eth",
+    "timeframe": "month",
+    "timestamp": "2025-05-01T03:00:00.000Z",
+    "price": 4710.73
+  },
+  {
+    "assetId": "asset-eth",
+    "timeframe": "month",
+    "timestamp": "2025-04-01T03:00:00.000Z",
+    "price": 5120.23
+  },
+  {
+    "assetId": "asset-eth",
+    "timeframe": "month",
+    "timestamp": "2025-03-01T03:00:00.000Z",
+    "price": 4921.21
+  },
+  {
+    "assetId": "asset-eth",
+    "timeframe": "month",
+    "timestamp": "2025-02-01T03:00:00.000Z",
+    "price": 4458.5
+  },
+  {
+    "assetId": "asset-eth",
+    "timeframe": "month",
+    "timestamp": "2025-01-01T03:00:00.000Z",
+    "price": 5055.2
+  },
+  {
+    "assetId": "asset-eth",
+    "timeframe": "month",
+    "timestamp": "2024-12-01T03:00:00.000Z",
+    "price": 4514.56
+  },
+  {
+    "assetId": "asset-eth",
+    "timeframe": "month",
+    "timestamp": "2024-11-01T03:00:00.000Z",
+    "price": 4999.03
+  },
+  {
+    "assetId": "asset-eth",
+    "timeframe": "month",
+    "timestamp": "2024-10-01T03:00:00.000Z",
+    "price": 5222.11
+  },
+  {
+    "assetId": "asset-eth",
+    "timeframe": "month",
+    "timestamp": "2024-09-01T03:00:00.000Z",
+    "price": 4773.57
+  },
+  {
+    "assetId": "asset-eth",
+    "timeframe": "month",
+    "timestamp": "2024-08-01T03:00:00.000Z",
+    "price": 4902.87
+  },
+  {
+    "assetId": "asset-eth",
+    "timeframe": "month",
+    "timestamp": "2024-07-01T03:00:00.000Z",
+    "price": 5123.02
   },
   {
     "assetId": "asset-bnb",
     "timeframe": "day",
-    "timestamp": "2025-05-05T19:00:00.000Z",
-    "price": 591.63
+    "timestamp": "2025-06-09T19:00:00.000Z",
+    "price": 591.56
   },
   {
     "assetId": "asset-bnb",
     "timeframe": "day",
-    "timestamp": "2025-05-06T19:00:00.000Z",
-    "price": 590.71
+    "timestamp": "2025-06-08T19:00:00.000Z",
+    "price": 589.63
   },
   {
     "assetId": "asset-bnb",
     "timeframe": "day",
-    "timestamp": "2025-05-07T19:00:00.000Z",
-    "price": 586.7
+    "timestamp": "2025-06-07T19:00:00.000Z",
+    "price": 581.04
   },
   {
     "assetId": "asset-bnb",
     "timeframe": "day",
-    "timestamp": "2025-05-08T19:00:00.000Z",
-    "price": 588.75
+    "timestamp": "2025-06-06T19:00:00.000Z",
+    "price": 591.99
   },
   {
     "assetId": "asset-bnb",
     "timeframe": "day",
-    "timestamp": "2025-05-09T19:00:00.000Z",
-    "price": 586.33
+    "timestamp": "2025-06-05T19:00:00.000Z",
+    "price": 577.55
   },
   {
     "assetId": "asset-bnb",
     "timeframe": "day",
-    "timestamp": "2025-05-12T19:00:00.000Z",
-    "price": 589.39
+    "timestamp": "2025-06-04T19:00:00.000Z",
+    "price": 580.79
   },
   {
     "assetId": "asset-bnb",
     "timeframe": "day",
-    "timestamp": "2025-05-13T19:00:00.000Z",
-    "price": 588.75
+    "timestamp": "2025-06-03T19:00:00.000Z",
+    "price": 597.36
   },
   {
     "assetId": "asset-bnb",
     "timeframe": "day",
-    "timestamp": "2025-05-14T19:00:00.000Z",
-    "price": 586.64
+    "timestamp": "2025-06-02T19:00:00.000Z",
+    "price": 600.39
   },
   {
     "assetId": "asset-bnb",
     "timeframe": "day",
-    "timestamp": "2025-05-15T19:00:00.000Z",
-    "price": 589.14
+    "timestamp": "2025-06-01T19:00:00.000Z",
+    "price": 597.97
   },
   {
     "assetId": "asset-bnb",
     "timeframe": "day",
-    "timestamp": "2025-05-16T19:00:00.000Z",
-    "price": 590.77
+    "timestamp": "2025-05-31T19:00:00.000Z",
+    "price": 598.04
   },
   {
     "assetId": "asset-bnb",
     "timeframe": "day",
-    "timestamp": "2025-05-19T19:00:00.000Z",
-    "price": 586.33
-  },
-  {
-    "assetId": "asset-bnb",
-    "timeframe": "day",
-    "timestamp": "2025-05-20T19:00:00.000Z",
-    "price": 591.35
-  },
-  {
-    "assetId": "asset-bnb",
-    "timeframe": "day",
-    "timestamp": "2025-05-21T19:00:00.000Z",
-    "price": 587.46
-  },
-  {
-    "assetId": "asset-bnb",
-    "timeframe": "day",
-    "timestamp": "2025-05-22T19:00:00.000Z",
-    "price": 591.41
-  },
-  {
-    "assetId": "asset-bnb",
-    "timeframe": "day",
-    "timestamp": "2025-05-23T19:00:00.000Z",
-    "price": 587.24
-  },
-  {
-    "assetId": "asset-bnb",
-    "timeframe": "day",
-    "timestamp": "2025-05-26T19:00:00.000Z",
-    "price": 590.42
-  },
-  {
-    "assetId": "asset-bnb",
-    "timeframe": "day",
-    "timestamp": "2025-05-27T19:00:00.000Z",
-    "price": 587.2
-  },
-  {
-    "assetId": "asset-bnb",
-    "timeframe": "day",
-    "timestamp": "2025-05-28T19:00:00.000Z",
-    "price": 589.35
+    "timestamp": "2025-05-30T19:00:00.000Z",
+    "price": 579.41
   },
   {
     "assetId": "asset-bnb",
     "timeframe": "day",
     "timestamp": "2025-05-29T19:00:00.000Z",
-    "price": 588.52
+    "price": 599.97
   },
   {
     "assetId": "asset-bnb",
     "timeframe": "day",
-    "timestamp": "2025-05-30T19:00:00.000Z",
-    "price": 588.39
+    "timestamp": "2025-05-28T19:00:00.000Z",
+    "price": 586.29
   },
   {
     "assetId": "asset-bnb",
     "timeframe": "day",
-    "timestamp": "2025-06-02T19:00:00.000Z",
-    "price": 590.62
+    "timestamp": "2025-05-27T19:00:00.000Z",
+    "price": 599.01
   },
   {
     "assetId": "asset-bnb",
     "timeframe": "day",
-    "timestamp": "2025-06-03T19:00:00.000Z",
-    "price": 591.57
+    "timestamp": "2025-05-26T19:00:00.000Z",
+    "price": 591.87
   },
   {
     "assetId": "asset-bnb",
-    "timeframe": "month",
-    "timestamp": "2024-07-01T03:00:00.000Z",
-    "price": 578.97
+    "timeframe": "day",
+    "timestamp": "2025-05-25T19:00:00.000Z",
+    "price": 588.48
   },
   {
     "assetId": "asset-bnb",
-    "timeframe": "month",
-    "timestamp": "2024-08-01T03:00:00.000Z",
-    "price": 571.66
+    "timeframe": "day",
+    "timestamp": "2025-05-24T19:00:00.000Z",
+    "price": 594.19
   },
   {
     "assetId": "asset-bnb",
-    "timeframe": "month",
-    "timestamp": "2024-09-01T03:00:00.000Z",
-    "price": 614.07
+    "timeframe": "day",
+    "timestamp": "2025-05-23T19:00:00.000Z",
+    "price": 577.36
   },
   {
     "assetId": "asset-bnb",
-    "timeframe": "month",
-    "timestamp": "2024-10-01T03:00:00.000Z",
-    "price": 566.95
+    "timeframe": "day",
+    "timestamp": "2025-05-22T19:00:00.000Z",
+    "price": 591.15
   },
   {
     "assetId": "asset-bnb",
-    "timeframe": "month",
-    "timestamp": "2024-11-01T03:00:00.000Z",
-    "price": 603.1
+    "timeframe": "day",
+    "timestamp": "2025-05-21T19:00:00.000Z",
+    "price": 598.21
   },
   {
     "assetId": "asset-bnb",
-    "timeframe": "month",
-    "timestamp": "2024-12-01T03:00:00.000Z",
-    "price": 587.6
+    "timeframe": "day",
+    "timestamp": "2025-05-20T19:00:00.000Z",
+    "price": 587.11
   },
   {
     "assetId": "asset-bnb",
-    "timeframe": "month",
-    "timestamp": "2025-01-01T03:00:00.000Z",
-    "price": 573.1
+    "timeframe": "day",
+    "timestamp": "2025-05-19T19:00:00.000Z",
+    "price": 599.45
   },
   {
     "assetId": "asset-bnb",
-    "timeframe": "month",
-    "timestamp": "2025-02-01T03:00:00.000Z",
-    "price": 575.88
+    "timeframe": "day",
+    "timestamp": "2025-05-18T19:00:00.000Z",
+    "price": 597.76
   },
   {
     "assetId": "asset-bnb",
-    "timeframe": "month",
-    "timestamp": "2025-03-01T03:00:00.000Z",
-    "price": 609.1
+    "timeframe": "day",
+    "timestamp": "2025-05-17T19:00:00.000Z",
+    "price": 581.01
   },
   {
     "assetId": "asset-bnb",
-    "timeframe": "month",
-    "timestamp": "2025-04-01T03:00:00.000Z",
-    "price": 562.79
+    "timeframe": "day",
+    "timestamp": "2025-05-16T19:00:00.000Z",
+    "price": 596.79
   },
   {
     "assetId": "asset-bnb",
-    "timeframe": "month",
-    "timestamp": "2025-05-01T03:00:00.000Z",
-    "price": 605.51
+    "timeframe": "day",
+    "timestamp": "2025-05-15T19:00:00.000Z",
+    "price": 578.76
+  },
+  {
+    "assetId": "asset-bnb",
+    "timeframe": "day",
+    "timestamp": "2025-05-14T19:00:00.000Z",
+    "price": 592.58
+  },
+  {
+    "assetId": "asset-bnb",
+    "timeframe": "day",
+    "timestamp": "2025-05-13T19:00:00.000Z",
+    "price": 581.67
+  },
+  {
+    "assetId": "asset-bnb",
+    "timeframe": "day",
+    "timestamp": "2025-05-12T19:00:00.000Z",
+    "price": 579.62
+  },
+  {
+    "assetId": "asset-bnb",
+    "timeframe": "day",
+    "timestamp": "2025-05-11T19:00:00.000Z",
+    "price": 586.98
   },
   {
     "assetId": "asset-bnb",
     "timeframe": "month",
     "timestamp": "2025-06-01T03:00:00.000Z",
-    "price": 571.77
+    "price": 545.12
+  },
+  {
+    "assetId": "asset-bnb",
+    "timeframe": "month",
+    "timestamp": "2025-05-01T03:00:00.000Z",
+    "price": 546.1
+  },
+  {
+    "assetId": "asset-bnb",
+    "timeframe": "month",
+    "timestamp": "2025-04-01T03:00:00.000Z",
+    "price": 635.21
+  },
+  {
+    "assetId": "asset-bnb",
+    "timeframe": "month",
+    "timestamp": "2025-03-01T03:00:00.000Z",
+    "price": 552.73
+  },
+  {
+    "assetId": "asset-bnb",
+    "timeframe": "month",
+    "timestamp": "2025-02-01T03:00:00.000Z",
+    "price": 644.16
+  },
+  {
+    "assetId": "asset-bnb",
+    "timeframe": "month",
+    "timestamp": "2025-01-01T03:00:00.000Z",
+    "price": 600.86
+  },
+  {
+    "assetId": "asset-bnb",
+    "timeframe": "month",
+    "timestamp": "2024-12-01T03:00:00.000Z",
+    "price": 536.44
+  },
+  {
+    "assetId": "asset-bnb",
+    "timeframe": "month",
+    "timestamp": "2024-11-01T03:00:00.000Z",
+    "price": 539.56
+  },
+  {
+    "assetId": "asset-bnb",
+    "timeframe": "month",
+    "timestamp": "2024-10-01T03:00:00.000Z",
+    "price": 585.11
+  },
+  {
+    "assetId": "asset-bnb",
+    "timeframe": "month",
+    "timestamp": "2024-09-01T03:00:00.000Z",
+    "price": 625.39
+  },
+  {
+    "assetId": "asset-bnb",
+    "timeframe": "month",
+    "timestamp": "2024-08-01T03:00:00.000Z",
+    "price": 608.75
+  },
+  {
+    "assetId": "asset-bnb",
+    "timeframe": "month",
+    "timestamp": "2024-07-01T03:00:00.000Z",
+    "price": 599.75
   },
   {
     "assetId": "asset-ada",
     "timeframe": "day",
-    "timestamp": "2025-05-05T19:00:00.000Z",
+    "timestamp": "2025-06-09T19:00:00.000Z",
+    "price": 1.23
+  },
+  {
+    "assetId": "asset-ada",
+    "timeframe": "day",
+    "timestamp": "2025-06-08T19:00:00.000Z",
     "price": 1.22
   },
   {
     "assetId": "asset-ada",
     "timeframe": "day",
-    "timestamp": "2025-05-06T19:00:00.000Z",
-    "price": 1.21
-  },
-  {
-    "assetId": "asset-ada",
-    "timeframe": "day",
-    "timestamp": "2025-05-07T19:00:00.000Z",
-    "price": 1.21
-  },
-  {
-    "assetId": "asset-ada",
-    "timeframe": "day",
-    "timestamp": "2025-05-08T19:00:00.000Z",
-    "price": 1.21
-  },
-  {
-    "assetId": "asset-ada",
-    "timeframe": "day",
-    "timestamp": "2025-05-09T19:00:00.000Z",
+    "timestamp": "2025-06-07T19:00:00.000Z",
     "price": 1.22
   },
   {
     "assetId": "asset-ada",
     "timeframe": "day",
-    "timestamp": "2025-05-12T19:00:00.000Z",
+    "timestamp": "2025-06-06T19:00:00.000Z",
+    "price": 1.22
+  },
+  {
+    "assetId": "asset-ada",
+    "timeframe": "day",
+    "timestamp": "2025-06-05T19:00:00.000Z",
+    "price": 1.23
+  },
+  {
+    "assetId": "asset-ada",
+    "timeframe": "day",
+    "timestamp": "2025-06-04T19:00:00.000Z",
+    "price": 1.23
+  },
+  {
+    "assetId": "asset-ada",
+    "timeframe": "day",
+    "timestamp": "2025-06-03T19:00:00.000Z",
     "price": 1.21
   },
   {
     "assetId": "asset-ada",
     "timeframe": "day",
-    "timestamp": "2025-05-13T19:00:00.000Z",
+    "timestamp": "2025-06-02T19:00:00.000Z",
+    "price": 1.19
+  },
+  {
+    "assetId": "asset-ada",
+    "timeframe": "day",
+    "timestamp": "2025-06-01T19:00:00.000Z",
+    "price": 1.23
+  },
+  {
+    "assetId": "asset-ada",
+    "timeframe": "day",
+    "timestamp": "2025-05-31T19:00:00.000Z",
+    "price": 1.19
+  },
+  {
+    "assetId": "asset-ada",
+    "timeframe": "day",
+    "timestamp": "2025-05-30T19:00:00.000Z",
+    "price": 1.19
+  },
+  {
+    "assetId": "asset-ada",
+    "timeframe": "day",
+    "timestamp": "2025-05-29T19:00:00.000Z",
+    "price": 1.19
+  },
+  {
+    "assetId": "asset-ada",
+    "timeframe": "day",
+    "timestamp": "2025-05-28T19:00:00.000Z",
     "price": 1.21
   },
   {
     "assetId": "asset-ada",
     "timeframe": "day",
-    "timestamp": "2025-05-14T19:00:00.000Z",
-    "price": 1.21
+    "timestamp": "2025-05-27T19:00:00.000Z",
+    "price": 1.19
   },
   {
     "assetId": "asset-ada",
     "timeframe": "day",
-    "timestamp": "2025-05-15T19:00:00.000Z",
-    "price": 1.21
+    "timestamp": "2025-05-26T19:00:00.000Z",
+    "price": 1.19
   },
   {
     "assetId": "asset-ada",
     "timeframe": "day",
-    "timestamp": "2025-05-16T19:00:00.000Z",
+    "timestamp": "2025-05-25T19:00:00.000Z",
     "price": 1.2
   },
   {
     "assetId": "asset-ada",
     "timeframe": "day",
-    "timestamp": "2025-05-19T19:00:00.000Z",
-    "price": 1.21
-  },
-  {
-    "assetId": "asset-ada",
-    "timeframe": "day",
-    "timestamp": "2025-05-20T19:00:00.000Z",
-    "price": 1.21
-  },
-  {
-    "assetId": "asset-ada",
-    "timeframe": "day",
-    "timestamp": "2025-05-21T19:00:00.000Z",
-    "price": 1.21
-  },
-  {
-    "assetId": "asset-ada",
-    "timeframe": "day",
-    "timestamp": "2025-05-22T19:00:00.000Z",
-    "price": 1.21
+    "timestamp": "2025-05-24T19:00:00.000Z",
+    "price": 1.19
   },
   {
     "assetId": "asset-ada",
     "timeframe": "day",
     "timestamp": "2025-05-23T19:00:00.000Z",
+    "price": 1.19
+  },
+  {
+    "assetId": "asset-ada",
+    "timeframe": "day",
+    "timestamp": "2025-05-22T19:00:00.000Z",
+    "price": 1.19
+  },
+  {
+    "assetId": "asset-ada",
+    "timeframe": "day",
+    "timestamp": "2025-05-21T19:00:00.000Z",
+    "price": 1.2
+  },
+  {
+    "assetId": "asset-ada",
+    "timeframe": "day",
+    "timestamp": "2025-05-20T19:00:00.000Z",
     "price": 1.22
   },
   {
     "assetId": "asset-ada",
     "timeframe": "day",
-    "timestamp": "2025-05-26T19:00:00.000Z",
-    "price": 1.21
-  },
-  {
-    "assetId": "asset-ada",
-    "timeframe": "day",
-    "timestamp": "2025-05-27T19:00:00.000Z",
-    "price": 1.21
-  },
-  {
-    "assetId": "asset-ada",
-    "timeframe": "day",
-    "timestamp": "2025-05-28T19:00:00.000Z",
-    "price": 1.21
-  },
-  {
-    "assetId": "asset-ada",
-    "timeframe": "day",
-    "timestamp": "2025-05-29T19:00:00.000Z",
-    "price": 1.21
-  },
-  {
-    "assetId": "asset-ada",
-    "timeframe": "day",
-    "timestamp": "2025-05-30T19:00:00.000Z",
-    "price": 1.21
-  },
-  {
-    "assetId": "asset-ada",
-    "timeframe": "day",
-    "timestamp": "2025-06-02T19:00:00.000Z",
-    "price": 1.21
-  },
-  {
-    "assetId": "asset-ada",
-    "timeframe": "day",
-    "timestamp": "2025-06-03T19:00:00.000Z",
-    "price": 1.21
-  },
-  {
-    "assetId": "asset-ada",
-    "timeframe": "month",
-    "timestamp": "2024-07-01T03:00:00.000Z",
+    "timestamp": "2025-05-19T19:00:00.000Z",
     "price": 1.23
   },
   {
     "assetId": "asset-ada",
-    "timeframe": "month",
-    "timestamp": "2024-08-01T03:00:00.000Z",
-    "price": 1.17
+    "timeframe": "day",
+    "timestamp": "2025-05-18T19:00:00.000Z",
+    "price": 1.21
   },
   {
     "assetId": "asset-ada",
-    "timeframe": "month",
-    "timestamp": "2024-09-01T03:00:00.000Z",
-    "price": 1.26
+    "timeframe": "day",
+    "timestamp": "2025-05-17T19:00:00.000Z",
+    "price": 1.22
   },
   {
     "assetId": "asset-ada",
-    "timeframe": "month",
-    "timestamp": "2024-10-01T03:00:00.000Z",
-    "price": 1.26
+    "timeframe": "day",
+    "timestamp": "2025-05-16T19:00:00.000Z",
+    "price": 1.21
   },
   {
     "assetId": "asset-ada",
-    "timeframe": "month",
-    "timestamp": "2024-11-01T03:00:00.000Z",
+    "timeframe": "day",
+    "timestamp": "2025-05-15T19:00:00.000Z",
+    "price": 1.22
+  },
+  {
+    "assetId": "asset-ada",
+    "timeframe": "day",
+    "timestamp": "2025-05-14T19:00:00.000Z",
+    "price": 1.21
+  },
+  {
+    "assetId": "asset-ada",
+    "timeframe": "day",
+    "timestamp": "2025-05-13T19:00:00.000Z",
+    "price": 1.23
+  },
+  {
+    "assetId": "asset-ada",
+    "timeframe": "day",
+    "timestamp": "2025-05-12T19:00:00.000Z",
+    "price": 1.2
+  },
+  {
+    "assetId": "asset-ada",
+    "timeframe": "day",
+    "timestamp": "2025-05-11T19:00:00.000Z",
     "price": 1.2
   },
   {
     "assetId": "asset-ada",
     "timeframe": "month",
-    "timestamp": "2024-12-01T03:00:00.000Z",
-    "price": 1.27
-  },
-  {
-    "assetId": "asset-ada",
-    "timeframe": "month",
-    "timestamp": "2025-01-01T03:00:00.000Z",
-    "price": 1.26
-  },
-  {
-    "assetId": "asset-ada",
-    "timeframe": "month",
-    "timestamp": "2025-02-01T03:00:00.000Z",
-    "price": 1.23
-  },
-  {
-    "assetId": "asset-ada",
-    "timeframe": "month",
-    "timestamp": "2025-03-01T03:00:00.000Z",
-    "price": 1.18
-  },
-  {
-    "assetId": "asset-ada",
-    "timeframe": "month",
-    "timestamp": "2025-04-01T03:00:00.000Z",
-    "price": 1.24
+    "timestamp": "2025-06-01T03:00:00.000Z",
+    "price": 1.25
   },
   {
     "assetId": "asset-ada",
     "timeframe": "month",
     "timestamp": "2025-05-01T03:00:00.000Z",
+    "price": 1.23
+  },
+  {
+    "assetId": "asset-ada",
+    "timeframe": "month",
+    "timestamp": "2025-04-01T03:00:00.000Z",
+    "price": 1.31
+  },
+  {
+    "assetId": "asset-ada",
+    "timeframe": "month",
+    "timestamp": "2025-03-01T03:00:00.000Z",
     "price": 1.16
   },
   {
     "assetId": "asset-ada",
     "timeframe": "month",
-    "timestamp": "2025-06-01T03:00:00.000Z",
-    "price": 1.27
+    "timestamp": "2025-02-01T03:00:00.000Z",
+    "price": 1.32
+  },
+  {
+    "assetId": "asset-ada",
+    "timeframe": "month",
+    "timestamp": "2025-01-01T03:00:00.000Z",
+    "price": 1.19
+  },
+  {
+    "assetId": "asset-ada",
+    "timeframe": "month",
+    "timestamp": "2024-12-01T03:00:00.000Z",
+    "price": 1.16
+  },
+  {
+    "assetId": "asset-ada",
+    "timeframe": "month",
+    "timestamp": "2024-11-01T03:00:00.000Z",
+    "price": 1.11
+  },
+  {
+    "assetId": "asset-ada",
+    "timeframe": "month",
+    "timestamp": "2024-10-01T03:00:00.000Z",
+    "price": 1.22
+  },
+  {
+    "assetId": "asset-ada",
+    "timeframe": "month",
+    "timestamp": "2024-09-01T03:00:00.000Z",
+    "price": 1.26
+  },
+  {
+    "assetId": "asset-ada",
+    "timeframe": "month",
+    "timestamp": "2024-08-01T03:00:00.000Z",
+    "price": 1.26
+  },
+  {
+    "assetId": "asset-ada",
+    "timeframe": "month",
+    "timestamp": "2024-07-01T03:00:00.000Z",
+    "price": 1.25
   },
   {
     "assetId": "asset-xrp",
     "timeframe": "day",
-    "timestamp": "2025-05-05T19:00:00.000Z",
+    "timestamp": "2025-06-09T19:00:00.000Z",
+    "price": 0.83
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "day",
+    "timestamp": "2025-06-08T19:00:00.000Z",
+    "price": 0.82
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "day",
+    "timestamp": "2025-06-07T19:00:00.000Z",
+    "price": 0.85
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "day",
+    "timestamp": "2025-06-06T19:00:00.000Z",
+    "price": 0.85
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "day",
+    "timestamp": "2025-06-05T19:00:00.000Z",
+    "price": 0.83
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "day",
+    "timestamp": "2025-06-04T19:00:00.000Z",
+    "price": 0.85
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "day",
+    "timestamp": "2025-06-03T19:00:00.000Z",
+    "price": 0.83
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "day",
+    "timestamp": "2025-06-02T19:00:00.000Z",
     "price": 0.84
   },
   {
     "assetId": "asset-xrp",
     "timeframe": "day",
-    "timestamp": "2025-05-06T19:00:00.000Z",
+    "timestamp": "2025-06-01T19:00:00.000Z",
+    "price": 0.85
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "day",
+    "timestamp": "2025-05-31T19:00:00.000Z",
+    "price": 0.83
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "day",
+    "timestamp": "2025-05-30T19:00:00.000Z",
+    "price": 0.82
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "day",
+    "timestamp": "2025-05-29T19:00:00.000Z",
+    "price": 0.83
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "day",
+    "timestamp": "2025-05-28T19:00:00.000Z",
+    "price": 0.83
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "day",
+    "timestamp": "2025-05-27T19:00:00.000Z",
+    "price": 0.85
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "day",
+    "timestamp": "2025-05-26T19:00:00.000Z",
+    "price": 0.85
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "day",
+    "timestamp": "2025-05-25T19:00:00.000Z",
     "price": 0.84
   },
   {
     "assetId": "asset-xrp",
     "timeframe": "day",
-    "timestamp": "2025-05-07T19:00:00.000Z",
-    "price": 0.84
-  },
-  {
-    "assetId": "asset-xrp",
-    "timeframe": "day",
-    "timestamp": "2025-05-08T19:00:00.000Z",
-    "price": 0.84
-  },
-  {
-    "assetId": "asset-xrp",
-    "timeframe": "day",
-    "timestamp": "2025-05-09T19:00:00.000Z",
-    "price": 0.84
-  },
-  {
-    "assetId": "asset-xrp",
-    "timeframe": "day",
-    "timestamp": "2025-05-12T19:00:00.000Z",
-    "price": 0.84
-  },
-  {
-    "assetId": "asset-xrp",
-    "timeframe": "day",
-    "timestamp": "2025-05-13T19:00:00.000Z",
-    "price": 0.84
-  },
-  {
-    "assetId": "asset-xrp",
-    "timeframe": "day",
-    "timestamp": "2025-05-14T19:00:00.000Z",
-    "price": 0.84
-  },
-  {
-    "assetId": "asset-xrp",
-    "timeframe": "day",
-    "timestamp": "2025-05-15T19:00:00.000Z",
-    "price": 0.84
-  },
-  {
-    "assetId": "asset-xrp",
-    "timeframe": "day",
-    "timestamp": "2025-05-16T19:00:00.000Z",
-    "price": 0.84
-  },
-  {
-    "assetId": "asset-xrp",
-    "timeframe": "day",
-    "timestamp": "2025-05-19T19:00:00.000Z",
-    "price": 0.84
-  },
-  {
-    "assetId": "asset-xrp",
-    "timeframe": "day",
-    "timestamp": "2025-05-20T19:00:00.000Z",
-    "price": 0.84
-  },
-  {
-    "assetId": "asset-xrp",
-    "timeframe": "day",
-    "timestamp": "2025-05-21T19:00:00.000Z",
-    "price": 0.84
-  },
-  {
-    "assetId": "asset-xrp",
-    "timeframe": "day",
-    "timestamp": "2025-05-22T19:00:00.000Z",
+    "timestamp": "2025-05-24T19:00:00.000Z",
     "price": 0.84
   },
   {
@@ -1928,92 +2378,92 @@
   {
     "assetId": "asset-xrp",
     "timeframe": "day",
-    "timestamp": "2025-05-26T19:00:00.000Z",
-    "price": 0.84
+    "timestamp": "2025-05-22T19:00:00.000Z",
+    "price": 0.85
   },
   {
     "assetId": "asset-xrp",
     "timeframe": "day",
-    "timestamp": "2025-05-27T19:00:00.000Z",
-    "price": 0.84
-  },
-  {
-    "assetId": "asset-xrp",
-    "timeframe": "day",
-    "timestamp": "2025-05-28T19:00:00.000Z",
-    "price": 0.84
-  },
-  {
-    "assetId": "asset-xrp",
-    "timeframe": "day",
-    "timestamp": "2025-05-29T19:00:00.000Z",
-    "price": 0.84
-  },
-  {
-    "assetId": "asset-xrp",
-    "timeframe": "day",
-    "timestamp": "2025-05-30T19:00:00.000Z",
-    "price": 0.84
-  },
-  {
-    "assetId": "asset-xrp",
-    "timeframe": "day",
-    "timestamp": "2025-06-02T19:00:00.000Z",
-    "price": 0.84
-  },
-  {
-    "assetId": "asset-xrp",
-    "timeframe": "day",
-    "timestamp": "2025-06-03T19:00:00.000Z",
-    "price": 0.84
-  },
-  {
-    "assetId": "asset-xrp",
-    "timeframe": "month",
-    "timestamp": "2024-07-01T03:00:00.000Z",
-    "price": 0.86
-  },
-  {
-    "assetId": "asset-xrp",
-    "timeframe": "month",
-    "timestamp": "2024-08-01T03:00:00.000Z",
-    "price": 0.81
-  },
-  {
-    "assetId": "asset-xrp",
-    "timeframe": "month",
-    "timestamp": "2024-09-01T03:00:00.000Z",
+    "timestamp": "2025-05-21T19:00:00.000Z",
     "price": 0.83
   },
   {
     "assetId": "asset-xrp",
-    "timeframe": "month",
-    "timestamp": "2024-10-01T03:00:00.000Z",
-    "price": 0.83
+    "timeframe": "day",
+    "timestamp": "2025-05-20T19:00:00.000Z",
+    "price": 0.84
   },
   {
     "assetId": "asset-xrp",
-    "timeframe": "month",
-    "timestamp": "2024-11-01T03:00:00.000Z",
+    "timeframe": "day",
+    "timestamp": "2025-05-19T19:00:00.000Z",
+    "price": 0.84
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "day",
+    "timestamp": "2025-05-18T19:00:00.000Z",
     "price": 0.82
   },
   {
     "assetId": "asset-xrp",
-    "timeframe": "month",
-    "timestamp": "2024-12-01T03:00:00.000Z",
-    "price": 0.8
+    "timeframe": "day",
+    "timestamp": "2025-05-17T19:00:00.000Z",
+    "price": 0.86
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "day",
+    "timestamp": "2025-05-16T19:00:00.000Z",
+    "price": 0.85
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "day",
+    "timestamp": "2025-05-15T19:00:00.000Z",
+    "price": 0.84
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "day",
+    "timestamp": "2025-05-14T19:00:00.000Z",
+    "price": 0.82
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "day",
+    "timestamp": "2025-05-13T19:00:00.000Z",
+    "price": 0.84
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "day",
+    "timestamp": "2025-05-12T19:00:00.000Z",
+    "price": 0.84
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "day",
+    "timestamp": "2025-05-11T19:00:00.000Z",
+    "price": 0.85
   },
   {
     "assetId": "asset-xrp",
     "timeframe": "month",
-    "timestamp": "2025-01-01T03:00:00.000Z",
-    "price": 0.81
+    "timestamp": "2025-06-01T03:00:00.000Z",
+    "price": 0.92
   },
   {
     "assetId": "asset-xrp",
     "timeframe": "month",
-    "timestamp": "2025-02-01T03:00:00.000Z",
-    "price": 0.88
+    "timestamp": "2025-05-01T03:00:00.000Z",
+    "price": 0.85
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "month",
+    "timestamp": "2025-04-01T03:00:00.000Z",
+    "price": 0.76
   },
   {
     "assetId": "asset-xrp",
@@ -2024,19 +2474,49 @@
   {
     "assetId": "asset-xrp",
     "timeframe": "month",
-    "timestamp": "2025-04-01T03:00:00.000Z",
-    "price": 0.82
+    "timestamp": "2025-02-01T03:00:00.000Z",
+    "price": 0.77
   },
   {
     "assetId": "asset-xrp",
     "timeframe": "month",
-    "timestamp": "2025-05-01T03:00:00.000Z",
-    "price": 0.82
+    "timestamp": "2025-01-01T03:00:00.000Z",
+    "price": 0.77
   },
   {
     "assetId": "asset-xrp",
     "timeframe": "month",
-    "timestamp": "2025-06-01T03:00:00.000Z",
-    "price": 0.82
+    "timestamp": "2024-12-01T03:00:00.000Z",
+    "price": 0.78
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "month",
+    "timestamp": "2024-11-01T03:00:00.000Z",
+    "price": 0.76
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "month",
+    "timestamp": "2024-10-01T03:00:00.000Z",
+    "price": 0.87
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "month",
+    "timestamp": "2024-09-01T03:00:00.000Z",
+    "price": 0.83
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "month",
+    "timestamp": "2024-08-01T03:00:00.000Z",
+    "price": 0.84
+  },
+  {
+    "assetId": "asset-xrp",
+    "timeframe": "month",
+    "timestamp": "2024-07-01T03:00:00.000Z",
+    "price": 0.89
   }
 ]

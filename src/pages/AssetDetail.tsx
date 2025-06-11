@@ -340,20 +340,12 @@ const AssetDetail = () => {
                     <CardTitle className="text-xl">Price Chart</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <Tabs defaultValue={timeframe} onValueChange={(v) => setTimeframe(v as any)}>
-                      <TabsContent value="day">
-                        <PriceChart assetId={id || ""} currentPrice={asset?.price || 0} priceChange={asset?.change || 0} priceChangePercent={asset?.changePercent || 0} />
-                      </TabsContent>
-                      <TabsContent value="week">
-                        <PriceChart assetId={id || ""} currentPrice={asset?.price || 0} priceChange={asset?.change || 0} priceChangePercent={asset?.changePercent || 0} />
-                      </TabsContent>
-                      <TabsContent value="month">
-                        <PriceChart assetId={id || ""} currentPrice={asset?.price || 0} priceChange={asset?.change || 0} priceChangePercent={asset?.changePercent || 0} />
-                      </TabsContent>
-                      <TabsContent value="year">
-                        <PriceChart assetId={id || ""} currentPrice={asset?.price || 0} priceChange={asset?.change || 0} priceChangePercent={asset?.changePercent || 0} />
-                      </TabsContent>
-                    </Tabs>
+                    <PriceChart 
+                      assetId={id || ""} 
+                      currentPrice={asset?.price || 0} 
+                      priceChange={asset?.change || 0} 
+                      priceChangePercent={asset?.changePercent || 0} 
+                    />
                   </CardContent>
                 </Card>
                 
