@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { format } from 'date-fns';
@@ -18,9 +17,56 @@ interface DataPoint {
   formattedDate: string;
 }
 
+// Map UI timeframes to API timeframes
+const getApiTimeframe = (uiTimeframe: '1H' | '1D' | '1W' | '1M' | '1Y'): 'hour' | 'day' | 'month' => {
+  switch (uiTimeframe) {
+    case '1H':
+    case '1D':
+      return 'hour';
+    case '1W':
+    case '1M':
+      return 'day';
+    case '1Y':
+      return 'month';
+    default:
+      return 'month';
+  }
+};
+
+// Filter data based on UI timeframe
+const filterDataByTimeframe = (data: any[], timeframe: '1H' | '1D' | '1W' | '1M' | '1Y') => {
+  if (!data || data.length === 0) return [];
+  
+  const now = new Date();
+  let cutoffDate: Date;
+  
+  switch (timeframe) {
+    case '1H':
+      cutoffDate = new Date(now.getTime() - (1 * 60 * 60 * 1000)); // 1 hour ago
+      break;
+    case '1D':
+      cutoffDate = new Date(now.getTime() - (24 * 60 * 60 * 1000)); // 1 day ago
+      break;
+    case '1W':
+      cutoffDate = new Date(now.getTime() - (7 * 24 * 60 * 60 * 1000)); // 7 days ago
+      break;
+    case '1M':
+      cutoffDate = new Date(now.getTime() - (30 * 24 * 60 * 60 * 1000)); // 30 days ago
+      break;
+    case '1Y':
+      cutoffDate = new Date(now.getTime() - (365 * 24 * 60 * 60 * 1000)); // 365 days ago
+      break;
+    default:
+      return data;
+  }
+  
+  return data.filter(item => new Date(item.timestamp) >= cutoffDate);
+};
+
 const PriceChart = ({ assetId, currentPrice, priceChange, priceChangePercent }: PriceChartProps) => {
-  const [timeframe, setTimeframe] = useState<'hour' | 'day' | 'month'>('day');
-  const { snapshots, isLoading, error } = usePriceSnapshots(assetId, timeframe);
+  const [timeframe, setTimeframe] = useState<'1H' | '1D' | '1W' | '1M' | '1Y'>('1W');
+  const apiTimeframe = getApiTimeframe(timeframe);
+  const { snapshots, isLoading, error } = usePriceSnapshots(assetId, apiTimeframe);
 
   const formatCurrency = (value: number) => {
     return `$${value.toLocaleString(undefined, {
@@ -29,8 +75,9 @@ const PriceChart = ({ assetId, currentPrice, priceChange, priceChangePercent }: 
     })}`;
   };
 
-  // Transform API data to chart format
-  const chartData: DataPoint[] = snapshots.map(snapshot => ({
+  // Filter and transform API data to chart format
+  const filteredData = filterDataByTimeframe(snapshots, timeframe);
+  const chartData: DataPoint[] = filteredData.map(snapshot => ({
     timestamp: snapshot.timestamp,
     price: snapshot.price,
     formattedDate: format(new Date(snapshot.timestamp), 'MMM dd, HH:mm')
@@ -84,25 +131,25 @@ const PriceChart = ({ assetId, currentPrice, priceChange, priceChangePercent }: 
         </div>
         <div className="flex space-x-2">
           <Button 
-            onClick={() => setTimeframe('hour')}
-            variant={timeframe === 'hour' ? 'default' : 'outline'}
+            onClick={() => setTimeframe('1W')}
+            variant={timeframe === '1W' ? 'default' : 'outline'}
             size="sm"
           >
-            1H
+            1W
           </Button>
           <Button 
-            onClick={() => setTimeframe('day')}
-            variant={timeframe === 'day' ? 'default' : 'outline'}
-            size="sm"
-          >
-            1D
-          </Button>
-          <Button 
-            onClick={() => setTimeframe('month')}
-            variant={timeframe === 'month' ? 'default' : 'outline'}
+            onClick={() => setTimeframe('1M')}
+            variant={timeframe === '1M' ? 'default' : 'outline'}
             size="sm"
           >
             1M
+          </Button>
+          <Button 
+            onClick={() => setTimeframe('1Y')}
+            variant={timeframe === '1Y' ? 'default' : 'outline'}
+            size="sm"
+          >
+            1Y
           </Button>
         </div>
       </div>
@@ -121,12 +168,14 @@ const PriceChart = ({ assetId, currentPrice, priceChange, priceChangePercent }: 
                 tickFormatter={(timestamp) => {
                   const date = new Date(timestamp);
                   switch(timeframe) {
-                    case 'hour':
+                    case '1H':
+                    case '1D':
                       return format(date, 'HH:mm');
-                    case 'day': 
+                    case '1W':
+                    case '1M': 
                       return format(date, 'dd MMM');
-                    case 'month':
-                      return format(date, 'dd MMM');
+                    case '1Y':
+                      return format(date, 'MMM yyyy');
                     default:
                       return format(date, 'dd MMM');
                   }
@@ -159,7 +208,10 @@ const PriceChart = ({ assetId, currentPrice, priceChange, priceChangePercent }: 
           </ResponsiveContainer>
         ) : (
           <div className="h-full flex items-center justify-center">
-            <p className="text-muted-foreground">No data available for this timeframe</p>
+            <p className="text-muted-foreground text-center">
+              Not enough data to build this chart yet.<br />
+              <span className="text-sm">Try a different timeframe or check back later.</span>
+            </p>
           </div>
         )}
       </div>

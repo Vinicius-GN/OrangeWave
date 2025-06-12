@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import AdminLayout from '@/components/AdminLayout';
 import CreateUserForm from '@/components/CreateUserForm';
@@ -130,6 +129,16 @@ const UsersManagement = () => {
     const token = localStorage.getItem('authToken');
     if (!token) return;
     
+    // Prevent admin from deleting themselves
+    if (user && userId === user._id && user.role === 'admin') {
+      toast({
+        title: "Action Not Allowed",
+        description: "You cannot remove your own admin account.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     if (window.confirm(`Are you sure you want to delete user "${userName}"?`)) {
       try {
         const response = await fetch(`${API_URL}/users/${userId}`, {
@@ -147,7 +156,16 @@ const UsersManagement = () => {
             description: `User ${userName} has been deleted successfully.`,
           });
         } else {
-          throw new Error('Failed to delete user');
+          const errorData = await response.json();
+          if (response.status === 409) {
+            toast({
+              title: "Action Not Allowed",
+              description: errorData.message || "You cannot remove your own admin account.",
+              variant: "destructive"
+            });
+          } else {
+            throw new Error('Failed to delete user');
+          }
         }
       } catch (error) {
         console.error('Error deleting user:', error);
@@ -223,6 +241,11 @@ const UsersManagement = () => {
     fetchUsers(); // Refresh the users list after creating a new user
   };
 
+  // Helper function to check if delete should be disabled
+  const isDeleteDisabled = (targetUser: User) => {
+    return user && targetUser._id === user._id && user.role === 'admin';
+  };
+
   return (
     <AdminLayout title="Manage Users" description="View and manage all platform users">
       {/* Toolbar */}
@@ -286,36 +309,41 @@ const UsersManagement = () => {
                 </TableCell>
               </TableRow>
             ) : (
-              filteredUsers.map((user) => (
-                <TableRow key={user._id}>
+              filteredUsers.map((targetUser) => (
+                <TableRow key={targetUser._id}>
                   <TableCell>
                     <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
                       <UserIcon className="h-4 w-4" />
                     </div>
                   </TableCell>
-                  <TableCell className="font-medium">{user.fullName}</TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>{user.phone || 'N/A'}</TableCell>
+                  <TableCell className="font-medium">{targetUser.fullName}</TableCell>
+                  <TableCell>{targetUser.email}</TableCell>
+                  <TableCell>{targetUser.phone || 'N/A'}</TableCell>
                   <TableCell>
                     <Badge 
-                      variant={user.role === 'admin' ? 'default' : 'secondary'}
+                      variant={targetUser.role === 'admin' ? 'default' : 'secondary'}
                     >
-                      {user.role}
+                      {targetUser.role}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex gap-2 justify-end">
-                      <Button variant="ghost" size="sm" onClick={() => openUserDialog(user)}>
+                      <Button variant="ghost" size="sm" onClick={() => openUserDialog(targetUser)}>
                         View
                       </Button>
-                      <Button variant="ghost" size="sm" onClick={() => openEditDialog(user)}>
+                      <Button variant="ghost" size="sm" onClick={() => openEditDialog(targetUser)}>
                         <Edit className="h-4 w-4" />
                       </Button>
                       <Button 
                         variant="ghost" 
                         size="sm"
-                        onClick={() => handleDeleteUser(user._id, user.fullName)}
-                        className="text-destructive hover:text-destructive"
+                        onClick={() => handleDeleteUser(targetUser._id, targetUser.fullName)}
+                        disabled={isDeleteDisabled(targetUser)}
+                        className={`${isDeleteDisabled(targetUser) 
+                          ? 'text-muted-foreground cursor-not-allowed' 
+                          : 'text-destructive hover:text-destructive'
+                        }`}
+                        title={isDeleteDisabled(targetUser) ? 'You cannot delete your own admin account' : 'Delete user'}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>

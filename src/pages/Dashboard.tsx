@@ -219,6 +219,7 @@ const Dashboard = () => {
           </Card>
 
           {/* Day's Change */}
+          {/* Day's Change */}
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Today's Change</CardTitle>
@@ -232,8 +233,8 @@ const Dashboard = () => {
               <div className={`text-2xl font-bold ${stats.dayChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                 {showBalance ? formatCurrency(Math.abs(stats.dayChange)) : '••••••'}
               </div>
-              <div className={`text-xs ${stats.dayChangePercentage >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                {showBalance ? formatPercent(stats.dayChangePercentage) : '••••%'}
+              <div className={`text-xs ${stats.dayChangePercentage >= 0 ? 'text-green-600' : 'text-white-600'}`}>
+                {showBalance && !isNaN(stats.dayChangePercentage) ? formatPercent(stats.dayChangePercentage) : '••••%'}
               </div>
             </CardContent>
           </Card>

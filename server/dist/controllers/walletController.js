@@ -121,10 +121,8 @@ const withdraw = async (req, res) => {
         const { userId } = req.params;
         const { amount, paymentMethod } = req.body;
         const wallet = await wallet_1.default.findOne({ userId }).session(session);
-        if (!wallet || wallet.balance < amount) {
-            await session.abortTransaction();
-            session.endSession();
-            res.status(400).json({ message: "Saldo insuficiente" });
+        if (!wallet) {
+            res.status(404).json({ message: "Wallet não encontrada" });
             return;
         }
         wallet.balance -= amount;
