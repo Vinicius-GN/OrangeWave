@@ -16,3 +16,5 @@ app.use("/api", routes_1.default);
     await (0, database_1.connectDB)();
     app.listen(process.env.PORT, () => console.log(`🚀 Server em http://localhost:${process.env.PORT}`));
 })();
+// Exporte o app para que os testes possam usá-lo
+exports.default = app;

@@ -11,3 +11,14 @@ export async function connectDB() {
     process.exit(1);
   }
 }
+
+// Função para desconectar do banco de dados
+export async function disconnectDB() {
+  try {
+    await mongoose.disconnect();
+    console.log("✅ MongoDB desconectado");
+  } catch (err) {
+    console.error("❌ Erro ao desconectar:", err);
+    process.exit(1);
+  }
+}

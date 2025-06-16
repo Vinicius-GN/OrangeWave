@@ -20,10 +20,9 @@
 - [3. Comentários sobre o Código](#comentários-sobre-o-código)
 - [4. Plano de Testes](#plano-de-testes)
 - [5. Resultados dos Testes](#resultados-dos-testes)
-- [6. Integração com Beeceptor](#integração-com-beeceptor)
-- [7. Procedimentos de Build](#procedimentos-de-build)
-- [8. Problemas Encontrados](#problemas-encontrados)
-- [9. Comentários Adicionais](#comentários-adicionais)
+- [6. Procedimentos de Build](#procedimentos-de-build)
+- [7. Problemas Encontrados](#problemas-encontrados)
+- [8. Comentários Adicionais](#comentários-adicionais)
 
 ---
 
@@ -124,7 +123,8 @@ Este projeto consiste em uma **corretora virtual de ações e criptomoedas**, de
 A seguir estão as páginas do projeto organizadas por áreas, com todos os arquivos convertidos para `.tsx` e nomeados com letras maiúsculas no estilo PascalCase.
 
 ### Área do Cliente 
-- **Index** (`Index.tsx`): Página inicial  
+- **Index** (`Index.tsx`): Página inicial
+- **Dashboard** (`Dashboard.tsx`): Página inicial após o login para visualização de ativos possuidos, variação de preço e distribuição da carteira.
 - **Mercado** (`Market.tsx`): Visualização de ações e criptomoedas com filtros.  
 - **Detalhes do Ativo** (`StockDetail.tsx`): Gráficos de preço, histórico e opção de compra/venda.  
 - **Carteira** (`Wallet.tsx`): Saldo virtual e portfólio de investimentos.  
@@ -309,47 +309,32 @@ erDiagram
     USUARIO ||--o| CARTOES : "tem"
     USUARIO ||--o| PORTFOLIO : "possui"
 ```
+## 3. Comentários sobre o Código
 
-## Comentários sobre o Código
+A aplicação continua priorizando **modularidade** e **reutilização** de componentes React, com **Context&nbsp;API** cuidando do estado global (autenticação, carteira, ordens e portfólio).  
+A principal mudança nesta *release* final é que **toda a camada de persistência foi migrada para um banco de dados MongoDB hospedado no [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)**.  
+Qualquer dado transacional ou cadastral exibido pela interface agora é lido diretamente do cluster Atlas via API própria do projeto.
 
-A aplicação foi construída com foco em modularidade e reutilização de componentes React, utilizando **Context API** para gerenciamento eficiente de estado global (como autenticação, saldo da carteira, ordens em aberto e portfólio). O projeto é completamente client-side, com lógica local que simula operações de backend, conforme especificado no enunciado.
-
-### Estrutura e Organização:
-
-- Utilização de **componentes funcionais com React + TypeScript**.
-- Requisições `fetch` bem estruturadas, centralizadas em arquivos de serviços, mesmo em endpoints simulados (via Beeceptor).
-- Estilização com **Tailwind CSS**, permitindo responsividade e boa usabilidade.
-
-### Armazenamento dos Dados:
-
-Neste estágio do desenvolvimento, priorizamos a implementação e validação das **funcionalidades centrais da aplicação** em detrimento da persistência entre sessões. Por isso, optamos por **não utilizar o `localStorage`** e sim manter os dados em **variáveis locais de estado gerenciadas por Context API**, com simulações adequadas à proposta do projeto.
-
-Essa decisão foi baseada nos seguintes pontos:
-
-- O enunciado da atividade propõe a simulação de funcionalidades de backend utilizando **mocks client-side**, sem necessidade de um servidor real ou persistência de longo prazo.
-- A abordagem com **Context API** nos permitiu controlar melhor os estados da aplicação durante a sessão, facilitando os testes e o desenvolvimento incremental das funcionalidades.
-- **Autenticação e dados sensíveis foram tratados via Supabase (BaaS)**, o que possibilitou diferenciação real entre clientes e administradores e login persistente, enquanto demais informações — como carteira, portfólio e ordens — foram simuladas com dados locais em memória.
-- Nosso foco nesta etapa foi **validar a lógica de operação da corretora simulada**, assegurando que funcionalidades como **compra e venda de ativos, atualização de saldo, controle de estoque e geração de históricos** estivessem operando corretamente.
-- A adição de suporte a `localStorage` ou `sessionStorage` seria simples, mas não agregaria tanto valor ao propósito desta entrega quanto as funcionalidades avançadas que desenvolvemos, como:
-  - Simulação completa de ordens com validação de estoque.
-  - Venda de ativos e atualização da carteira.
-  - Feed de notícias integradas.
-  - Simulador de estratégias de trading.
-  - Exportação de dados em CSV pelo administrador.
-
-Concluímos, assim, que manter os dados localmente foi suficiente e eficiente para cumprir os objetivos desta milestone, especialmente em um contexto de simulação com foco funcional.
-
-### Considerações Técnicas
-
-- A estratégia de mocks foi adotada com endpoints em Beeceptor para simular a persistência de ações como **compra, venda e atualização de estoque**.
-- Dados de autenticação, carteira, histórico e portfólio são tratados de forma local via React Context, garantindo uma experiência fluida e sem dependência de backend.
-- Em um cenário real, a separação entre front e backend ocorreria com APIs REST completas e autenticação segura; para esta entrega, a abordagem foi abstraída e mantida client-side para foco no comportamento da aplicação.
+**Observação:** as cotações de ativos são extraídas diretamente do banco de dados, mas permanecem estáticas pois, para o trabalho atual, não há integração direta com uma API para extrair esses dados em tempo real. Entretando, isso poderia ser um aspecto para melhoria futura na plataforma, tornando-a 100% funcional para usuários reais que queiram acompanhar o mercado financeiro e simular operações em bolsa. Tudo que envolva preços ou gráficos é considerado **funcionalidade extra** e **não** entra nos critérios de avaliação.
 
 ---
 
-## Plano de Testes
+### Estrutura e Organização
 
-Abaixo estão listadas as principais funcionalidades testadas, com foco tanto nas ações do usuário comum quanto nas funcionalidades administrativas. Todos os testes foram realizados localmente com dados mantidos via Context API (sem persistência em `localStorage` ou backend real), simulando comportamento de um sistema completo.
+- **React + TypeScript** em componentes funcionais  
+- **Context API** coordena estados voláteis da sessão  
+- Requisições concentradas em `services/`, apontando para o **servidor Node/Express local** que faz a ponte com o Atlas  
+- Estilização com **Tailwind CSS**  
+
+- Exige a variável `MONGODB_URI` no arquivo `.env`  
+- Scripts de build/start garantem que o **servidor Express** inicialize antes do front-end  
+- *Seeders* do cluster em `scripts/seed/`
+
+---
+
+## 4. Plano de Testes (Manual)
+
+Abaixo estão listadas as principais funcionalidades testadas, com foco tanto nas ações do usuário comum quanto nas funcionalidades administrativas.
 
 ### Funcionalidades a serem testadas (Usuário):
 - **Adição de ativos ao carrinho com limite de estoque**  
@@ -379,11 +364,9 @@ Abaixo estão listadas as principais funcionalidades testadas, com foco tanto na
 - **Validação de acesso restrito a administradores**  
   - Esperado: bloqueio de rotas exclusivas quando logado como cliente comum ou não autenticado.
 
-> Obs: todos os dados são armazenados temporariamente via Context API e simulação de chamadas mockadas, como orientado pelo enunciado do trabalho. Não há persistência entre sessões.
-
 ---
 
-## Resultados dos Testes
+## Resultados dos Testes (Manual)
 
 | Cenário de Teste | Resultado Esperado | Exemplo |
 |------------------|--------------------|---------|
@@ -401,87 +384,137 @@ Abaixo estão listadas as principais funcionalidades testadas, com foco tanto na
 
 ---
 
+### Testes de Requisições (Postman)
+
+Coleção com todos os endpoints REST (CRUD de usuários, carteira, ordens, histórico...) para serem testados. Grande parte das requisições exige um token de identificação do usuário. Dessa forma, crie um usuário pela requisição em /register mudando o JSON, faça login com a requisição em /login com os dados cadastrados no primeiro passo, copie o token retornado no login. AO entrar na requisição desejada no postman, vá em "Authorization", selecione a opção de "Barear Token" e cole o seu tokem gerado pelo login. Você já, pode mandar requisições para aquela rota. O mesmo deve se repetir para outras requisições, sendo que algumas exigem um token de admnitrador, repetindo o mesmo processo dos passos 1 e 2 para um usuario determinado como "admin"
+
+[**Coleção Postman – API Corretora**](https://viniciusgustierrezneves.postman.co/workspace/My-Workspace~9f0a4b32-7fd1-414a-883f-f45966fff052/collection/45242465-73e693e6-f685-46de-94ff-48b9ab25abe5?action=share&creator=45242465) <!-- substitua pelo link público -->
+
+**Siga os procedimentos detalhados na parte de procedimentos de Build para rodar o servido e, então, começe a fazer requisições no Postman se preferir.**
+
 ---
 
-## Integração com Beeceptor
+## 4.1 Testes Automatizados (Jest + TypeScript)
 
-Para simular requisições reais sem backend, foi utilizada a ferramenta Beeceptor com dois endpoints principais:
+Além do **plano de testes manuais** descrito acima, entregamos uma suíte básica
+de **regressão automática** para os endpoints mais críticos da API
+(usuários, ativos, preços e notícias).  
+Os testes foram escritos com **Jest 29**, **Supertest** e **ts-jest**, focando
+nos cenários de _happy-path_ e em bordas que poderiam corromper o estado do
+banco.
 
-### GET `/produto/123`
+### ➊ Instalação das dependências de teste
 
-- Usado em `AssetDetail.tsx` para obter dados estáticos do ativo.
-- Configuração:
-  - Método: **GET**
-  - Path: **/produto/123**
-  - Corpo de resposta:
-```json
-{
-  "id": "123",
-  "name": "Microsoft",
-  "price": 414.28,
-  "stock": 190
-}
+> As dependências abaixo são **apenas de desenvolvimento** (não afetam o build
+> de produção).
+
+```bash
+# dentro de /server
+npm i -D jest ts-jest @types/jest supertest @types/supertest
+
+# ainda em /server
+npm run test            # atalho para “jest --runInBand”
+```
+| Script              | Descrição                                                                                 |
+|---------------------|-------------------------------------------------------------------------------------------|
+| `npm run test`      | Executa **todas** as suítes Jest uma única vez (`--runInBand`).                            |
+
+---
+
+### ➌ O que está coberto?
+
+| Arquivo da suíte                         | Foco principal                                                                         |
+|------------------------------------------|----------------------------------------------------------------------------------------|
+| `src/tests/userController.test.ts`       | Endpoints **/api/users** – autenticação, CRUD de perfil, reset de senha                |
+| `src/tests/assetController.test.ts`      | Endpoints **/api/assets** – listar, criar, atualizar e deletar ativos                  |
+| `src/tests/priceController.test.ts`      | Endpoints **/api/prices** – filtros de *timeframe* e último snapshot por ativo         |
+| `src/tests/newsController.test.ts`       | Endpoints **/api/news** – CRUD completo com validação de `category`                    |
+
+Fluxo executado em **cada** suíte:
+
+1. Conecta-se ao **`MONGODB_URI`** definido no `.env`;
+2. Insere **documentos de teste** (não altera dados reais);
+3. Executa as chamadas HTTP usando **Supertest**;
+4. Limpa os documentos criados e encerra a conexão.
+
+---
+
+### ➍ Saída esperada
+
+```text
+✅ MongoDB conectado
+ PASS  src/tests/userController.test.ts   (3.4 s)
+ PASS  src/tests/assetController.test.ts  (2.1 s)
+ PASS  src/tests/priceController.test.ts  (1.8 s)
+ PASS  src/tests/newsController.test.ts   (2.0 s)
+
+Test Suites: 4 passed, 4 total
+Tests:       23 passed, 23 total
 ```
 
-#### Resultado esperado (exemplo):
+### ➎ Por que testamos **apenas esse subconjunto?**
 
-![Get Response](/Images/get_response.png)
+A aplicação **já** oferece:
 
-### POST `/product/:id`
+- Um **roteiro manual** detalhado (ver seção *Plano de Testes*);  
+- Uma **coleção Postman pública** que cobre fluxos extensos (carteira, ordens, etc.).
 
-- Usado em `Cart.tsx` ao confirmar compra.
-- Resposta dinâmica com cálculo automático da nova quantidade.
-- Configuração no Beeceptor:
-  - **Método:** `POST`
-  - **Path:** `/product/:id`
-  - **Response headers:**
-    ```json
-    {
-      "Content-Type": "application/json"
-    }
-    ```
-  - **Response body:**
-    ```json
-    {
-      "id": "{{body 'productId'}}",
-      "name": "{{body 'nameProduct'}}",
-      "price": "{{body 'price'}}",
-      "stock": "{{body 'stock'}}",
-      "quantity": "{{body 'quantity'}}",
-      "new_quantity": "{{subtract (body 'stock') (body 'quantity')}}"
-    }
-    ```
+Automatizar **todos** os cenários seria redundante neste momento.  
+Selecionamos os testes que:
 
-#### Resultado esperado (exemplo):
+- **Modificam coleções sensíveis** &nbsp;(`users`, `assets`, `prices`, `news`);
+- Exercitam o **middleware** de autenticação  
+  (`verifyToken`, `isAdmin`).
 
-![POST Response](/Images/response_post.png)
+A infraestrutura de testes  
+(`connectDB` / `disconnectDB` + **Supertest(app)**) já está pronta para que você amplie a cobertura quando necessário.
+
 
 ---
 
-## Procedimentos de Build:
+## 6. Procedimentos de Build:
 
 O único requisito é ter o Node.js e o npm instalados - [instalar com nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
 Siga os seguintes passos:
 
-```sh
-# Etapa 1: Clone o repositório usando a URL do Git do projeto.
-git clone [<SUA_URL_GIT>](https://github.com/Vinicius-GN/OrangeWave.git)
+`
+**Passo-a-passo:**
 
-# Etapa 2: Navegue até o diretório do projeto.
+```bash
+# 1. clone o repositório
+git clone https://github.com/Vinicius-GN/OrangeWave
 cd OrangeWave
 
-# Etapa 3: Instale as dependências necessárias.
+# 2. instale dependências do projeto
 npm install
 
-# Etapa 4: Inicie o servidor de desenvolvimento com recarregamento automático e visualização instantânea.
+# 3. instale dependências do servidor
+cd server
+npm install
+
+# 4. inicie servidor (em /server)
+npm run start
+#Deve aparecer a mensagem no terminal:"
+#✅ MongoDB conectado
+#🚀 Server em http://localhost:3001"
+
+# 5. inicie o front-end da aplicação (em /OrangeWave)
+cd ..
 npm run dev
+
 ```
+**Agora, o tanto o site quanto o servidor devem estar rodando tranquilamente e prontos para serem testados. Caso haja qualquer problema, favor entrar em contato pelo e-mail viniciusgustierrez@usp.br** 
+
+### 7. Login:
+
+Para realizar o login na plataforma
 - Faça login na plataforma com o usuário "grupo@gmail.com" e "senha123" para acessar as funcionalidades de cliente
 - Faça login na plataforma com o usuário "admin@gmail.com" e "senha123" para acessar as funcionalidades de administrador
+- Crie seu próprio usuário na plataforma para testar as funcionalidades da maneira que preferir
 
-## Problemas Encontrados:
+## 8. Problemas Encontrados:
 Sem problemas encontradoos
 
 ## Comentários Adicionais
-Sem comentarios adicionais
+Colaborações são bem-vindas! Abra um Issue no repositório para que fiquemos cientes dos problemas da plataforma e continuemos a aprimorar o projeto.

@@ -16,3 +16,6 @@ app.use("/api", routes);
     console.log(`🚀 Server em http://localhost:${process.env.PORT}`)
   );
 })();
+
+// Exporte o app para que os testes possam usá-lo
+export default app;
