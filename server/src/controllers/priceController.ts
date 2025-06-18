@@ -1,17 +1,17 @@
 import { Request, Response } from "express";
 import PriceSnapshot from "../models/priceSnapshot";
 
-// Lista todos os snapshots de um ativo, opcionalmente filtrando por timeframe via query
+// List all price snapshots for an asset, optionally filtering by timeframe via query
 export const listPriceSnapshots = async (req: Request, res: Response): Promise<void> => {
   try {
     const { assetId } = req.params;
-    const { timeframe } = req.query; // ex: ?timeframe=hour
-
+    const { timeframe } = req.query; // e.g., ?timeframe=hour
+    // Build filter for asset and optional timeframe
     const filter: { assetId: string; timeframe?: string } = { assetId };
     if (typeof timeframe === "string") {
       filter.timeframe = timeframe;
     }
-
+    // Find and return all matching price snapshots, most recent first
     const snapshots = await PriceSnapshot.find(filter).sort({ timestamp: -1 });
     res.json(snapshots);
   } catch (err) {
@@ -20,10 +20,11 @@ export const listPriceSnapshots = async (req: Request, res: Response): Promise<v
   }
 };
 
-// Retorna o último snapshot de cada timeframe para um ativo
+// Return the latest price snapshot for each timeframe for an asset
 export const lastPriceSnapshot = async (req: Request, res: Response): Promise<void> => {
   try {
     const { assetId } = req.params;
+    // Aggregate to get the most recent snapshot for each timeframe
     const result = await PriceSnapshot.aggregate([
       { $match: { assetId } },
       { $sort: { timestamp: -1 } },

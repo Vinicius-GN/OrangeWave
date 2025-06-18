@@ -18,22 +18,37 @@ import { fetchAssetById } from '@/services/marketService';
 
 const API_URL = 'http://localhost:3001/api';
 
+// CartPage component manages the user's shopping cart, checkout, and payment logic
 const CartPage = () => {
   const { items, removeFromCart, updateQuantity, clearCart, getCartTotal } = useCart();
+  // Get current user
   const { user } = useAuth();
+  // Get and refresh user balance
   const { balance, refreshBalance } = useBalance();
+  // Used to trigger portfolio refresh after purchase
   const { forceRefresh } = usePortfolio();
+  // Navigation hook for redirecting after checkout
   const navigate = useNavigate();
+  // Toast for showing notifications
   const { toast } = useToast();
+  // State for selected payment method
   const [paymentMethod, setPaymentMethod] = useState<'balance' | 'credit_card'>('balance');
+  // State to indicate if checkout is processing
   const [isProcessing, setIsProcessing] = useState(false);
+  // State for tracking available stock for each asset in cart
   const [stockLimits, setStockLimits] = useState<Record<string, number>>({});
+  // Loading state for fetching stock limits
   const [isLoadingStock, setIsLoadingStock] = useState(true);
+  // State for quantity input fields for each cart item
   const [quantityInputs, setQuantityInputs] = useState<Record<string, string>>({});
+  // State to check if user has a credit card on file
   const [hasCreditCard, setHasCreditCard] = useState(false);
+  // Loading state for credit card info
   const [isLoadingCard, setIsLoadingCard] = useState(true);
+  // State for storing masked credit card info
   const [cardInfo, setCardInfo] = useState<{ maskedNumber?: string } | null>(null);
   
+  // Calculate total price of all items in cart
   const total = getCartTotal();
 
   // Get authentication token
@@ -197,7 +212,7 @@ const CartPage = () => {
     const price  = items.find(i => i.assetId === assetId)!.price;
 
     try {
-      // 1. Pega toda a lista de ativos do usuário
+      // 1. Fetch existing portfolio to check for current positions
       const listRes = await fetch(
         `${API_URL}/portfolio/${user!._id}`,
         { headers: getAuthHeaders() }
@@ -208,13 +223,13 @@ const CartPage = () => {
       const portfolio: Array<{ assetId: string; quantity: number }> =
         await listRes.json();
 
-      // 2. Verifica se já existe esse ativo
+      // 2. Calculate final quantity (merge with existing or create new position)
       const existing = portfolio.find(p => p.assetId === assetId);
       const finalQty = existing
-        ? existing.quantity + addedQty    // soma à existente
-        : addedQty;                       // cria nova
+        ? existing.quantity + addedQty    // Add to existing position
+        : addedQty;                       // Create new position
 
-      // 3. Atualiza ou cria entry via POST
+      // 3. Update/create portfolio entry via API
       const saveRes = await fetch(
         `${API_URL}/portfolio/${user!._id}`,
         {
@@ -327,6 +342,7 @@ const CartPage = () => {
       return;
     }
     
+    // Validate sufficient balance for wallet payment
     if (paymentMethod === 'balance' && balance < total) {
       toast({
         title: "Insufficient balance",
@@ -336,6 +352,7 @@ const CartPage = () => {
       return;
     }
     
+    // Pre-checkout stock validation to prevent order failures
     let stockAvailable = true;
     for (const item of items) {
       const limit = stockLimits[item.id];
@@ -362,7 +379,7 @@ const CartPage = () => {
         // 1. Update asset stock and quantity bought
         await updateAssetStock(item.assetId, item.quantity, currentStock);
         
-        // 2. Create order
+        // 2. Create order record for transaction history
         await createOrder(item);
         
         // 3. Add to portfolio
@@ -372,11 +389,11 @@ const CartPage = () => {
       // 4. Update wallet balance
       await updateWalletBalance(total);
       
-      // 5. Refresh balance and portfolio
+      // 5. Refresh user data to reflect changes
       await refreshBalance();
       await forceRefresh();
       
-      // Clear the cart after successful purchase
+      // Clear cart after successful transaction
       clearCart();
       
       toast({

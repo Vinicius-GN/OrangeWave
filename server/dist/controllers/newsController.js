@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteNews = exports.updateNews = exports.createNews = exports.getNewsById = exports.listNews = void 0;
 const newsArticles_1 = __importDefault(require("../models/newsArticles"));
+// List all news articles, sorted by most recent
 const listNews = async (_req, res) => {
     try {
         const articles = await newsArticles_1.default.find().sort({ publishedAt: -1 });
@@ -16,6 +17,7 @@ const listNews = async (_req, res) => {
     }
 };
 exports.listNews = listNews;
+// Get a single news article by its ID
 const getNewsById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -32,6 +34,7 @@ const getNewsById = async (req, res) => {
     }
 };
 exports.getNewsById = getNewsById;
+// Create a new news article
 const createNews = async (req, res) => {
     try {
         const payload = req.body;
@@ -45,6 +48,7 @@ const createNews = async (req, res) => {
     }
 };
 exports.createNews = createNews;
+// Update an existing news article by its ID
 const updateNews = async (req, res) => {
     try {
         const { id } = req.params;
@@ -62,6 +66,7 @@ const updateNews = async (req, res) => {
     }
 };
 exports.updateNews = updateNews;
+// Delete a news article by its ID
 const deleteNews = async (req, res) => {
     try {
         const { id } = req.params;

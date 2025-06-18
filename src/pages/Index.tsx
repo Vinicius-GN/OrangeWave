@@ -1,13 +1,44 @@
+/**
+ * Index (Home) Page Component
+ * 
+ * This component serves as the landing page for the OrangeWave trading platform, providing
+ * an overview of the platform's capabilities and showcasing market highlights. It's designed
+ * to convert visitors into registered users while providing value to existing users.
+ * 
+ * Features:
+ * - Hero section with platform introduction and call-to-action
+ * - Featured market data showcase (top stocks and crypto)
+ * - Platform highlights and key features
+ * - User testimonials and social proof
+ * - Interactive tabs for different asset categories
+ * - Responsive design optimized for all devices
+ * - Integration with market data services for live content
+ */
+
+// React hooks for state management and lifecycle
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+
+// UI icons from Lucide React
 import { ArrowRight, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+
+// shadcn/ui components for consistent styling and functionality
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+
+// Layout and custom components
 import Layout from '@/components/Layout';
 import SpotlightAsset from '@/components/SpotlightAsset';
+
+// Market data service for featured content
 import { getStocks, getCryptos } from '@/services/marketService';
 
+/**
+ * Testimonial interface for type safety
+ * 
+ * Defines the structure for customer testimonials displayed on the homepage
+ */
 interface Testimonial {
   id: number;
   name: string;
@@ -16,6 +47,12 @@ interface Testimonial {
   avatar: string;
 }
 
+/**
+ * Static testimonials data
+ * 
+ * Customer testimonials provide social proof and build trust with potential users.
+ * In a production environment, these could be fetched from a CMS or testimonials API.
+ */
 const testimonials: Testimonial[] = [
   {
     id: 1,
@@ -33,31 +70,54 @@ const testimonials: Testimonial[] = [
   }
 ];
 
+/**
+ * IndexPage Component
+ * 
+ * Main landing page component that handles:
+ * - Featured market data fetching and display
+ * - User engagement through interactive content
+ * - Conversion-focused layout and messaging
+ * - Social proof and testimonials
+ * - Platform feature highlights
+ * 
+ * @returns JSX.Element - The complete homepage interface
+ */
 const IndexPage = () => {
-  const [topStocks, setTopStocks] = useState([]);
-  const [topCryptos, setTopCryptos] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  // State for featured market data
+  const [topStocks, setTopStocks] = useState([]); // Top performing stocks for showcase
+  const [topCryptos, setTopCryptos] = useState([]); // Top performing cryptocurrencies
+  const [isLoading, setIsLoading] = useState(true); // Loading state for market data
 
+  /**
+   * Featured assets loading effect
+   * 
+   * Fetches top-performing stocks and cryptocurrencies to showcase on the homepage.
+   * This provides immediate value to visitors and demonstrates platform capabilities.
+   */
   useEffect(() => {
     const loadAssets = async () => {
       setIsLoading(true);
       try {
+        // Fetch both asset types in parallel for better performance
         const [stocks, cryptos] = await Promise.all([getStocks(), getCryptos()]);
+        
+        // Show top 4 assets of each type for homepage spotlight
         setTopStocks(stocks.slice(0, 4));
         setTopCryptos(cryptos.slice(0, 4));
       } catch (error) {
         console.error('Failed to load assets:', error);
+        // Graceful degradation - homepage still functions without featured assets
       } finally {
         setIsLoading(false);
       }
     };
 
     loadAssets();
-  }, []);
+  }, []); // Empty dependency array - only run on component mount
   
   return (
     <Layout>
-      {/* Hero Section */}
+      {/* Hero Section - Primary conversion area with platform introduction */}
       <section className="py-24 bg-gradient-to-br from-orange-500 to-orange-700 text-white">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
@@ -118,6 +178,7 @@ const IndexPage = () => {
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Render a SpotlightAsset card for each trending crypto */}
             {topCryptos.map(crypto => (
               <SpotlightAsset key={crypto.id} asset={crypto} />
             ))}
@@ -126,6 +187,7 @@ const IndexPage = () => {
       </section>
       
       {/* Features Section */}
+      {/* Section highlights key features of the platform */}
       <section className="py-12 bg-secondary">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">Key Features</h2>

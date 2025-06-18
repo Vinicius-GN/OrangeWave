@@ -5,9 +5,13 @@ import app       from '../index';
 import { connectDB } from '../config/database';
 import PriceSnapshot from '../models/priceSnapshot';
 
-const uniqueId   = 'asset-msft';                     // id fixo usado apenas nos testes
+const uniqueId   = 'asset-msft';                     // fixed id used only for tests
 const minutesAgo = (n: number) => new Date(Date.now() - n * 60_000);
 
+/**
+ * End-to-end tests for the Price Controller API endpoints
+ * This suite tests price snapshot creation, retrieval, filtering, and cleanup for a test asset.
+ */
 describe('Price Controller (e2e)', () => {
   let token: string;
 
@@ -16,9 +20,7 @@ describe('Price Controller (e2e)', () => {
   beforeAll(async () => {
     await connectDB();
 
-    /* ------------------------------------------------------------------ *
-     * 1. Garante admin de testes e obtém o token
-     * ------------------------------------------------------------------ */
+    // 1. Ensure a test admin exists and obtain a JWT token for authentication
     await request(app)
       .post('/api/auth/register')
       .send({
@@ -35,20 +37,17 @@ describe('Price Controller (e2e)', () => {
           number:  1
         }
       })
-      /* se já existir o e-mail a resposta será 400 – consideramos OK */
+      // Accept 201 (created) or 400 (already exists) as valid responses
       .ok(res => res.status === 201 || res.status === 400);
 
+    // Log in as the test admin to get a JWT token
     const login = await request(app)
       .post('/api/auth/login')
       .send({ email: 'jest+admin@gmail.com', password: 'senha123' });
     token = login.body.token;
 
-    /* ------------------------------------------------------------------ *
-     * 2. Remove snapshots que possam existir desse assetId
-     *    e insere apenas os três que queremos validar
-     * ------------------------------------------------------------------ */
+    // 2. Remove any existing price snapshots for the test asset and insert three test snapshots
     await PriceSnapshot.deleteMany({ assetId: uniqueId });
-
     await PriceSnapshot.insertMany([
       { assetId: uniqueId, timeframe: 'hour',  timestamp: minutesAgo(30),        price: 100 },
       { assetId: uniqueId, timeframe: 'day',   timestamp: minutesAgo(60 * 24),   price: 110 },
@@ -56,13 +55,14 @@ describe('Price Controller (e2e)', () => {
     ]);
   });
 
-  /* -------------------------------------------------------------------- */
+  // Test: GET all price snapshots for the asset
   it('GET /api/prices/:assetId  → 3 snapshots', async () => {
     const res = await request(app).get(`/api/prices/${uniqueId}`);
     expect(res.status).toBe(200);
     expect(res.body).toHaveLength(3);
   });
 
+  // Test: Filter by timeframe (should return only one snapshot)
   it('Filtro timeframe=day → 1 snapshot', async () => {
     const res = await request(app)
       .get(`/api/prices/${uniqueId}`)
@@ -72,6 +72,7 @@ describe('Price Controller (e2e)', () => {
     expect(res.body[0].timeframe).toBe('day');
   });
 
+  // Test: Get the latest snapshot for each timeframe
   it('GET /api/prices/:assetId/last → hour, day, month', async () => {
     const res = await request(app).get(`/api/prices/${uniqueId}/last`);
     expect(res.status).toBe(200);
@@ -80,9 +81,9 @@ describe('Price Controller (e2e)', () => {
     expect(frames).toEqual(['day', 'hour', 'month']);
   });
 
-  /* -------------------------------------------------------------------- */
+  // Clean up test data and close DB connection after all tests
   afterAll(async () => {
-    await PriceSnapshot.deleteMany({ assetId: uniqueId }); // limpa dados de teste
-    await mongoose.disconnect();                           // encerra conexão
+    await PriceSnapshot.deleteMany({ assetId: uniqueId }); // Remove test data
+    await mongoose.disconnect();                           // Close DB connection
   });
 });

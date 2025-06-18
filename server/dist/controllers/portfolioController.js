@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deletePortfolioItem = exports.upsertPortfolio = exports.listPortfolio = void 0;
 const portifolioAsset_1 = __importDefault(require("../models/portifolioAsset"));
+// List all assets in a user's portfolio
 const listPortfolio = async (req, res) => {
     try {
         const { userId } = req.params;
@@ -17,10 +18,12 @@ const listPortfolio = async (req, res) => {
     }
 };
 exports.listPortfolio = listPortfolio;
+// Add or update an asset in the user's portfolio
 const upsertPortfolio = async (req, res) => {
     try {
         const { userId } = req.params;
         const { assetId, symbol, type, quantity, buyPrice } = req.body;
+        // Check if the asset already exists in the portfolio
         const existing = await portifolioAsset_1.default.findOne({ userId, assetId });
         if (existing) {
             existing.quantity = quantity;
@@ -29,6 +32,7 @@ const upsertPortfolio = async (req, res) => {
             res.json(existing);
             return;
         }
+        // Create new portfolio item
         const item = new portifolioAsset_1.default({
             userId,
             assetId,
@@ -46,6 +50,7 @@ const upsertPortfolio = async (req, res) => {
     }
 };
 exports.upsertPortfolio = upsertPortfolio;
+// Delete an asset from the user's portfolio
 const deletePortfolioItem = async (req, res) => {
     try {
         const { userId, symbol } = req.params;

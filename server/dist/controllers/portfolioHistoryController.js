@@ -1,4 +1,6 @@
 "use strict";
+// Controller for managing portfolio history (daily snapshots of user portfolio value)
+// Provides endpoints for creating, updating, and retrieving portfolio value history
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -7,37 +9,37 @@ exports.listHistory = exports.createSnapshot = void 0;
 const portfolioHistory_1 = __importDefault(require("../models/portfolioHistory"));
 const portifolioAsset_1 = __importDefault(require("../models/portifolioAsset"));
 const priceSnapshot_1 = __importDefault(require("../models/priceSnapshot"));
-// Auxiliar para zerar hora de uma data (ficar só com ano/mês/dia)
+// Helper to normalize a date to midnight (removes time, keeps only year/month/day)
 function normalizeToMidnight(d) {
     const dt = new Date(d);
     dt.setHours(0, 0, 0, 0);
     return dt;
 }
 /**
- * Cria ou atualiza um snapshot diário do valor total da carteira do usuário
- * endpoint privado (assume que algum job externo chama ou o próprio usuário dispara)
- * Rota: POST /portfolio-history/:userId
+ * Creates or updates a daily snapshot of the user's total portfolio value.
+ * Private endpoint (assumes an external job or the user triggers it)
+ * Route: POST /portfolio-history/:userId
  * Body: { date?: string (ISO) }
  */
 const createSnapshot = async (req, res) => {
     try {
         const { userId } = req.params;
-        // Se data não for fornecida, usar hoje
+        // If date is not provided, use today
         const rawDate = req.body.date ? new Date(req.body.date) : new Date();
         const date = normalizeToMidnight(rawDate);
-        // 1) Busca todos os ativos do portfólio desse usuário
+        // Fetch all portfolio assets for this user
         const portfolioItems = await portifolioAsset_1.default.find({ userId });
-        // Se não tiver ativo, total = 0
+        // If no assets, total value is 0
         if (!portfolioItems || portfolioItems.length === 0) {
-            // Tenta criar/atualizar com valor zero
+            // Try to create/update with zero value
             await portfolioHistory_1.default.findOneAndUpdate({ userId, date }, { $set: { totalValue: 0 } }, { upsert: true, new: true });
             res.json({ userId, date, totalValue: 0 });
             return;
         }
-        // 2) Para cada ativo: pegar o preço mais recente (diário) do PriceSnapshot
+        // For each asset, get the most recent (daily) price from PriceSnapshot
         let total = 0;
         for (const item of portfolioItems) {
-            // Procurar último preço “day” para esse ativo antes ou igual à data
+            // Look for the last "day" price for this asset on or before the date
             const snapshot = await priceSnapshot_1.default.findOne({
                 assetId: item.assetId,
                 timeframe: "day",
@@ -48,7 +50,7 @@ const createSnapshot = async (req, res) => {
             const price = snapshot && typeof snapshot.price === "number" ? snapshot.price : 0;
             total += price * (item.quantity ?? 0);
         }
-        // 3) Insere ou atualiza documento em PortfolioHistory
+        // Insert or update document in PortfolioHistory
         const record = await portfolioHistory_1.default.findOneAndUpdate({ userId, date }, { $set: { totalValue: total } }, { upsert: true, new: true });
         res.json(record);
     }
@@ -59,9 +61,9 @@ const createSnapshot = async (req, res) => {
 };
 exports.createSnapshot = createSnapshot;
 /**
- * Lista snapshots de portfólio de um usuário, filtrado por timeframe:
- * query param `timeframe` pode ser: “1W”, “1M”, “6M”, “1Y” ou undefined (retorna todos)
- * Exemplo: GET /portfolio-history/:userId?timeframe=1M
+ * Lists portfolio snapshots for a user, filtered by timeframe:
+ * query param `timeframe` can be: "1W", "1M", "6M", "1Y" or undefined (returns all)
+ * Example: GET /portfolio-history/:userId?timeframe=1M
  */
 const listHistory = async (req, res) => {
     try {
@@ -69,6 +71,7 @@ const listHistory = async (req, res) => {
         const { timeframe } = req.query;
         let cutoffDate = null;
         const today = normalizeToMidnight(new Date());
+        // Determine cutoff date based on timeframe
         switch (timeframe) {
             case "1W":
                 cutoffDate = new Date(today);
@@ -89,10 +92,12 @@ const listHistory = async (req, res) => {
             default:
                 cutoffDate = null;
         }
+        // Build filter for query
         const filter = { userId };
         if (cutoffDate) {
             filter.date = { $gte: cutoffDate, $lte: today };
         }
+        // Find and return all matching portfolio history records
         const history = await portfolioHistory_1.default.find(filter)
             .sort({ date: 1 })
             .lean();

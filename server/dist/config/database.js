@@ -8,6 +8,7 @@ exports.disconnectDB = disconnectDB;
 const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
+// Connect to MongoDB using the connection string from environment variables
 async function connectDB() {
     try {
         await mongoose_1.default.connect(process.env.MONGODB_URI);
@@ -18,7 +19,7 @@ async function connectDB() {
         process.exit(1);
     }
 }
-// Função para desconectar do banco de dados
+// Disconnect from MongoDB
 async function disconnectDB() {
     try {
         await mongoose_1.default.disconnect();

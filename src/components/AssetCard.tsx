@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from "@/components/ui/card";
@@ -46,6 +45,7 @@ const AssetCard = ({ asset }: AssetCardProps) => {
     
     const total = asset.price * quantity;
     
+    // Check if user has sufficient balance for the purchase
     if (total > balance) {
       toast({
         title: "Insufficient funds",
@@ -55,6 +55,7 @@ const AssetCard = ({ asset }: AssetCardProps) => {
       return;
     }
     
+    // Add asset to portfolio and update balance
     addAsset({
       id: asset.id,
       symbol: asset.symbol,
@@ -73,6 +74,7 @@ const AssetCard = ({ asset }: AssetCardProps) => {
   };
   
   const handleSell = () => {
+    // Validate user has sufficient holdings to sell
     if (!portfolioAsset || ownedQuantity < quantity) {
       toast({
         title: "Insufficient assets",
@@ -82,6 +84,7 @@ const AssetCard = ({ asset }: AssetCardProps) => {
       return;
     }
     
+    // Remove asset from portfolio and credit balance
     sellAsset(asset.id, quantity, asset.price);
     
     toast({

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -49,7 +48,7 @@ const CreditCardForm = () => {
         const data = await response.json();
         if (data.cardNumber && data.cardNumber.length > 0) {
           setHasCard(true);
-          // Display masked card number
+          // Mask card number for security (show only last 4 digits)
           const maskedNumber = data.cardNumber.replace(/\d(?=\d{4})/g, '*');
           setCardData(prev => ({
             ...prev,
@@ -71,7 +70,7 @@ const CreditCardForm = () => {
     e.preventDefault();
     if (!user || !authToken) return;
 
-    // Basic validation
+    // Comprehensive form validation before API call
     if (!cardData.cardNumber || !cardData.cardHolderName || !cardData.expiryDate || !cardData.cvv) {
       toast({
         title: 'Validation Error',
@@ -102,7 +101,7 @@ const CreditCardForm = () => {
       return;
     }
 
-    // Validate CVV
+    // Validate CVV format (3-4 digits for different card types)
     if (!/^\d{3,4}$/.test(cardData.cvv)) {
       toast({
         title: 'Invalid CVV',

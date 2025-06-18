@@ -1,17 +1,57 @@
+/**
+ * News Page Component
+ * 
+ * This component provides a comprehensive news and market insights section for the OrangeWave
+ * trading platform. It displays financial news articles, market analysis, and trading insights
+ * to help users make informed investment decisions.
+ * 
+ * Features:
+ * - Financial news articles display with rich metadata
+ * - Category-based filtering (stocks, crypto, market analysis, etc.)
+ * - Article preview cards with summaries and publication details
+ * - Links to full article views for detailed reading
+ * - Responsive grid layout optimized for different screen sizes
+ * - Real-time news data integration
+ * - Loading states and error handling
+ * - Author and publication date information
+ */
 
+// React hooks for state management
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+
+// UI icons from Lucide React
 import { Calendar, User, ExternalLink } from 'lucide-react';
+
+// Layout and UI components
 import Layout from '@/components/Layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+
+// Custom hooks for news data management
 import { useNews } from '@/hooks/api/useNews';
 
+/**
+ * News Component
+ * 
+ * Main news section component that handles:
+ * - News articles fetching and state management
+ * - Category-based filtering functionality
+ * - Article display with metadata and navigation
+ * - Loading and error state handling
+ * - Responsive layout for different devices
+ * 
+ * @returns JSX.Element - The complete news interface
+ */
 const News = () => {
+  // Custom hook for news data management with loading and error states
   const { articles, isLoading, error } = useNews();
+  
+  // State for category filtering functionality
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
+  // Loading state with user feedback
   if (isLoading) {
     return (
       <Layout>
@@ -22,6 +62,7 @@ const News = () => {
     );
   }
 
+  // Error state with user-friendly error message
   if (error) {
     return (
       <Layout>
@@ -34,14 +75,33 @@ const News = () => {
     );
   }
 
-  // Get unique categories from articles
+  /**
+   * Dynamic category extraction
+   * 
+   * Extracts unique categories from articles for filtering options.
+   * Includes 'all' option to show all articles regardless of category.
+   */
   const categories = ['all', ...Array.from(new Set(articles.map(article => article.category)))];
 
-  // Filter articles by selected category
+  /**
+   * Article filtering logic
+   * 
+   * Filters articles based on selected category. Shows all articles
+   * when 'all' is selected, otherwise filters by specific category.
+   */
   const filteredArticles = selectedCategory === 'all' 
     ? articles 
     : articles.filter(article => article.category === selectedCategory);
 
+  /**
+   * Date formatting utility
+   * 
+   * Formats ISO date strings into user-friendly display format
+   * for article publication dates.
+   * 
+   * @param dateString - ISO date string from article data
+   * @returns Formatted date string for display
+   */
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -53,6 +113,7 @@ const News = () => {
   return (
     <Layout>
       <div className="container mx-auto px-4 py-8">
+        {/* Page header with title and description */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-4">Financial News</h1>
           <p className="text-muted-foreground">

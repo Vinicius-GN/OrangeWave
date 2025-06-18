@@ -4,17 +4,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const supertest_1 = __importDefault(require("supertest"));
-const index_1 = __importDefault(require("../index")); // Express app exportado em index.ts
+const index_1 = __importDefault(require("../index")); // Express app exported in index.ts
 const database_1 = require("../config/database");
 const user_1 = __importDefault(require("../models/user"));
+// End-to-end tests for User Controller API endpoints
+// Covers authentication, profile, update, and password reset flows
 describe('User Controller (e2e)', () => {
     let token;
     let testUser;
-    /* aumente o timeout global da suíte */
+    // Increase global timeout for this test suite
     jest.setTimeout(15000);
     beforeAll(async () => {
         await (0, database_1.connectDB)();
-        // 1) registra (se ainda não existir)
+        // Register user if not already present
         await (0, supertest_1.default)(index_1.default)
             .post('/api/auth/register')
             .send({
@@ -30,18 +32,18 @@ describe('User Controller (e2e)', () => {
                 number: 42
             }
         })
-            // se já existir recebemos 400; não falhe nesse caso
+            // Accept 201 (created) or 400 (already exists)
             .ok(res => res.status === 201 || res.status === 400);
-        // 2) login
+        // Login to get JWT token
         const loginRes = await (0, supertest_1.default)(index_1.default)
             .post('/api/auth/login')
             .send({ email: 'admin@gmail.com', password: 'senha123' });
         token = loginRes.body.token;
-        // 3) carrega usuário para ter o _id
+        // Load user for _id reference
         testUser = await user_1.default.findOne({ email: 'admin@gmail.com' });
     });
     /* ------------------------------------------------------------ */
-    it('GET /api/users/me – autenticado devolve dados', async () => {
+    it('GET /api/users/me – authenticated returns user data', async () => {
         const res = await (0, supertest_1.default)(index_1.default)
             .get('/api/users/me')
             .set('Authorization', `Bearer ${token}`);
@@ -51,12 +53,13 @@ describe('User Controller (e2e)', () => {
             email: 'admin@gmail.com'
         });
     });
-    it('GET /api/users/me – sem token devolve 401', async () => {
+    // Test: GET /api/users/me without a token should return 401 Unauthorized
+    it('GET /api/users/me – no token returns 401', async () => {
         const res = await (0, supertest_1.default)(index_1.default).get('/api/users/me');
         expect(res.status).toBe(401);
         expect(res.body.message).toBe('Token ausente');
     });
-    it('PUT /api/users/:id – admin atualiza nome e telefone', async () => {
+    it('PUT /api/users/:id – admin updates name and phone', async () => {
         const res = await (0, supertest_1.default)(index_1.default)
             .put(`/api/users/${testUser._id}`)
             .set('Authorization', `Bearer ${token}`)
@@ -65,14 +68,14 @@ describe('User Controller (e2e)', () => {
         expect(res.body.fullName).toBe('Jest User Updated');
         expect(res.body.phone).toBe('11888888888');
     });
-    it('DELETE /api/users/unknown – retorna 404', async () => {
+    it('DELETE /api/users/unknown – returns 404', async () => {
         const res = await (0, supertest_1.default)(index_1.default)
             .delete('/api/users/64a000000000000000000000')
             .set('Authorization', `Bearer ${token}`);
         expect(res.status).toBe(404);
         expect(res.body.message).toBe('Usuário não encontrado');
     });
-    it('POST /api/users/change-password – resetar senha via e-mail', async () => {
+    it('POST /api/users/change-password – reset password via email', async () => {
         const res = await (0, supertest_1.default)(index_1.default)
             .post('/api/users/change-password')
             .send({ email: 'jest+user@gmail.com', newPassword: 'nova123' });

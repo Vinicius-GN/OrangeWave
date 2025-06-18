@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
+// Register a new user
 export const register = async (req: Request, res: Response): Promise<void> => {
   try {
     const {
@@ -21,8 +22,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         number
       } = {}
     } = req.body;
-
-    // Validação mínima de address (todos os campos obrigatórios)
+    // Minimal address validation (all fields required)
     if (
       !country ||
       !state ||
@@ -33,13 +33,13 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       res.status(400).json({ message: "Todos os campos de endereço são obrigatórios" });
       return;
     }
-
+    // Check if email is already registered
     const existing = await User.findOne({ email });
     if (existing) {
       res.status(400).json({ message: "E-mail já cadastrado" });
       return;
     }
-
+    // Create and save new user
     const user = new User({
       _id: `user-${Date.now()}`,
       fullName,
@@ -56,11 +56,9 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       }
     });
     await user.save();
-
-    // Extrai “password” e retorna o restante
+    // Remove password from response
     const userObj = user.toObject();
     const { password: _, ...userData } = userObj;
-
     res.status(201).json(userData);
   } catch (err) {
     console.error("Erro ao registrar usuário:", err);
@@ -68,6 +66,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+// Authenticate user and return JWT token
 export const login = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password } = req.body;
@@ -81,6 +80,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       res.status(401).json({ message: "Credenciais inválidas" });
       return;
     }
+    // Generate JWT token for authenticated user
     const token = jwt.sign(
       { userId: user._id, role: user.role },
       JWT_SECRET,

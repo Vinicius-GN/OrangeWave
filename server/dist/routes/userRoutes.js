@@ -33,17 +33,27 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+// Express router for user-related endpoints
+// Handles user profile, password management, and admin user management
 const express_1 = require("express");
 const c = __importStar(require("../controllers/userController"));
 const auth_1 = require("../middlewares/auth");
 const r = (0, express_1.Router)();
+// POST /change-password - Reset password by email
 r.post("/change-password", c.resetPasswordByEmail);
+// GET /me - Get current user's profile
 r.get("/me", auth_1.verifyToken, c.me);
+// PUT /me - Update current user's profile
 r.put("/me", auth_1.verifyToken, c.updateMe);
+// DELETE /me - Delete current user's account
 r.delete("/me", auth_1.verifyToken, c.deleteMe);
+// POST /me/change-password - Change password for current user
 r.post("/me/change-password", auth_1.verifyToken, c.changePassword);
-// 🔒 Admin-only RUD operations
+// Admin-only routes for managing users
+// GET / - List all users (admin only)
 r.get("/", auth_1.verifyToken, auth_1.isAdmin, c.listUsers);
+// PUT /:id - Update user by ID (admin only)
 r.put("/:id", auth_1.verifyToken, auth_1.isAdmin, c.updateUserById);
+// DELETE /:id - Delete user by ID (admin only)
 r.delete("/:id", auth_1.verifyToken, auth_1.isAdmin, c.deleteUserById);
 exports.default = r;

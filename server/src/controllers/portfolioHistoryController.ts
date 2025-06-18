@@ -1,10 +1,13 @@
+// Controller for managing portfolio history (daily snapshots of user portfolio value)
+// Provides endpoints for creating, updating, and retrieving portfolio value history
+
 import { Request, Response } from "express";
 import PortfolioHistory, { IPortfolioHistory } from "../models/portfolioHistory";
 import PortfolioAsset from "../models/portifolioAsset";
 import PriceSnapshot from "../models/priceSnapshot";
 import Asset from "../models/assets";
 
-// Auxiliar para zerar hora de uma data (ficar só com ano/mês/dia)
+// Helper to normalize a date to midnight (removes time, keeps only year/month/day)
 function normalizeToMidnight(d: Date): Date {
   const dt = new Date(d);
   dt.setHours(0, 0, 0, 0);
@@ -12,23 +15,23 @@ function normalizeToMidnight(d: Date): Date {
 }
 
 /**
- * Cria ou atualiza um snapshot diário do valor total da carteira do usuário
- * endpoint privado (assume que algum job externo chama ou o próprio usuário dispara)
- * Rota: POST /portfolio-history/:userId
+ * Creates or updates a daily snapshot of the user's total portfolio value.
+ * Private endpoint (assumes an external job or the user triggers it)
+ * Route: POST /portfolio-history/:userId
  * Body: { date?: string (ISO) }
  */
 export const createSnapshot = async (req: Request, res: Response): Promise<void> => {
   try {
     const { userId } = req.params;
-    // Se data não for fornecida, usar hoje
+    // If date is not provided, use today
     const rawDate = req.body.date ? new Date(req.body.date) : new Date();
     const date = normalizeToMidnight(rawDate);
 
-    // 1) Busca todos os ativos do portfólio desse usuário
+    // Fetch all portfolio assets for this user
     const portfolioItems = await PortfolioAsset.find({ userId });
-    // Se não tiver ativo, total = 0
+    // If no assets, total value is 0
     if (!portfolioItems || portfolioItems.length === 0) {
-      // Tenta criar/atualizar com valor zero
+      // Try to create/update with zero value
       await PortfolioHistory.findOneAndUpdate(
         { userId, date },
         { $set: { totalValue: 0 } },
@@ -38,10 +41,10 @@ export const createSnapshot = async (req: Request, res: Response): Promise<void>
       return;
     }
 
-    // 2) Para cada ativo: pegar o preço mais recente (diário) do PriceSnapshot
+    // For each asset, get the most recent (daily) price from PriceSnapshot
     let total = 0;
     for (const item of portfolioItems) {
-      // Procurar último preço “day” para esse ativo antes ou igual à data
+      // Look for the last "day" price for this asset on or before the date
       const snapshot = await PriceSnapshot.findOne({
         assetId: item.assetId,
         timeframe: "day",
@@ -54,7 +57,7 @@ export const createSnapshot = async (req: Request, res: Response): Promise<void>
       total += price * (item.quantity ?? 0);
     }
 
-    // 3) Insere ou atualiza documento em PortfolioHistory
+    // Insert or update document in PortfolioHistory
     const record = await PortfolioHistory.findOneAndUpdate(
       { userId, date },
       { $set: { totalValue: total } },
@@ -68,9 +71,9 @@ export const createSnapshot = async (req: Request, res: Response): Promise<void>
 };
 
 /**
- * Lista snapshots de portfólio de um usuário, filtrado por timeframe:
- * query param `timeframe` pode ser: “1W”, “1M”, “6M”, “1Y” ou undefined (retorna todos)
- * Exemplo: GET /portfolio-history/:userId?timeframe=1M
+ * Lists portfolio snapshots for a user, filtered by timeframe:
+ * query param `timeframe` can be: "1W", "1M", "6M", "1Y" or undefined (returns all)
+ * Example: GET /portfolio-history/:userId?timeframe=1M
  */
 export const listHistory = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -80,6 +83,7 @@ export const listHistory = async (req: Request, res: Response): Promise<void> =>
     let cutoffDate: Date | null = null;
     const today = normalizeToMidnight(new Date());
 
+    // Determine cutoff date based on timeframe
     switch (timeframe) {
       case "1W":
         cutoffDate = new Date(today);
@@ -101,11 +105,13 @@ export const listHistory = async (req: Request, res: Response): Promise<void> =>
         cutoffDate = null;
     }
 
+    // Build filter for query
     const filter: any = { userId };
     if (cutoffDate) {
       filter.date = { $gte: cutoffDate, $lte: today };
     }
 
+    // Find and return all matching portfolio history records
     const history: IPortfolioHistory[] = await PortfolioHistory.find(filter)
       .sort({ date: 1 })
       .lean();

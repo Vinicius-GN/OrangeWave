@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
 
+// Connect to MongoDB using the connection string from environment variables
 export async function connectDB() {
   try {
     await mongoose.connect(process.env.MONGODB_URI as string);
@@ -12,7 +13,7 @@ export async function connectDB() {
   }
 }
 
-// Função para desconectar do banco de dados
+// Disconnect from MongoDB
 export async function disconnectDB() {
   try {
     await mongoose.disconnect();

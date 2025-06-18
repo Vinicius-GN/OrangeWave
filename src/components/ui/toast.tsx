@@ -86,6 +86,7 @@ const ToastClose = React.forwardRef<
 ))
 ToastClose.displayName = ToastPrimitives.Close.displayName
 
+// ToastTitle: Styled toast notification title
 const ToastTitle = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Title>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Title>
@@ -98,6 +99,7 @@ const ToastTitle = React.forwardRef<
 ))
 ToastTitle.displayName = ToastPrimitives.Title.displayName
 
+// ToastDescription: Styled toast notification description
 const ToastDescription = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Description>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Description>
@@ -110,10 +112,13 @@ const ToastDescription = React.forwardRef<
 ))
 ToastDescription.displayName = ToastPrimitives.Description.displayName
 
+// ToastProps: Type for toast component props
 type ToastProps = React.ComponentPropsWithoutRef<typeof Toast>
 
+// ToastActionElement: Type for toast action element
 type ToastActionElement = React.ReactElement<typeof ToastAction>
 
+// Export toast components and types
 export {
   type ToastProps,
   type ToastActionElement,

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import MarketOrder from "../models/marketOrder";
 
+// List all market orders, sorted by most recent
 export const listOrders = async (_req: Request, res: Response): Promise<void> => {
   try {
     const orders = await MarketOrder.find().sort({ timestamp: -1 });
@@ -11,6 +12,7 @@ export const listOrders = async (_req: Request, res: Response): Promise<void> =>
   }
 };
 
+// Get a single order by its ID
 export const getOrderById = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
@@ -26,9 +28,10 @@ export const getOrderById = async (req: Request, res: Response): Promise<void> =
   }
 };
 
+// Create a new market order
 export const createOrder = async (req: Request, res: Response): Promise<void> => {
   try {
-    // espera-se que o front envie: { userId, side, assetId, assetName, symbol, type, quantity, price, total, fees, status, timestamp }
+    // Expects: { userId, side, assetId, assetName, symbol, type, quantity, price, total, fees, status, timestamp }
     const payload = req.body;
     const order = new MarketOrder({
       _id: `tx-${new Date().getTime()}`,
@@ -42,6 +45,7 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
   }
 };
 
+// Delete an order by its ID
 export const deleteOrder = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;

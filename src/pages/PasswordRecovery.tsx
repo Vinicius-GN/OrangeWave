@@ -1,9 +1,34 @@
+/**
+ * Password Recovery Page Component
+ *
+ * This component provides password reset functionality for the OrangeWave trading platform.
+ * It allows users to reset their passwords by providing their email and new password,
+ * with proper validation and confirmation steps.
+ *
+ * Features:
+ * - Email-based password reset process
+ * - New password validation with confirmation matching
+ * - Form validation using Zod schema
+ * - Loading states during password reset process
+ * - Success confirmation with user feedback
+ * - Back to login navigation
+ * - Integration with authentication API
+ * - Responsive design with glass card effect
+ */
+
+// React hooks for state management
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+
+// Form handling with validation
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+
+// UI icons from Lucide React
 import { Loader2, CheckCircle2, ArrowLeft } from 'lucide-react';
+
+// shadcn/ui form components for consistent styling and functionality
 import {
   Form,
   FormControl,
@@ -24,9 +49,18 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 
+// API configuration
 const API_URL = 'http://localhost:3001/api';
 
-// Validação: email + senha (min 6) + confirmação
+/**
+ * Password recovery form validation schema using Zod
+ *
+ * Defines validation rules for password reset form:
+ * - Email: Must be valid email format
+ * - New Password: Minimum 6 characters required
+ * - Confirm Password: Must match new password
+ * - Custom refinement to ensure password confirmation matches
+ */
 const formSchema = z
   .object({
     email: z.string().email({ message: 'Insira um e-mail válido.' }),
@@ -40,13 +74,37 @@ const formSchema = z
     message: 'As senhas não coincidem.',
   });
 
+// TypeScript type inference from Zod schema for type safety
 type FormData = z.infer<typeof formSchema>;
 
+/**
+ * PasswordRecovery Component
+ *
+ * Main password recovery component that handles:
+ * - Password reset form validation and submission
+ * - API integration for password update
+ * - Loading states and user feedback
+ * - Success confirmation and navigation
+ * - Error handling with toast notifications
+ *
+ * @returns JSX.Element - The complete password recovery interface
+ */
 const PasswordRecovery = () => {
+  // Toast notifications for user feedback
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
+  // Component state management
+  const [isLoading, setIsLoading] = useState(false); // Tracks form submission state
+  const [isSubmitted, setIsSubmitted] = useState(false); // Tracks successful submission
+
+  /**
+   * React Hook Form setup with Zod validation
+   *
+   * Configures form handling with:
+   * - Zod schema validation resolver
+   * - Default empty values for all fields
+   * - Type-safe form data structure
+   */
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -56,34 +114,53 @@ const PasswordRecovery = () => {
     },
   });
 
+  /**
+   * Password reset form submission handler
+   *
+   * Processes the password reset request by:
+   * 1. Setting loading state to prevent multiple submissions
+   * 2. Extracting validated form data
+   * 3. Making API call to reset password endpoint
+   * 4. Handling success/error responses with appropriate user feedback
+   * 5. Updating submission state for UI changes
+   *
+   * @param data - Validated form data containing email and new password
+   */
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
+
     try {
-      const response = await fetch(
-        `${API_URL}/users/change-password`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: data.email,
-            newPassword: data.newPassword,
-          }),
-        }
-      );
+      // API call to password reset endpoint
+      const response = await fetch(`${API_URL}/auth/reset-password`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: data.email,
+          newPassword: data.newPassword,
+        }),
+      });
 
       if (response.ok) {
+        // Success: Update UI state and show success message
+        setIsSubmitted(true);
         toast({
           title: 'Senha alterada',
           description: `A nova senha foi registrada para ${data.email}.`,
         });
-        setIsSubmitted(true);
       } else {
-        const err = await response.json();
-        throw new Error(err.message || 'Não foi possível trocar a senha.');
+        // API error: Parse error message and display to user
+        const errorData = await response.json();
+        toast({
+          title: 'Falha ao Alterar Senha',
+          description:
+            errorData.message || 'Não foi possível trocar a senha. Tente novamente.',
+          variant: 'destructive',
+        });
       }
-    } catch (error: any) {
+    } catch (error) {
+      // Network or other errors
       console.error('Error changing password:', error);
       toast({
         title: 'Erro',
@@ -91,13 +168,16 @@ const PasswordRecovery = () => {
         variant: 'destructive',
       });
     } finally {
+      // Always reset loading state
       setIsLoading(false);
     }
   };
 
   return (
+    // Main password reset form container
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
       <Card className="w-full max-w-md glass-card">
+        {/* Form header with title and description */}
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">
             {isSubmitted ? 'Tudo Pronto!' : 'Trocar Senha'}
@@ -109,6 +189,7 @@ const PasswordRecovery = () => {
           </CardDescription>
         </CardHeader>
 
+        {/* Main form content */}
         <CardContent>
           {isSubmitted ? (
             <div className="flex flex-col items-center justify-center py-8 text-center">

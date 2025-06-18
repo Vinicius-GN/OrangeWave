@@ -9,7 +9,7 @@ interface AuthRequest extends Request {
   };
 }
 
-// Retorna dados do usuário autenticado (sem a senha)
+// Returns authenticated user data (without the password)
 export const me = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const userId = req.user?.userId;
@@ -17,7 +17,7 @@ export const me = async (req: AuthRequest, res: Response): Promise<void> => {
       res.status(401).json({ message: "Usuário não autenticado" });
       return;
     }
-    // Seleciona todos os campos menos a senha
+    // Selects all fields except the password
     const user = await User.findById(userId).select("-password");
     if (!user) {
       res.status(404).json({ message: "Usuário não encontrado" });
@@ -30,7 +30,7 @@ export const me = async (req: AuthRequest, res: Response): Promise<void> => {
   }
 };
 
-// Atualiza dados do usuário (incluindo address)
+// Updates user data (including address)
 export const updateMe = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const userId = req.user?.userId;
@@ -52,7 +52,7 @@ export const updateMe = async (req: AuthRequest, res: Response): Promise<void> =
       } = {}
     } = req.body;
 
-    // Monta objeto de updates dinamicamente
+    // Dynamically builds the updates object
     const updates: any = {};
     if (fullName) updates.fullName = fullName;
     if (email)    updates.email = email;
@@ -83,7 +83,7 @@ export const updateMe = async (req: AuthRequest, res: Response): Promise<void> =
   }
 };
 
-// Deleta a própria conta (hard delete)
+// Deletes the user's own account (hard delete)
 export const deleteMe = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const userId = req.user?.userId;
@@ -103,8 +103,8 @@ export const deleteMe = async (req: AuthRequest, res: Response): Promise<void> =
   }
 };
 
-// Endpoint para trocar senha
 export const changePassword = async (req: AuthRequest, res: Response): Promise<void> => {
+// Endpoint to change password
   try {
     const userId = req.user?.userId;
     if (!userId) {
@@ -131,8 +131,8 @@ export const changePassword = async (req: AuthRequest, res: Response): Promise<v
   }
 };
 
-// 🔒 Lista todos os usuários (ADMIN ONLY)
 export const listUsers = async (_req: AuthRequest, res: Response): Promise<void> => {
+// Lists all users (ADMIN ONLY)
   try {
     const users = await User.find().select("-password");
     res.json(users);
@@ -142,8 +142,8 @@ export const listUsers = async (_req: AuthRequest, res: Response): Promise<void>
   }
 };
 
-// 🔒 Atualiza um usuário por ID (ADMIN ONLY)
 export const updateUserById = async (req: AuthRequest, res: Response): Promise<void> => {
+// Updates a user by ID (ADMIN ONLY)
   try {
     const { id } = req.params;
     if (id === "superadmin-id") {
@@ -178,8 +178,8 @@ export const updateUserById = async (req: AuthRequest, res: Response): Promise<v
   }
 };
 
-// 🔒 Deleta um usuário por ID (ADMIN ONLY)
 export const deleteUserById = async (req: AuthRequest, res: Response): Promise<void> => {
+// Deletes a user by ID (ADMIN ONLY)
   try {
     const { id } = req.params;
     if (id === "superadmin-id") {

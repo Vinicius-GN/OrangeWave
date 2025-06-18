@@ -1,3 +1,7 @@
+// Trading Simulation page for OrangeWave Trading Platform
+// Provides a risk-free environment for users to practice trading strategies
+// Features real-time price simulation, portfolio tracking, and performance analytics
+
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -19,28 +23,38 @@ import { LineChart as LineChartIcon, Activity, TrendingUp, Calendar, ArrowUpRigh
 import { format, addDays, subDays, addHours, addMinutes, addSeconds } from 'date-fns';
 import { cn } from '@/lib/utils';
 
-// Type definitions for simulation data
+// Extended asset interface with simulation-specific properties
 interface SimulationAsset extends AssetData {
-  simulatedValue?: number;
-  simulatedQuantity?: number;
-  simulatedAvgCost?: number;
-  simulatedProfit?: number;
-  simulatedProfitPercent?: number;
-  simulatedPrices?: number[]; // Added property for price projection
+  simulatedValue?: number;         // Current market value of owned quantity
+  simulatedQuantity?: number;      // Number of shares/units owned in simulation
+  simulatedAvgCost?: number;       // Average cost per unit (for profit/loss calculation)
+  simulatedProfit?: number;        // Total profit/loss on position
+  simulatedProfitPercent?: number; // Percentage profit/loss on position
+  simulatedPrices?: number[];      // Pre-generated price movement array for simulation
 }
 
+// Data structure for tracking portfolio performance over time
 interface SimulationDay {
-  day: number;
-  date: string;
-  time: string; // Added time field
-  portfolioValue: number;
-  cashBalance: number;
-  totalValue: number;
-  change: number;
-  changePercent: number;
+  day: number;           // Simulation day counter
+  date: string;          // Human-readable date
+  time: string;          // Current simulation time
+  portfolioValue: number; // Total value of owned assets
+  cashBalance: number;   // Available cash balance
+  totalValue: number;    // Portfolio value + cash balance
+  change: number;        // Absolute change from previous period
+  changePercent: number; // Percentage change from previous period
 }
 
-// Helper to generate random price movement with trend
+/**
+ * Generates realistic price movements for simulation using random walk with optional trend
+ * Creates an array of prices that simulate market volatility and trends
+ * 
+ * @param startPrice - Initial price to start simulation from
+ * @param days - Number of price points to generate
+ * @param volatility - Price volatility factor (default 0.02 = 2%)
+ * @param trend - Optional trend factor for directional movement
+ * @returns Array of simulated prices
+ */
 const generatePriceMovement = (
   startPrice: number, 
   days: number, 
@@ -51,9 +65,9 @@ const generatePriceMovement = (
   let currentPrice = startPrice;
   
   for (let i = 1; i < days; i++) {
-    // Random component + trend component
+    // Combine random walk with trend component for realistic price simulation
     const change = (Math.random() * 2 - 1) * volatility * currentPrice + trend * currentPrice;
-    currentPrice = Math.max(0.01, currentPrice + change);
+    currentPrice = Math.max(0.01, currentPrice + change); // Prevent negative prices
     prices.push(Number(currentPrice.toFixed(2)));
   }
   
@@ -65,31 +79,35 @@ const Simulation = () => {
   const { isAuthenticated, user } = useAuth();
   const { assets, getAssetsByType } = usePortfolio();
   
-  // Simulation state
-  const [elapsedSeconds, setElapsedSeconds] = useState<number>(0);
-  const [simulationAssets, setSimulationAssets] = useState<SimulationAsset[]>([]);
-  const [simulationHistory, setSimulationHistory] = useState<SimulationDay[]>([]);
-  const [simulationCash, setSimulationCash] = useState<number>(10000);
-  const [initialCash, setInitialCash] = useState<number>(10000); // Made mutable for configuration
-  const [isRunning, setIsRunning] = useState<boolean>(false);
-  const [simulationSpeed, setSimulationSpeed] = useState<number>(1000); // ms between updates
+  // Core simulation state management
+  const [elapsedSeconds, setElapsedSeconds] = useState<number>(0);         // Time elapsed in simulation
+  const [simulationAssets, setSimulationAssets] = useState<SimulationAsset[]>([]); // Assets with simulation data
+  const [simulationHistory, setSimulationHistory] = useState<SimulationDay[]>([]); // Performance history
+  const [simulationCash, setSimulationCash] = useState<number>(10000);     // Available cash for trading
+  const [initialCash, setInitialCash] = useState<number>(10000);           // Starting cash amount
+  const [isRunning, setIsRunning] = useState<boolean>(false);              // Simulation running state
+  const [simulationSpeed, setSimulationSpeed] = useState<number>(1000);    // Update interval in milliseconds
   
-  // Trading state
-  const [tradeDialogOpen, setTradeDialogOpen] = useState<boolean>(false);
-  const [selectedAsset, setSelectedAsset] = useState<SimulationAsset | null>(null);
-  const [tradeQuantity, setTradeQuantity] = useState<number>(1);
-  const [tradeAmount, setTradeAmount] = useState<string>(''); // Added for fractional crypto purchases
-  const [tradeType, setTradeType] = useState<'buy' | 'sell'>('buy');
+  // Trading interface state
+  const [tradeDialogOpen, setTradeDialogOpen] = useState<boolean>(false);    // Trade modal visibility
+  const [selectedAsset, setSelectedAsset] = useState<SimulationAsset | null>(null); // Asset being traded
+  const [tradeQuantity, setTradeQuantity] = useState<number>(1);             // Quantity for stock trades
+  const [tradeAmount, setTradeAmount] = useState<string>('');                // Dollar amount for crypto trades
+  const [tradeType, setTradeType] = useState<'buy' | 'sell'>('buy');         // Trade direction
   
-  // Settings state
-  const [settingsDialogOpen, setSettingsDialogOpen] = useState<boolean>(false);
-  const [tempInitialCash, setTempInitialCash] = useState<number>(10000); // Temporary value for settings dialog
+  // Settings interface state
+  const [settingsDialogOpen, setSettingsDialogOpen] = useState<boolean>(false); // Settings modal visibility
+  const [tempInitialCash, setTempInitialCash] = useState<number>(10000);         // Temporary settings value
   
-  // Constants for simulation
-  const volatility = 0.02;
-  const marketTrend = 0;
+  // Simulation parameters
+  const volatility = 0.02;  // 2% price volatility
+  const marketTrend = 0;    // Neutral market trend
   
-  // Format elapsed time as HH:MM:SS
+  /**
+   * Formats simulation elapsed time into HH:MM:SS format
+   * @param totalSeconds - Total seconds elapsed in simulation
+   * @returns Formatted time string
+   */
   const formatElapsedTime = (totalSeconds: number): string => {
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
@@ -98,37 +116,37 @@ const Simulation = () => {
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
   
-  // Redirect if not authenticated
+  // Authentication guard: redirect to login if not authenticated
   useEffect(() => {
     if (!isAuthenticated) {
       navigate('/login');
     }
   }, [isAuthenticated, navigate]);
   
-  // Initialize simulation with assets from MarketServices
+  // Initialize simulation with real market assets and generate price paths
   useEffect(() => {
     const initializeSimulationAssets = async () => {
       try {
-        // Get all assets from the centralized market service
+        // Load all assets from the market service
         const allAssets = await getAllAssets();
         
-        // Generate more price points for continuous simulation
-        const maxPricePoints = 1000; // Large number for extended simulation
+        // Generate extensive price data for long-running simulations
+        const maxPricePoints = 1000; // Enough for extended simulation sessions
         const simAssets = allAssets.map(asset => {
-          // Generate future price projections for each asset
+          // Create realistic price movements with crypto having higher volatility
           const futurePrices = generatePriceMovement(
             asset.price, 
             maxPricePoints,
             volatility,
-            (asset.type === 'crypto' ? 1.5 : 1) * marketTrend
+            (asset.type === 'crypto' ? 1.5 : 1) * marketTrend // Crypto 50% more volatile
           );
           
           return {
             ...asset,
-            simulatedQuantity: 0, // Start with no assets purchased
+            simulatedQuantity: 0,        // Start with no positions
             simulatedAvgCost: asset.price,
             simulatedPrices: futurePrices,
-            simulatedValue: 0, // Zero value since none purchased
+            simulatedValue: 0,           // No value since no positions
           };
         });
         
@@ -142,23 +160,27 @@ const Simulation = () => {
     initializeSimulationAssets();
   }, [initialCash]);
   
-  // Initialize or reset simulation data
+  /**
+   * Initializes or resets the simulation to starting state
+   * @param assets - Array of simulation assets
+   * @param startingCash - Initial cash balance
+   */
   const initializeSimulation = (assets: SimulationAsset[], startingCash: number) => {
     setElapsedSeconds(0);
     setIsRunning(false);
     setSimulationCash(startingCash);
     
-    // Use current date/time as the starting point
+    // Use current date/time as simulation starting point
     const now = new Date();
     
-    // Create first point of history
+    // Create initial history entry
     const initialDay: SimulationDay = {
       day: 0,
-      date: format(now, 'MMM dd'), // Date format
-      time: format(now, 'HH:mm:ss'), // Time format
-      portfolioValue: 0, // Start with zero portfolio value (no assets)
+      date: format(now, 'MMM dd'),    // e.g., "Jun 18"
+      time: format(now, 'HH:mm:ss'),  // e.g., "09:00:00"
+      portfolioValue: 0,              // No assets owned initially
       cashBalance: startingCash,
-      totalValue: startingCash, // Total value equals just the cash
+      totalValue: startingCash,       // Total equals cash since no investments
       change: 0,
       changePercent: 0
     };
@@ -166,9 +188,12 @@ const Simulation = () => {
     setSimulationHistory([initialDay]);
   };
   
-  // Reset the entire simulation
+  /**
+   * Resets the entire simulation to starting conditions
+   * Clears all positions and returns to initial cash balance
+   */
   const resetSimulation = () => {
-    // Reset all assets to zero quantity
+    // Reset all asset positions to zero
     const resetAssets = simulationAssets.map(asset => ({
       ...asset,
       simulatedQuantity: 0,
@@ -181,27 +206,29 @@ const Simulation = () => {
     initializeSimulation(resetAssets, initialCash);
   };
   
-  // Toggle simulation running state
+  /**
+   * Toggles simulation between running and paused states
+   */
   const toggleSimulation = () => {
     setIsRunning(prev => !prev);
   };
 
-  // Run the simulation - advance time automatically when running
+  // Main simulation loop: updates prices and portfolio values when running
   useEffect(() => {
     if (!isRunning || simulationAssets.length === 0) return;
     
     const timer = setInterval(() => {
       setElapsedSeconds(prev => prev + 1);
       
-      // Calculate new time based on elapsed seconds
+      // Calculate simulated market time (starts at 9:00 AM)
       const startTime = new Date();
-      startTime.setHours(9, 0, 0, 0); // Start at market open (9:00 AM)
-      const currentTime = addSeconds(startTime, elapsedSeconds + 1); // +1 for the next second
+      startTime.setHours(9, 0, 0, 0);
+      const currentTime = addSeconds(startTime, elapsedSeconds + 1);
       
-      // Get the index for price lookup (reuse price data in a cyclic manner if needed)
-      const priceIndex = (elapsedSeconds + 1) % 1000; // Cycle through available price points
+      // Get price index for current simulation time (cycles through available data)
+      const priceIndex = (elapsedSeconds + 1) % 1000;
       
-      // Update asset prices based on pre-generated price paths
+      // Update all asset prices and position values
       const updatedAssets = simulationAssets.map(asset => {
         const newPrice = asset.simulatedPrices?.[priceIndex] || asset.price;
         return {
@@ -215,7 +242,7 @@ const Simulation = () => {
       
       setSimulationAssets(updatedAssets);
       
-      // Calculate new portfolio values
+      // Calculate portfolio performance metrics
       const portfolioValue = updatedAssets.reduce(
         (sum, asset) => sum + (asset.simulatedQuantity || 0) * (asset.simulatedPrices?.[priceIndex] || asset.price), 0
       );
@@ -223,7 +250,7 @@ const Simulation = () => {
       const totalValue = portfolioValue + simulationCash;
       const prevTotalValue = simulationHistory[simulationHistory.length - 1].totalValue;
       
-      // Create the new history entry
+      // Add new entry to performance history
       const newEntry: SimulationDay = {
         day: elapsedSeconds + 1,
         date: format(currentTime, 'MMM dd'),
@@ -236,10 +263,10 @@ const Simulation = () => {
       };
       
       setSimulationHistory(prev => {
-        // Keep only the last 100 entries to avoid memory issues
+        // Limit history to prevent memory issues in long simulations
         const history = [...prev, newEntry];
         if (history.length > 100) {
-          return history.slice(history.length - 100);
+          return history.slice(history.length - 100); // Keep last 100 entries
         }
         return history;
       });
@@ -249,54 +276,63 @@ const Simulation = () => {
     return () => clearInterval(timer);
   }, [isRunning, elapsedSeconds, simulationAssets, simulationHistory, simulationSpeed, simulationCash]);
   
-  // Open trade dialog for an asset
+  /**
+   * Opens the trading dialog for a specific asset
+   * @param asset - Asset to trade
+   * @param type - Buy or sell operation
+   */
   const handleTrade = (asset: SimulationAsset, type: 'buy' | 'sell') => {
     setSelectedAsset(asset);
     setTradeType(type);
     setTradeQuantity(1);
-    setTradeAmount(''); // Reset amount input for crypto
+    setTradeAmount(''); // Reset for crypto trades
     setTradeDialogOpen(true);
   };
   
-  // Execute a buy/sell trade in the simulation
+  /**
+   * Executes a buy or sell trade in the simulation
+   * Handles both stock (whole shares) and crypto (fractional) trading
+   * Updates portfolio positions and cash balance
+   */
   const executeTrade = () => {
     if (!selectedAsset) return;
     
-    // Get current price based on elapsed time
+    // Get current price based on simulation time
     const priceIndex = elapsedSeconds % 1000;
     const currentPrice = selectedAsset.simulatedPrices?.[priceIndex] || selectedAsset.price;
     
     let finalQuantity = 0;
     let tradeValue = 0;
     
-    // Calculate quantity and trade value based on asset type
+    // Calculate trade parameters based on asset type
     if (selectedAsset.type === 'crypto' && tradeAmount) {
-      // For crypto, use the dollar amount entered to calculate quantity
+      // Crypto: trade by dollar amount, calculate fractional quantity
       const dollarAmount = parseFloat(tradeAmount);
       if (dollarAmount <= 0 || isNaN(dollarAmount)) {
         alert("Please enter a valid dollar amount.");
         return;
       }
-      finalQuantity = dollarAmount / currentPrice; // Fractional quantity for crypto
+      finalQuantity = dollarAmount / currentPrice;
       tradeValue = dollarAmount;
     } else {
-      // For stocks, use whole quantities
+      // Stocks: trade by whole shares
       if (tradeQuantity <= 0) return;
       finalQuantity = tradeQuantity;
       tradeValue = currentPrice * tradeQuantity;
     }
     
     if (tradeType === 'buy') {
-      // Check if user has enough cash
+      // Validate sufficient funds
       if (simulationCash < tradeValue) {
         alert("Insufficient funds for this trade.");
         return;
       }
       
-      // Update the selected asset (no stock limits in simulation)
+      // Execute buy order: update position and calculate new average cost
       const updatedAssets = simulationAssets.map(asset => {
         if (asset.id === selectedAsset.id) {
           const newQuantity = (asset.simulatedQuantity || 0) + finalQuantity;
+          // Calculate weighted average cost for position
           const newAvgCost = (
             ((asset.simulatedQuantity || 0) * (asset.simulatedAvgCost || 0)) + 
             (finalQuantity * currentPrice)
@@ -317,17 +353,16 @@ const Simulation = () => {
       setSimulationAssets(updatedAssets);
       setSimulationCash(prev => prev - tradeValue);
     } else {
-      // Check if user has enough of the asset to sell
+      // Validate sufficient holdings for sell
       if ((selectedAsset.simulatedQuantity || 0) < finalQuantity) {
         alert("You don't own enough of this asset to sell.");
         return;
       }
       
-      // Update the selected asset
+      // Execute sell order: reduce position, maintain average cost for remaining shares
       const updatedAssets = simulationAssets.map(asset => {
         if (asset.id === selectedAsset.id) {
           const newQuantity = (asset.simulatedQuantity || 0) - finalQuantity;
-          // Keep the average cost the same, but update the other values
           return {
             ...asset,
             simulatedQuantity: newQuantity,
@@ -347,7 +382,10 @@ const Simulation = () => {
     setTradeDialogOpen(false);
   };
 
-  // Calculate total portfolio value
+  /**
+   * Calculates total market value of all owned assets
+   * @returns Total portfolio value at current prices
+   */
   const getTotalPortfolioValue = () => {
     const priceIndex = elapsedSeconds % 1000;
     return simulationAssets.reduce((sum, asset) => {
@@ -356,7 +394,10 @@ const Simulation = () => {
     }, 0);
   };
   
-  // Calculate total return on investment
+  /**
+   * Calculates total return on investment
+   * @returns Object with absolute return amount and percentage
+   */
   const calculateTotalReturn = () => {
     const portfolioValue = getTotalPortfolioValue();
     const totalValue = portfolioValue + simulationCash;
@@ -369,7 +410,10 @@ const Simulation = () => {
     };
   };
   
-  // Prepare data for the performance chart
+  /**
+   * Prepares recent performance data for chart display
+   * @returns Array of chart data points for last 24 entries
+   */
   const prepareChartData = () => {
     const startIdx = Math.max(0, simulationHistory.length - 24);
     return simulationHistory.slice(startIdx).map(entry => ({
@@ -378,8 +422,9 @@ const Simulation = () => {
     }));
   };
   
+  // Authentication guard
   if (!isAuthenticated) {
-    return null; // Will be redirected by the useEffect
+    return null; // Will be redirected by useEffect
   }
   
   const totalReturn = calculateTotalReturn();
@@ -388,6 +433,7 @@ const Simulation = () => {
   return (
     <Layout>
       <div className="container mx-auto py-8 px-4">
+        {/* Page header */}
         <div className="mb-6">
           <h1 className="text-3xl font-bold mb-1">Trading Simulation</h1>
           <p className="text-muted-foreground">
@@ -395,7 +441,7 @@ const Simulation = () => {
           </p>
         </div>
         
-        {/* Simulation Controls */}
+        {/* Simulation control panel and performance overview */}
         <Card className="mb-6">
           <CardHeader className="pb-4">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
@@ -409,6 +455,7 @@ const Simulation = () => {
                 </CardDescription>
               </div>
               
+              {/* Control buttons */}
               <div className="flex gap-2 mt-4 md:mt-0">
                 <Button 
                   variant={isRunning ? "destructive" : "default"}
@@ -432,6 +479,7 @@ const Simulation = () => {
           </CardHeader>
           <CardContent>
             <div className="flex flex-col md:flex-row gap-6">
+              {/* Portfolio summary metrics */}
               <div className="w-full md:w-1/3">
                 <h3 className="text-lg font-medium mb-3">Simulation Summary</h3>
                 
@@ -457,6 +505,7 @@ const Simulation = () => {
                   </div>
                 </div>
                 
+                {/* Total return display with color coding */}
                 <div className={cn(
                   "mt-4 p-4 border rounded-lg",
                   isPositiveReturn ? "border-green-500" : "border-red-500"
@@ -478,6 +527,7 @@ const Simulation = () => {
                 </div>
               </div>
               
+              {/* Performance chart showing recent portfolio value changes */}
               <div className="w-full md:w-2/3">
                 <h3 className="text-lg font-medium mb-3">Performance Chart (24-hour view)</h3>
                 <div className="h-64">
@@ -529,7 +579,7 @@ const Simulation = () => {
           </CardContent>
         </Card>
         
-        {/* Asset List */}
+        {/* Asset list with trading interface */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center">
@@ -549,10 +599,12 @@ const Simulation = () => {
                   asset.simulatedPrices?.[priceIndex - 1] || asset.price : 
                   asset.price;
                   
+                // Calculate price movement indicators
                 const priceChange = currentPrice - previousPrice;
                 const priceChangePercent = (priceChange / previousPrice) * 100;
                 const isPositive = priceChange >= 0;
                 
+                // Calculate position metrics
                 const ownedValue = (asset.simulatedQuantity || 0) * currentPrice;
                 const profitLoss = (asset.simulatedQuantity || 0) * (currentPrice - (asset.simulatedAvgCost || 0));
                 const profitLossPercent = asset.simulatedAvgCost && asset.simulatedAvgCost > 0 ? 
@@ -561,6 +613,7 @@ const Simulation = () => {
                 return (
                   <div key={asset.id} className="p-4 border rounded-lg hover:border-primary/50 transition-all">
                     <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
+                      {/* Asset identification */}
                       <div className="flex items-center col-span-1">
                         <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-3">
                           {asset.logoUrl ? (
@@ -584,6 +637,7 @@ const Simulation = () => {
                         </div>
                       </div>
                       
+                      {/* Current price and movement */}
                       <div className="md:col-span-1">
                         <div className="text-sm text-muted-foreground">Current Price</div>
                         <div className="font-medium">${currentPrice.toFixed(2)}</div>
@@ -600,6 +654,7 @@ const Simulation = () => {
                         </div>
                       </div>
                       
+                      {/* Availability (unlimited in simulation) */}
                       <div className="md:col-span-1">
                         <div className="text-sm text-muted-foreground">Availability</div>
                         <div className="font-medium text-green-500">
@@ -610,6 +665,7 @@ const Simulation = () => {
                         </div>
                       </div>
                       
+                      {/* User's position */}
                       <div className="md:col-span-1">
                         <div className="text-sm text-muted-foreground">Your Position</div>
                         <div className="font-medium">
@@ -623,6 +679,7 @@ const Simulation = () => {
                         </div>
                       </div>
                       
+                      {/* Position value and P&L */}
                       <div className="md:col-span-1">
                         <div className="text-sm text-muted-foreground">Value</div>
                         <div className="font-medium">${ownedValue.toFixed(2)}</div>
@@ -638,6 +695,7 @@ const Simulation = () => {
                         )}
                       </div>
                       
+                      {/* Trading action buttons */}
                       <div className="flex items-center justify-end md:col-span-1 gap-2">
                         <Button 
                           variant="outline" 
@@ -668,7 +726,7 @@ const Simulation = () => {
           </CardContent>
         </Card>
         
-        {/* Trading Dialog */}
+        {/* Trading Dialog - handles both buy and sell operations */}
         <Dialog open={tradeDialogOpen} onOpenChange={setTradeDialogOpen}>
           <DialogContent>
             <DialogHeader>
@@ -684,7 +742,7 @@ const Simulation = () => {
             </DialogHeader>
             
             <div className="space-y-4 py-4">
-              {/* Show different inputs based on asset type */}
+              {/* Different input types for crypto vs stocks */}
               {selectedAsset?.type === 'crypto' ? (
                 <div className="space-y-2">
                   <Label htmlFor="amount">Dollar Amount</Label>
@@ -718,6 +776,7 @@ const Simulation = () => {
                 </div>
               )}
               
+              {/* Trade summary */}
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Total Cost:</span>
                 <span className="font-medium">
@@ -728,6 +787,7 @@ const Simulation = () => {
                 </span>
               </div>
               
+              {/* Available balances */}
               {tradeType === 'buy' && (
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Available Cash:</span>
@@ -747,7 +807,7 @@ const Simulation = () => {
                 </div>
               )}
               
-              {/* Validation alerts */}
+              {/* Validation alerts for insufficient funds or holdings */}
               {tradeType === 'buy' && selectedAsset?.type === 'crypto' && tradeAmount && 
                 parseFloat(tradeAmount) > simulationCash && (
                 <Alert variant="destructive">
@@ -809,7 +869,7 @@ const Simulation = () => {
           </DialogContent>
         </Dialog>
         
-        {/* Settings Dialog */}
+        {/* Settings Dialog - configure simulation parameters */}
         <Dialog open={settingsDialogOpen} onOpenChange={setSettingsDialogOpen}>
           <DialogContent>
             <DialogHeader>
@@ -820,6 +880,7 @@ const Simulation = () => {
             </DialogHeader>
             
             <div className="space-y-6 py-4">
+              {/* Initial cash balance setting */}
               <div className="space-y-4">
                 <Label>Initial Cash Balance</Label>
                 <div className="flex items-center gap-2">
@@ -837,6 +898,7 @@ const Simulation = () => {
                 </div>
               </div>
               
+              {/* Simulation speed control */}
               <div className="space-y-4">
                 <div>
                   <Label className="mb-2 block">Simulation Speed</Label>
