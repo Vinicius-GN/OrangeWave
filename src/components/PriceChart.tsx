@@ -66,7 +66,7 @@ const filterDataByTimeframe = (data: any[], timeframe: '1H' | '1D' | '1W' | '1M'
 
 // PriceChart component displays the price evolution chart and summary for a given asset
 const PriceChart = ({ assetId, currentPrice, priceChange, priceChangePercent }: PriceChartProps) => {
-  const [timeframe, setTimeframe] = useState<'1H' | '1D' | '1W' | '1M' | '1Y'>('1W');
+  const [timeframe, setTimeframe] = useState<'1H' | '1D' | '1W' | '1M' | '1Y'>('1M');
   const apiTimeframe = getApiTimeframe(timeframe);
   const { snapshots, isLoading, error } = usePriceSnapshots(assetId, apiTimeframe);
 
@@ -138,13 +138,6 @@ const PriceChart = ({ assetId, currentPrice, priceChange, priceChangePercent }: 
           </div>
         </div>
         <div className="flex space-x-2">
-          <Button 
-            onClick={() => setTimeframe('1W')}
-            variant={timeframe === '1W' ? 'default' : 'outline'}
-            size="sm"
-          >
-            1W
-          </Button>
           <Button 
             onClick={() => setTimeframe('1M')}
             variant={timeframe === '1M' ? 'default' : 'outline'}
