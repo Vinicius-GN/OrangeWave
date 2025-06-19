@@ -1,37 +1,30 @@
 /**
- * Authentication Context
- * 
- * This context provides centralized authentication management for the OrangeWave trading platform.
- * It handles user authentication state, login/logout operations, user registration, and token
- * management throughout the application lifecycle.
- * 
- * Features:
- * - Centralized authentication state management
- * - JWT token storage and validation
- * - User profile data management
- * - Login and registration with API integration
- * - Automatic token refresh and validation
- * - Logout with proper cleanup
- * - Loading states for authentication operations
- * - Error handling with user-friendly notifications
- * - Address management for user profiles
- * - Role-based access control (admin vs client)
+ * @file AuthContext.tsx
+ * @brief Authentication context for OrangeWave trading platform.
+ *
+ * Centralizes authentication state and operations:
+ *  - Login and registration with API integration
+ *  - JWT token storage and validation
+ *  - User profile fetching and state management
+ *  - Automatic token check on app startup
+ *  - Logout and cleanup
+ *  - Provides hooks for components to access auth state and methods
  */
 
-// React core imports for context and state management
 import React, { createContext, useContext, useState, useEffect } from 'react';
-
-// UI notifications for user feedback
 import { useToast } from '@/components/ui/use-toast';
 
-// API configuration
 const API_URL = 'http://localhost:3001/api';
 
 /**
- * User Address Interface
- * 
- * Defines the structure for user address information
- * collected during registration and profile management
+ * @struct UserAddress
+ * @brief Structure representing a user’s address information.
+ *
+ * @var country  Country name
+ * @var state    State or region
+ * @var city     City name
+ * @var street   Street name
+ * @var number   Street number or apartment
  */
 interface UserAddress {
   country: string;
@@ -42,73 +35,80 @@ interface UserAddress {
 }
 
 /**
- * User Profile Interface
- * 
- * Defines the structure for authenticated user data
- * returned from the API and stored in context
+ * @struct UserProfile
+ * @brief Structure representing an authenticated user’s profile.
+ *
+ * @var _id     Unique user identifier
+ * @var fullName  User’s full name
+ * @var email     User’s email address
+ * @var role      User’s role ('admin'|'client')
+ * @var phone     Optional phone number
+ * @var address   Optional address object
  */
 interface UserProfile {
-  _id: string; // Unique user identifier
-  fullName: string; // User's full name
-  email: string; // User's email address
-  role: 'admin' | 'client'; // User role for access control
-  phone?: string; // Optional phone number
-  address?: UserAddress; // Optional address information
+  _id: string;
+  fullName: string;
+  email: string;
+  role: 'admin' | 'client';
+  phone?: string;
+  address?: UserAddress;
 }
 
 /**
- * Authentication Context Type
- * 
- * Defines the interface for the authentication context
- * including state variables and available methods
+ * @interface AuthContextType
+ * @brief Defines the shape of the authentication context.
+ *
+ * @var user            Current authenticated user or null
+ * @var isAuthenticated Boolean indicating if user is logged in
+ * @var isLoading       Boolean indicating an ongoing auth operation
+ * @var login           Function to perform login
+ * @var register        Function to register a new user
+ * @var logout          Function to perform logout
  */
 interface AuthContextType {
-  user: UserProfile | null; // Current authenticated user data
-  isAuthenticated: boolean; // Authentication status
-  isLoading: boolean; // Loading state for auth operations
-  login: (email: string, password: string) => Promise<void>; // Login method
-  register: ( // Registration method with complete user data
+  user: UserProfile | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  login: (email: string, password: string) => Promise<void>;
+  register: (
     fullName: string,
-    email: string, 
-    password: string, 
+    email: string,
+    password: string,
     phone?: string,
     address?: UserAddress
   ) => Promise<void>;
-  logout: () => Promise<void>; // Logout method
+  logout: () => Promise<void>;
 }
 
 /**
- * Authentication Context
- * 
- * React context for sharing authentication state and methods
- * throughout the component tree
+ * @brief React context for authentication.
  */
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 /**
- * Authentication Provider Component
+ * @component AuthProvider
+ * @brief Provides authentication state and methods to child components.
+ *
+ * On mount:
+ *  - Checks for existing JWT in localStorage
+ *  - Validates token with API and fetches user profile
  * 
- * Provides authentication context to all child components and handles:
- * - Authentication state management
- * - API integration for auth operations
- * - Token storage and validation
- * - User session management
- * 
- * @param children - Child components that need access to auth context
+ * Exposes:
+ *  - user, isAuthenticated, isLoading state
+ *  - login(), register(), logout() methods
+ *
+ * @param children  React children to render within this provider
  */
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Authentication state
   const [user, setUser] = useState<UserProfile | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  
-  // Toast notifications for user feedback
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const { toast } = useToast();
-  
+
   /**
-   * Token validation effect
-   * 
-   * Checks for existing authentication token on app initialization
-   * and validates it with the server to restore user session
+   * @brief Effect to validate existing token and restore session.
+   *
+   * Retrieves token from localStorage, calls /users/me to fetch profile,
+   * and sets user state accordingly. Removes invalid tokens.
    */
   useEffect(() => {
     const checkAuthToken = async () => {
@@ -121,7 +121,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               'Content-Type': 'application/json'
             }
           });
-          
           if (response.ok) {
             const userData = await response.json();
             setUser(userData);
@@ -135,39 +134,34 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
       setIsLoading(false);
     };
-    
     checkAuthToken();
   }, []);
-  
+
   /**
-   * Login function
-   * 
-   * Authenticates user with email and password, stores JWT token,
-   * and fetches user profile data
-   * 
-   * @param email - User's email address
-   * @param password - User's password
+   * @brief Performs user login.
+   *
+   * Sends credentials to /auth/login, stores returned JWT,
+   * fetches user profile, and updates context state.
+   *
+   * @param email     User’s email address
+   * @param password  User’s password
+   * @throws Error if login fails
    */
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, password: string): Promise<void> => {
     try {
       setIsLoading(true);
-      
       const response = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
       });
-      
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Login failed');
       }
-      
       const { token } = await response.json();
       localStorage.setItem('authToken', token);
-      
+
       // Fetch user profile
       const userResponse = await fetch(`${API_URL}/users/me`, {
         headers: {
@@ -175,12 +169,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           'Content-Type': 'application/json'
         }
       });
-      
       if (userResponse.ok) {
         const userData = await userResponse.json();
         setUser(userData);
       }
-      
       toast({
         title: 'Login successful',
         description: 'Welcome back to OrangeWave!',
@@ -196,48 +188,37 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setIsLoading(false);
     }
   };
-  
+
   /**
-   * Register function
-   * 
-   * Creates a new user account with provided details
-   * and logs the user in automatically
-   * 
-   * @param fullName - User's full name
-   * @param email - User's email address
-   * @param password - User's password
-   * @param phone - Optional phone number
-   * @param address - Optional address information
+   * @brief Registers a new user.
+   *
+   * Sends new user data to /auth/register. On success, notifies user.
+   *
+   * @param fullName  User’s full name
+   * @param email     User’s email
+   * @param password  User’s password
+   * @param phone     Optional phone number
+   * @param address   Optional address object
+   * @throws Error if registration fails
    */
   const register = async (
     fullName: string,
-    email: string, 
-    password: string, 
+    email: string,
+    password: string,
     phone?: string,
     address?: UserAddress
-  ) => {
+  ): Promise<void> => {
     try {
       setIsLoading(true);
-      
       const response = await fetch(`${API_URL}/auth/register`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          fullName,
-          email,
-          password,
-          phone,
-          address
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fullName, email, password, phone, address })
       });
-      
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Registration failed');
       }
-      
       toast({
         title: 'Registration successful',
         description: 'Your account has been created successfully. Please log in.',
@@ -253,18 +234,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setIsLoading(false);
     }
   };
-  
+
   /**
-   * Logout function
-   * 
-   * Clears the authentication token and user data,
-   * and shows a logout confirmation message
+   * @brief Logs out the current user.
+   *
+   * Clears JWT from localStorage, resets user state, and notifies.
    */
-  const logout = async () => {
+  const logout = async (): Promise<void> => {
     try {
       localStorage.removeItem('authToken');
       setUser(null);
-      
       toast({
         title: 'Logged out',
         description: 'You have been successfully logged out.',
@@ -278,7 +257,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
     }
   };
-  
+
+  /**
+   * @brief Provides authentication context values and methods.
+   */
   return (
     <AuthContext.Provider
       value={{
@@ -296,16 +278,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 };
 
 /**
- * Custom hook to access authentication context
- * 
- * @returns AuthContextType - Authentication context values and methods
+ * @brief Custom hook to consume authentication context.
+ *
+ * @throws Error if used outside AuthProvider
+ * @returns AuthContextType with user, state flags, and auth methods
  */
-export const useAuth = () => {
+export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
-  
   if (context === undefined) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
-  
   return context;
 };

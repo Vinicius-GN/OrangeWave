@@ -1,308 +1,233 @@
+/**
+ * @file ChangePasswordForm.tsx
+ * @brief React component for changing the password of an authenticated user.
+ *
+ * This component renders a form inside a Card that allows the user to:
+ *  - Enter their current password
+ *  - Type a new password and confirm it
+ *  - Validate that the new password matches the confirmation and meets minimum length
+ *  - Send an authenticated request to change the password via API
+ *  - Display success or error feedback using toasts
+ */
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
-import { UserPlus } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
-const API_URL = 'http://localhost:3001/api';
+/**
+ * @brief Component rendering the password change form.
+ *
+ * Renders inside a Card with header, description, and form fields.
+ * The form contains three password fields and a submit button.
+ *
+ * Validations before submission:
+ *  - New password must match confirmation
+ *  - New password must be at least 6 characters long
+ *  - User must be authenticated and have a JWT token
+ *
+ * On submit, sends POST to `/api/users/me/change-password` with:
+ *  - oldPassword: the current password
+ *  - newPassword: the new password
+ *
+ * Displays toast notifications for success or error based on the API response.
+ *
+ * @return JSX.Element The complete Card structure with the change password form.
+ */
+const ChangePasswordForm = (): JSX.Element => {
+  /** @brief State for the current password entered by the user. */
+  const [currentPassword, setCurrentPassword] = useState<string>('');
+  /** @brief State for the new password chosen by the user. */
+  const [newPassword, setNewPassword] = useState<string>('');
+  /** @brief State for the confirmation of the new password. */
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  /** @brief State indicating whether the password change request is in progress. */
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-interface CreateUserFormProps {
-  onUserCreated: () => void;
-}
-
-const CreateUserForm = ({ onUserCreated }: CreateUserFormProps) => {
+  /** @brief Authentication context providing the current user object. */
+  const { user } = useAuth();
+  /** @brief Hook for displaying toast notifications to the user. */
   const { toast } = useToast();
-  const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    password: '',
-    role: 'client',
-    phone: '',
-    address: {
-      country: '',
-      state: '',
-      city: '',
-      street: '',
-      number: ''
-    }
-  });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  /**
+   * @brief Form submit handler for changing the password.
+   *
+   * Performs client-side validations, then:
+   *  1. Retrieves JWT token from localStorage
+   *  2. Sends an authenticated POST request to change the password
+   *  3. Handles the API response:
+   *     - On success: shows a success toast and clears form fields
+   *     - On error: shows an error toast with the returned message
+   *
+   * @param e React.FormEvent triggered by form submission.
+   */
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
-    
-    // Basic validation
-    if (!formData.fullName || !formData.email || !formData.password || !formData.phone) {
+
+    // Validate that the new password matches the confirmation
+    if (newPassword !== confirmPassword) {
       toast({
-        title: 'Validation Error',
-        description: 'Please fill in all required fields.',
-        variant: 'destructive'
+        title: "Password mismatch",
+        description: "New password and confirmation don't match.",
+        variant: "destructive",
       });
       return;
     }
 
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
+    // Validate that the new password meets minimum length requirement
+    if (newPassword.length < 6) {
       toast({
-        title: 'Invalid Email',
-        description: 'Please enter a valid email address.',
-        variant: 'destructive'
+        title: "Password too short",
+        description: "Password must be at least 6 characters long.",
+        variant: "destructive",
       });
       return;
     }
 
-    // Address validation
-    if (!formData.address.country || !formData.address.state || !formData.address.city || 
-        !formData.address.street || !formData.address.number) {
+    // Retrieve JWT token and ensure the user is authenticated
+    const token = localStorage.getItem('authToken');
+    if (!token || !user) {
       toast({
-        title: 'Address Required',
-        description: 'Please fill in all address fields.',
-        variant: 'destructive'
+        title: "Authentication error",
+        description: "Please log in again.",
+        variant: "destructive",
       });
       return;
     }
 
+    // Set loading state to disable the form while the request is in flight
     setIsLoading(true);
-    try {
-      const response = await fetch(`${API_URL}/auth/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-      });
 
+    try {
+      // Send the change-password request to the backend API
+      const response = await fetch(
+        'http://localhost:3001/api/users/me/change-password',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            oldPassword: currentPassword,
+            newPassword: newPassword,
+          }),
+        }
+      );
+
+      // Check the HTTP response status
       if (response.ok) {
+        // Success: notify the user and reset form fields
         toast({
-          title: 'User Created',
-          description: `User ${formData.fullName} has been created successfully.`,
+          title: "Password changed",
+          description: "Your password has been successfully updated.",
         });
-        
-        // Reset form
-        setFormData({
-          fullName: '',
-          email: '',
-          password: '',
-          role: 'client',
-          phone: '',
-          address: {
-            country: '',
-            state: '',
-            city: '',
-            street: '',
-            number: ''
-          }
-        });
-        
-        setIsOpen(false);
-        onUserCreated();
+        setCurrentPassword('');
+        setNewPassword('');
+        setConfirmPassword('');
       } else {
+        // Failure: parse error message and display toast
         const errorData = await response.json();
         toast({
-          title: 'Error',
-          description: errorData.message || 'Failed to create user.',
-          variant: 'destructive'
+          title: "Failed to change password",
+          description:
+            errorData.message ||
+            "Please check your current password and try again.",
+          variant: "destructive",
         });
       }
     } catch (error) {
-      console.error('Error creating user:', error);
+      // Network or unexpected error handling
+      console.error('Error changing password:', error);
       toast({
-        title: 'Error',
-        description: 'Failed to create user.',
-        variant: 'destructive'
+        title: "Error",
+        description: "An error occurred while changing your password.",
+        variant: "destructive",
       });
     } finally {
+      // Reset loading state regardless of outcome
       setIsLoading(false);
     }
   };
 
-  const updateAddress = (field: string, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      address: {
-        ...prev.address,
-        [field]: value
-      }
-    }));
-  };
-
+  // Render the Card containing the change password form
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button>
-          <UserPlus className="h-4 w-4 mr-2" />
-          Add New User
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>Create New User</DialogTitle>
-          <DialogDescription>
-            Add a new user to the platform. All fields are required.
-          </DialogDescription>
-        </DialogHeader>
-        <form onSubmit={handleSubmit}>
-          <div className="grid gap-4 py-4">
-            {/* Basic Information */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="fullName">Full Name *</Label>
-                <Input
-                  id="fullName"
-                  value={formData.fullName}
-                  onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                  placeholder="John Doe"
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email *</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  placeholder="john@example.com"
-                  required
-                />
-              </div>
-            </div>
+    <Card>
+      {/* Card header with title and description */}
+      <CardHeader>
+        <CardTitle>Change Password</CardTitle>
+        <CardDescription>
+          Update your account password. Make sure to use a strong password.
+        </CardDescription>
+      </CardHeader>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="password">Password *</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  placeholder="Enter password"
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="role">Role *</Label>
-                <Select value={formData.role} onValueChange={(value) => setFormData({ ...formData, role: value })}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select role" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="client">Client</SelectItem>
-                    <SelectItem value="admin">Admin</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="phone">Phone *</Label>
-              <Input
-                id="phone"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                placeholder="+1234567890"
-                required
-              />
-            </div>
-
-            {/* Address Information */}
-            <div className="border-t pt-4">
-              <h4 className="text-sm font-medium mb-3">Address Information</h4>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="country">Country *</Label>
-                  <Input
-                    id="country"
-                    value={formData.address.country}
-                    onChange={(e) => updateAddress('country', e.target.value)}
-                    placeholder="United States"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="state">State *</Label>
-                  <Input
-                    id="state"
-                    value={formData.address.state}
-                    onChange={(e) => updateAddress('state', e.target.value)}
-                    placeholder="New York"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 mt-4">
-                <div className="space-y-2">
-                  <Label htmlFor="city">City *</Label>
-                  <Input
-                    id="city"
-                    value={formData.address.city}
-                    onChange={(e) => updateAddress('city', e.target.value)}
-                    placeholder="New York"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="street">Street *</Label>
-                  <Input
-                    id="street"
-                    value={formData.address.street}
-                    onChange={(e) => updateAddress('street', e.target.value)}
-                    placeholder="5th Avenue"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2 mt-4">
-                <Label htmlFor="number">Number *</Label>
-                <Input
-                  id="number"
-                  value={formData.address.number}
-                  onChange={(e) => updateAddress('number', e.target.value)}
-                  placeholder="101"
-                  required
-                />
-              </div>
-            </div>
+      {/* Card content: the form itself */}
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Section: Current Password field */}
+          <div className="space-y-2">
+            <Label htmlFor="currentPassword">Current Password</Label>
+            <Input
+              id="currentPassword"
+              type="password"
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+              required
+            />
           </div>
-          <DialogFooter>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setIsOpen(false)}
-              disabled={isLoading}
-            >
-              Cancel
-            </Button>
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? 'Creating...' : 'Create User'}
-            </Button>
-          </DialogFooter>
+
+          {/* Section: New Password field */}
+          <div className="space-y-2">
+            <Label htmlFor="newPassword">New Password</Label>
+            <Input
+              id="newPassword"
+              type="password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              required
+              minLength={6}
+            />
+          </div>
+
+          {/* Section: Confirm New Password field */}
+          <div className="space-y-2">
+            <Label htmlFor="confirmPassword">Confirm New Password</Label>
+            <Input
+              id="confirmPassword"
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              minLength={6}
+            />
+          </div>
+
+          {/* Submit button: disabled when loading or fields are empty */}
+          <Button
+            type="submit"
+            disabled={
+              isLoading ||
+              !currentPassword ||
+              !newPassword ||
+              !confirmPassword
+            }
+            className="w-full"
+          >
+            {isLoading ? "Changing Password..." : "Change Password"}
+          </Button>
         </form>
-      </DialogContent>
-    </Dialog>
+      </CardContent>
+    </Card>
   );
 };
 
-export default CreateUserForm;
+export default ChangePasswordForm;
