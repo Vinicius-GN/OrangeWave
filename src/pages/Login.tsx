@@ -153,7 +153,7 @@ const Login = () => {
       <Card className="w-full max-w-md glass-card">
         {/* Card header with title and description */}
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Welcome Back</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">Sign In</CardTitle>
           <CardDescription className="text-center">
             Enter your credentials to access your account
           </CardDescription>
@@ -178,7 +178,6 @@ const Login = () => {
                 )}
               />
               
-              {/* Password Field with visibility toggle */}
               <FormField
                 control={form.control}
                 name="password"
@@ -201,7 +200,6 @@ const Login = () => {
                           {...field} 
                         />
                       </FormControl>
-                      {/* Password visibility toggle button */}
                       <Button
                         type="button"
                         variant="ghost"
@@ -221,7 +219,6 @@ const Login = () => {
                 )}
               />
               
-              {/* Submit Button with loading state */}
               <Button 
                 type="submit" 
                 className="w-full bg-primary hover:bg-primary/90"

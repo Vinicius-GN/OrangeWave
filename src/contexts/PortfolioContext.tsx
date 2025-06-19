@@ -311,31 +311,47 @@ export const PortfolioProvider: React.FC<{ children: ReactNode }> = ({ children 
   // Sells a specified quantity of an asset from the portfolio
   const sellAsset = async (assetId: string, quantity: number, price: number) => {
     const asset = assets.find(a => a.id === assetId);
-    if (!asset) throw new Error('Asset not found');
-    if (asset.quantity < quantity) throw new Error('Not enough quantity to sell');
-    // ...existing code for selling asset...
+    if (asset) {
+      await removeAssetFromPortfolio(asset.symbol, quantity);
+    }
   };
 
-  // Buys a specified quantity of an asset and adds it to the portfolio
   const buyAsset = async (asset: Asset, quantity: number) => {
-    await addAssetToPortfolio(asset.symbol, quantity, asset.currentPrice);
+    await addAsset(asset, quantity);
   };
 
   // Retrieves a portfolio asset by its ID
-  const getAssetById = (id: string) => assets.find(a => a.id === id);
-
-  // Returns all assets of a given type (stock or crypto)
-  const getAssetsByType = (type: 'stock' | 'crypto') => assets.filter(a => a.type === type);
-
-  // Calculates the total value of all assets in the portfolio
-  const getAssetsValue = () => assets.reduce((sum, asset) => sum + asset.totalValue, 0);
-
-  // Updates the current prices of all assets in the portfolio
-  const updateAssetPrices = async () => {
-    await fetchPortfolioData();
+  const getAssetById = (id: string): PortfolioAsset | undefined => {
+    return assets.find(asset => asset.id === id);
   };
 
-  // Provide context value to children
+  // Returns all assets of a given type (stock or crypto)
+  const getAssetsByType = (type: 'stock' | 'crypto'): PortfolioAsset[] => {
+    return assets.filter(asset => asset.type === type);
+  };
+
+  // Calculates the total value of all assets in the portfolio
+  const getAssetsValue = (): number => {
+    return assets.reduce((sum, asset) => sum + asset.totalValue, 0);
+  };
+
+  const updateAssetPrices = async () => {
+    await refreshPortfolio();
+  };
+
+  // Load portfolio data when user changes
+  useEffect(() => {
+    if (user && authToken) {
+      fetchPortfolioData();
+    } else {
+      // Reset portfolio when user logs out
+      setAssets([]);
+      setHistory([]);
+      setStats(initialStats);
+      setIsLoading(false);
+    }
+  }, [user, authToken]);
+
   return (
     <PortfolioContext.Provider
       value={{
@@ -366,7 +382,7 @@ export const PortfolioProvider: React.FC<{ children: ReactNode }> = ({ children 
 // Custom hook to use the PortfolioContext
 export const usePortfolio = () => {
   const context = useContext(PortfolioContext);
-  if (!context) {
+  if (context === undefined) {
     throw new Error('usePortfolio must be used within a PortfolioProvider');
   }
   return context;

@@ -130,17 +130,19 @@ const PasswordRecovery = () => {
     setIsLoading(true);
 
     try {
-      // API call to password reset endpoint
-      const response = await fetch(`${API_URL}/auth/reset-password`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: data.email,
-          newPassword: data.newPassword,
-        }),
-      });
+      const response = await fetch(
+        `${API_URL}/users/change-password`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: data.email,
+            newPassword: data.newPassword,
+          }),
+        }
+      );
 
       if (response.ok) {
         // Success: Update UI state and show success message
@@ -150,17 +152,10 @@ const PasswordRecovery = () => {
           description: `A nova senha foi registrada para ${data.email}.`,
         });
       } else {
-        // API error: Parse error message and display to user
-        const errorData = await response.json();
-        toast({
-          title: 'Falha ao Alterar Senha',
-          description:
-            errorData.message || 'Não foi possível trocar a senha. Tente novamente.',
-          variant: 'destructive',
-        });
+        const err = await response.json();
+        throw new Error(err.message || 'Não foi possível trocar a senha.');
       }
-    } catch (error) {
-      // Network or other errors
+    } catch (error: any) {
       console.error('Error changing password:', error);
       toast({
         title: 'Erro',
