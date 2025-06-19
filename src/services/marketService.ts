@@ -1,327 +1,294 @@
-import { getAssetStock } from './stockService';
+// Market data service for OrangeWave Trading Platform
+// Handles fetching and managing market data, asset information, and price history
 
-export interface AssetData {
-  id: string;
+// Base API URL for backend communication
+const API_URL = 'http://localhost:3001/api';
+
+// Data structure for individual price points in time series data
+export interface PricePoint {
+  timestamp: number;        // Unix timestamp in milliseconds
+  price: number;           // Asset price at this timestamp
+}
+
+// Main asset interface representing tradeable financial instruments
+export interface Asset {
+  _id: string;             // MongoDB ObjectId as string
+  symbol: string;          // Stock/crypto ticker symbol (e.g., 'AAPL', 'BTC')
+  name: string;            // Full asset name (e.g., 'Apple Inc.', 'Bitcoin')
+  description?: string;    // Optional detailed description
+  type: 'stock' | 'crypto'; // Asset category for filtering and display
+  price: number;           // Current market price
+  marketCap: number;       // Total market capitalization
+  volume: number;          // Trading volume (24h or daily)
+  logoUrl?: string;        // Optional asset logo URL
+  availableStock?: number; // Available quantity for trading
+  changePercent?: number;  // Percentage change from previous period
+  change?: number;         // Absolute price change from previous period
+  isFrozen?: boolean;      // Whether trading is temporarily suspended
+}
+
+// Legacy type alias for backward compatibility with existing components
+// Used by older components that haven't been migrated to the new Asset interface
+export type AssetData = {
+  id: string;              // Uses 'id' instead of '_id' for legacy compatibility
   symbol: string;
   name: string;
-  type: 'stock' | 'crypto'; // Removed 'etf' and 'other'
+  type: 'stock' | 'crypto';
   price: number;
-  change: number;
   changePercent: number;
+  change: number;
   marketCap: number;
   volume: number;
   logoUrl?: string;
-  logo?: string;
+  logo?: string;           // Duplicate field for backward compatibility
   availableStock?: number;
   isFrozen?: boolean;
-}
-
-export interface StockData extends AssetData {
-  sector?: string;
-  industry?: string;
-  high52Week: number;
-  low52Week: number;
-  peRatio?: number;
-  dividendYield?: number;
-}
-
-export interface CryptoData extends AssetData {
-  high24h: number;
-  low24h: number;
-  supply?: number;
-  maxSupply?: number;
-}
-
-export interface PricePoint {
-  timestamp: number;
-  price: number;
-}
-
-// Mock data for assets - Updated to include availableStock property
-const mockAssets: AssetData[] = [
-  {
-    id: 'asset-aapl',
-    symbol: 'AAPL',
-    name: 'Apple Inc.',
-    type: 'stock',
-    price: 185.92,
-    change: 2.34,
-    changePercent: 1.28,
-    marketCap: 2875000000000,
-    volume: 58900000,
-    logoUrl: 'https://companieslogo.com/img/orig/AAPL-bf1a4314.png',
-    logo: 'https://companieslogo.com/img/orig/AAPL-bf1a4314.png',
-    availableStock: 150
-  },
-  {
-    id: 'asset-msft',
-    symbol: 'MSFT',
-    name: 'Microsoft Corporation',
-    type: 'stock',
-    price: 414.28,
-    change: 4.56,
-    changePercent: 1.11,
-    marketCap: 3089000000000,
-    volume: 29700000,
-    logoUrl: 'https://companieslogo.com/img/orig/MSFT-a203b22d.png',
-    logo: 'https://companieslogo.com/img/orig/MSFT-a203b22d.png',
-    availableStock: 200
-  },
-  {
-    id: 'asset-googl',
-    symbol: 'GOOGL',
-    name: 'Alphabet Inc.',
-    type: 'stock',
-    price: 152.42,
-    change: -1.87,
-    changePercent: -1.21,
-    marketCap: 1923000000000,
-    volume: 21300000,
-    logoUrl: 'https://companieslogo.com/img/orig/google-9646e5e7.png',
-    logo: 'https://companieslogo.com/img/orig/google-9646e5e7.png',
-    availableStock: 175
-  },
-  {
-    id: 'asset-amzn',
-    symbol: 'AMZN',
-    name: 'Amazon.com, Inc.',
-    type: 'stock',
-    price: 184.72,
-    change: 0.97,
-    changePercent: 0.53,
-    marketCap: 1887000000000,
-    volume: 48900000,
-    logoUrl: 'https://companieslogo.com/img/orig/AMZN-e9f942e4.png',
-    logo: 'https://companieslogo.com/img/orig/AMZN-e9f942e4.png',
-    availableStock: 120
-  },
-  {
-    id: 'asset-tsla',
-    symbol: 'TSLA',
-    name: 'Tesla, Inc.',
-    type: 'stock',
-    price: 1013.39,
-    change: 12.84,
-    changePercent: 1.28,
-    marketCap: 1047000000000,
-    volume: 28700000,
-    logoUrl: 'https://companieslogo.com/img/orig/TSLA-6da550e5.png',
-    logo: 'https://companieslogo.com/img/orig/TSLA-6da550e5.png',
-    availableStock: 80
-  },
-  {
-    id: 'asset-btc',
-    symbol: 'BTC',
-    name: 'Bitcoin',
-    type: 'crypto',
-    price: 68211.35,
-    change: -522.14,
-    changePercent: -0.76,
-    marketCap: 1280000000000,
-    volume: 31200000000,
-    logoUrl: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png',
-    logo: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png',
-    availableStock: 50
-  },
-  {
-    id: 'asset-eth',
-    symbol: 'ETH',
-    name: 'Ethereum',
-    type: 'crypto',
-    price: 4823.58,
-    change: -14.22,
-    changePercent: -0.29,
-    marketCap: 574000000000,
-    volume: 18900000000,
-    logoUrl: 'https://assets.coingecko.com/coins/images/279/large/ethereum.png',
-    logo: 'https://assets.coingecko.com/coins/images/279/large/ethereum.png',
-    availableStock: 100
-  },
-  {
-    id: 'asset-bnb',
-    symbol: 'BNB',
-    name: 'Binance Coin',
-    type: 'crypto',
-    price: 588.94,
-    change: 1.92,
-    changePercent: 0.33,
-    marketCap: 92000000000,
-    volume: 2130000000,
-    logoUrl: 'https://assets.coingecko.com/coins/images/825/large/binance-coin-logo.png',
-    logo: 'https://assets.coingecko.com/coins/images/825/large/binance-coin-logo.png',
-    availableStock: 200
-  },
-  {
-    id: 'asset-ada',
-    symbol: 'ADA',
-    name: 'Cardano',
-    type: 'crypto',
-    price: 1.21,
-    change: -0.01,
-    changePercent: -0.82,
-    marketCap: 40000000000,
-    volume: 1670000000,
-    logoUrl: 'https://www.investential.com/wp-content/uploads/2023/11/cardano-ada-1024x1024.png',
-    logo: 'https://www.investential.com/wp-content/uploads/2023/11/cardano-ada-1024x1024.png',
-    availableStock: 300
-  },
-  {
-    id: 'asset-xrp',
-    symbol: 'XRP',
-    name: 'XRP',
-    type: 'crypto',
-    price: 0.84,
-    change: -0.02,
-    changePercent: -2.32,
-    marketCap: 40000000000,
-    volume: 2780000000,
-    logoUrl: 'https://image.spreadshirtmedia.com/image-server/v1/products/T1459A839PA3861PT28D1038320795W10000H8280/views/1,width=800,height=800,appearanceId=839,backgroundColor=F2F2F2/xrp-symbol-black-sticker.jpg',
-    logo: 'https://image.spreadshirtmedia.com/image-server/v1/products/T1459A839PA3861PT28D1038320795W10000H8280/views/1,width=800,height=800,appearanceId=839,backgroundColor=F2F2F2/xrp-symbol-black-sticker.jpg',
-    availableStock: 500
-  }
-];
-
-// Get all assets
-export const getAllAssets = async (): Promise<AssetData[]> => {
-  // Simulate API call delay
-  await new Promise(resolve => setTimeout(resolve, 500));
-  
-  return mockAssets;
 };
 
-// Get asset by ID
-export const getAssetById = async (id: string): Promise<AssetData | null> => {
-  // Simulate API call delay
-  await new Promise(resolve => setTimeout(resolve, 300));
-  
-  const asset = mockAssets.find(a => a.id === id);
-  
-  if (!asset) {
-    return null;
-  }
-  
-  // Get updated stock from localStorage
-  const currentStock = getAssetStock(id, asset.availableStock);
-  
+// Retrieves JWT authentication token from browser's localStorage
+const getAuthToken = () => localStorage.getItem('authToken');
+
+// Constructs HTTP headers with authentication for API requests
+const getAuthHeaders = () => {
+  const token = getAuthToken();
   return {
-    ...asset,
-    availableStock: currentStock
+    'Content-Type': 'application/json',
+    // Include Authorization header only if token exists
+    ...(token && { 'Authorization': `Bearer ${token}` })
   };
 };
 
-// Get most traded assets
-export const getMostTraded = async (limit: number = 5): Promise<AssetData[]> => {
-  // Simulate API call delay
-  await new Promise(resolve => setTimeout(resolve, 400));
-  
-  // Sort assets by volume in descending order and take the top 'limit' assets
-  const sortedAssets = [...mockAssets].sort((a, b) => b.volume - a.volume);
-  return sortedAssets.slice(0, limit);
+/**
+ * Fetches all available assets from the backend API
+ * @returns Promise resolving to array of Asset objects
+ */
+export const fetchAssets = async (): Promise<Asset[]> => {
+  try {
+    const response = await fetch(`${API_URL}/assets`, {
+      headers: getAuthHeaders()
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch assets');
+    }
+    
+    const assets = await response.json();
+    // Normalize response data to ensure consistent Asset interface
+    return assets.map((asset: any) => ({
+      _id: asset._id,
+      symbol: asset.symbol,
+      name: asset.name,
+      description: asset.description,
+      type: asset.type,
+      price: asset.price,
+      marketCap: asset.marketCap,
+      volume: asset.volume,
+      logoUrl: asset.logoUrl,
+      availableStock: asset.availableStock,
+      changePercent: asset.changePercent || 0,  // Default to 0 if not provided
+      change: asset.change || 0,                // Default to 0 if not provided
+      isFrozen: asset.isFrozen || false         // Default to false if not provided
+    }));
+  } catch (error) {
+    console.error('Error fetching assets:', error);
+    throw error;
+  }
 };
 
-// Get top gainers
-export const getTopGainers = async (limit: number = 5): Promise<AssetData[]> => {
-  // Simulate API call delay
-  await new Promise(resolve => setTimeout(resolve, 400));
-  
-  // Sort assets by changePercent in descending order and take the top 'limit' assets
-  const sortedAssets = [...mockAssets].sort((a, b) => b.changePercent - a.changePercent);
-  return sortedAssets.slice(0, limit);
+/**
+ * Fetches a specific asset by its unique identifier
+ * @param assetId - MongoDB ObjectId string of the asset
+ * @returns Promise resolving to single Asset object
+ */
+export const fetchAssetById = async (assetId: string): Promise<Asset> => {
+  try {
+    const response = await fetch(`${API_URL}/assets/${assetId}`, {
+      headers: getAuthHeaders()
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch asset');
+    }
+    
+    const asset = await response.json();
+    // Normalize single asset response
+    return {
+      _id: asset._id,
+      symbol: asset.symbol,
+      name: asset.name,
+      description: asset.description,
+      type: asset.type,
+      price: asset.price,
+      marketCap: asset.marketCap,
+      volume: asset.volume,
+      logoUrl: asset.logoUrl,
+      availableStock: asset.availableStock,
+      changePercent: asset.changePercent || 0,
+      change: asset.change || 0,
+      isFrozen: asset.isFrozen || false
+    };
+  } catch (error) {
+    console.error('Error fetching asset by ID:', error);
+    throw error;
+  }
 };
 
-// Get top losers - required by Index.tsx
-export const getTopLosers = async (limit: number = 5): Promise<AssetData[]> => {
-  // Simulate API call delay
-  await new Promise(resolve => setTimeout(resolve, 400));
-  
-  // Sort assets by changePercent in ascending order and take the top 'limit' assets
-  const sortedAssets = [...mockAssets].sort((a, b) => a.changePercent - b.changePercent);
-  return sortedAssets.slice(0, limit);
+// Legacy function alias for backward compatibility
+export const getAssetById = fetchAssetById;
+
+// Converts modern Asset interface to legacy AssetData format
+const convertToAssetData = (asset: Asset): AssetData => ({
+  id: asset._id,           // Convert _id to id for legacy compatibility
+  symbol: asset.symbol,
+  name: asset.name,
+  type: asset.type,
+  price: asset.price,
+  changePercent: asset.changePercent || 0,
+  change: asset.change || 0,
+  marketCap: asset.marketCap,
+  volume: asset.volume,
+  logoUrl: asset.logoUrl,
+  logo: asset.logoUrl,     // Duplicate for components expecting 'logo' field
+  availableStock: asset.availableStock,
+  isFrozen: asset.isFrozen
+});
+
+// Legacy function: Returns all assets in AssetData format
+export const getAllAssets = async (): Promise<AssetData[]> => {
+  const assets = await fetchAssets();
+  return assets.map(convertToAssetData);
 };
 
-// Get price history - required by PriceChart.tsx
-export const getPriceHistory = async (
-  assetId: string, 
-  timeframe: 'day' | 'week' | 'month' | 'year'
-): Promise<PricePoint[]> => {
-  // Simulate API call delay
-  await new Promise(resolve => setTimeout(resolve, 600));
-  
-  const asset = mockAssets.find(a => a.id === assetId);
-  if (!asset) return [];
-  
-  // Get current price
-  const currentPrice = asset.price;
-  
-  // Generate points based on timeframe
+// Legacy function: Returns only stock assets in AssetData format
+export const getStocks = async (): Promise<AssetData[]> => {
+  const assets = await fetchAssets();
+  return assets.filter(asset => asset.type === 'stock').map(convertToAssetData);
+};
+
+// Legacy function: Returns only cryptocurrency assets in AssetData format
+export const getCryptos = async (): Promise<AssetData[]> => {
+  const assets = await fetchAssets();
+  return assets.filter(asset => asset.type === 'crypto').map(convertToAssetData);
+};
+
+/**
+ * Fetches historical price data for charting and analysis
+ * @param assetId - Unique identifier of the asset
+ * @param timeframe - Time range for historical data
+ * @returns Promise resolving to array of price points
+ */
+export const getPriceHistory = async (assetId: string, timeframe: 'day' | 'week' | 'month' | 'year'): Promise<PricePoint[]> => {
+  try {
+    // Map frontend timeframe to backend API parameters
+    const rangeMap = {
+      'day': '24h',
+      'week': '1W',
+      'month': '1M',
+      'year': '1Y'
+    };
+    
+    const range = rangeMap[timeframe];
+    const response = await fetch(`${API_URL}/prices/${assetId}?timeframe=${range}`, {
+      headers: getAuthHeaders()
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch price history');
+    }
+    
+    const priceData = await response.json();
+    
+    // Convert MongoDB price snapshots to standardized PricePoint format
+    return priceData.map((snapshot: any) => ({
+      timestamp: new Date(snapshot.timestamp).getTime(),
+      price: snapshot.price
+    }));
+  } catch (error) {
+    console.error('Error fetching price history:', error);
+    // Return mock data as fallback to prevent chart from breaking
+    return generateMockPriceData(timeframe);
+  }
+};
+
+// Generates mock price data as fallback when API is unavailable
+// This prevents charts from breaking during development or API downtime
+const generateMockPriceData = (timeframe: 'day' | 'week' | 'month' | 'year'): PricePoint[] => {
+  const basePrice = 100 + Math.random() * 900;  // Random base price between 100-1000
   const points: PricePoint[] = [];
-  const now = new Date();
-  let volatility = asset.type === 'crypto' ? 0.08 : 0.03; // Crypto is more volatile
+  const now = Date.now();
   
-  // Number of data points to generate
-  let numPoints = 0;
-  let startDate = new Date();
+  let intervals: number;    // Number of data points to generate
+  let intervalMs: number;   // Time between each data point
   
-  switch(timeframe) {
+  // Configure time intervals based on requested timeframe
+  switch (timeframe) {
     case 'day':
-      numPoints = 24; // Hourly data
-      startDate = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-      volatility = volatility / 3; // Lower for shorter timeframes
+      intervals = 24;                    // 24 hourly points
+      intervalMs = 60 * 60 * 1000;      // 1 hour intervals
       break;
     case 'week':
-      numPoints = 7 * 4; // 4 times a day for a week
-      startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-      volatility = volatility / 2;
+      intervals = 7 * 4;                 // 28 points (4 per day)
+      intervalMs = 6 * 60 * 60 * 1000;  // 6 hour intervals
       break;
     case 'month':
-      numPoints = 30; // Daily data
-      startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+      intervals = 30;                    // 30 daily points
+      intervalMs = 24 * 60 * 60 * 1000; // 1 day intervals
       break;
     case 'year':
-      numPoints = 52; // Weekly data
-      startDate = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
-      volatility = volatility * 2; // Higher for longer timeframes
+      intervals = 52;                           // 52 weekly points
+      intervalMs = 7 * 24 * 60 * 60 * 1000;   // 1 week intervals
       break;
   }
   
-  // Generate price points
-  let lastPrice = currentPrice * (Math.random() * 0.4 + 0.8); // Start with 80-120% of current price
-  
-  for (let i = 0; i < numPoints; i++) {
-    const pointDate = new Date(startDate.getTime() + ((now.getTime() - startDate.getTime()) * (i / numPoints)));
-    
-    // Random walk with trend toward current price
-    const trend = (currentPrice - lastPrice) / (numPoints - i + 1) * 0.5;
-    const randomChange = ((Math.random() * 2) - 1) * volatility * lastPrice;
-    lastPrice = Math.max(0.01, lastPrice + trend + randomChange);
+  // Generate realistic price movement with trend and volatility
+  for (let i = intervals; i >= 0; i--) {
+    const timestamp = now - (i * intervalMs);
+    const variation = (Math.random() - 0.5) * 0.1; // ±10% random variation
+    const price = basePrice * (1 + variation * (intervals - i) / intervals);
     
     points.push({
-      timestamp: pointDate.getTime(),
-      price: lastPrice
+      timestamp,
+      price: Math.max(price, 0.01)  // Ensure price never goes negative
     });
   }
-  
-  // Ensure the last point is the current price
-  points.push({
-    timestamp: now.getTime(),
-    price: currentPrice
-  });
   
   return points;
 };
 
-// Get stocks - required by Market.tsx
-export const getStocks = async (): Promise<AssetData[]> => {
-  // Simulate API call delay
-  await new Promise(resolve => setTimeout(resolve, 400));
-  
-  return mockAssets.filter(asset => asset.type === 'stock');
-};
-
-// Get cryptos - required by Market.tsx
-export const getCryptos = async (): Promise<AssetData[]> => {
-  // Simulate API call delay
-  await new Promise(resolve => setTimeout(resolve, 400));
-  
-  return mockAssets.filter(asset => asset.type === 'crypto');
+/**
+ * Creates a new trading order in the system
+ * @param orderData - Order details including asset, quantity, price, etc.
+ * @returns Promise resolving to created order object
+ */
+export const createOrder = async (orderData: {
+  userId: string;          // User placing the order
+  side: 'buy' | 'sell';   // Order direction
+  assetId: string;        // Asset being traded
+  assetName: string;      // Human-readable asset name
+  symbol: string;         // Trading symbol
+  type: 'stock' | 'crypto'; // Asset type
+  quantity: number;       // Number of units
+  price: number;          // Price per unit
+  total: number;          // Total order value
+  fees: number;           // Trading fees
+  status: string;         // Order status
+  timestamp: string;      // Order creation time
+}): Promise<any> => {
+  try {
+    const response = await fetch(`${API_URL}/orders`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(orderData)
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to create order');
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error('Error creating order:', error);
+    throw error;
+  }
 };

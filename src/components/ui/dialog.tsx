@@ -27,12 +27,15 @@ const DialogOverlay = React.forwardRef<
 ))
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 
+// DialogContent: Main dialog content container with close button and overlay
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => (
   <DialogPortal>
+    {/* Overlay for dialog background */}
     <DialogOverlay />
+    {/* Main dialog content area */}
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
@@ -49,8 +52,10 @@ const DialogContent = React.forwardRef<
     </DialogPrimitive.Content>
   </DialogPortal>
 ))
+// Set display name for debugging
 DialogContent.displayName = DialogPrimitive.Content.displayName
 
+// DialogHeader: Section for dialog title and optional description
 const DialogHeader = ({
   className,
   ...props
@@ -65,6 +70,7 @@ const DialogHeader = ({
 )
 DialogHeader.displayName = "DialogHeader"
 
+// DialogFooter: Section for dialog action buttons
 const DialogFooter = ({
   className,
   ...props
@@ -79,6 +85,7 @@ const DialogFooter = ({
 )
 DialogFooter.displayName = "DialogFooter"
 
+// DialogTitle: Styled dialog title
 const DialogTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
@@ -94,6 +101,7 @@ const DialogTitle = React.forwardRef<
 ))
 DialogTitle.displayName = DialogPrimitive.Title.displayName
 
+// DialogDescription: Styled dialog description text
 const DialogDescription = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
@@ -106,6 +114,7 @@ const DialogDescription = React.forwardRef<
 ))
 DialogDescription.displayName = DialogPrimitive.Description.displayName
 
+// Export dialog components
 export {
   Dialog,
   DialogPortal,

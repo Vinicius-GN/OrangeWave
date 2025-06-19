@@ -1,0 +1,109 @@
+[
+  {
+    "_id": "news-1",
+    "title": "Bitcoin Surges to New All-Time High as Institutional Interest Grows",
+    "summary": "Bitcoin has reached a new all-time high as major financial institutions increase their cryptocurrency investments.",
+    "content": "Full article content...",
+    "category": "crypto",
+    "source": "Crypto Market News",
+    "imageUrl": "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?fit=crop&w=1200&q=80",
+    "publishedAt": "2025-05-31T12:00:00Z",
+    "relatedAssets": ["asset-btc", "asset-eth"]
+  },
+  {
+    "_id": "news-2",
+    "title": "Apple Announces New AI Features Coming to iPhone in Next Update",
+    "summary": "Apple revealed a suite of new AI-powered features that will be available in the next iOS update.",
+    "content": "Full article content...",
+    "category": "stocks",
+    "source": "Tech Today",
+    "imageUrl": "https://www.shutterstock.com/image-photo/chengdu-sichuan-china-june-7-600nw-2472736747.jpg",
+    "publishedAt": "2025-05-31T00:00:00Z",
+    "relatedAssets": ["asset-aapl", "asset-msft"]
+  },
+  {
+    "_id": "news-3",
+    "title": "Tesla Unveils Next-Generation Electric Vehicle with Revolutionary Battery Technology",
+    "summary": "Tesla has announced a breakthrough in battery technology that will significantly increase the range and reduce the cost of their electric vehicles.",
+    "content": "Full article content...",
+    "category": "stocks",
+    "source": "Auto Innovation News",
+    "imageUrl": "https://images.unsplash.com/photo-1560958089-b8a1929cea89?fit=crop&w=1200&q=80",
+    "publishedAt": "2025-05-29T00:00:00Z",
+    "relatedAssets": ["asset-tsla"]
+  },
+  {
+    "_id": "news-4",
+    "title": "Microsoft Acquires AI Startup in Billion-Dollar Deal",
+    "summary": "Microsoft has acquired an AI startup specializing in natural language processing technologies.",
+    "content": "Full article content...",
+    "category": "stocks",
+    "source": "Tech Insider",
+    "imageUrl": "https://www.shutterstock.com/image-photo/logo-microsoft-company-headquarters-office-260nw-2161001273.jpg",
+    "publishedAt": "2025-05-27T00:00:00Z",
+    "relatedAssets": ["asset-msft"]
+  },
+  {
+    "_id": "news-5",
+    "title": "Amazon Expands Logistics Network with New Fulfillment Centers",
+    "summary": "Amazon is opening several new fulfillment centers across North America to meet growing demand.",
+    "content": "Full article content...",
+    "category": "stocks",
+    "source": "Business Daily",
+    "imageUrl": "https://www.shutterstock.com/image-photo/iasi-romania-april-26-2018-260nw-1388007155.jpg",
+    "publishedAt": "2025-05-25T00:00:00Z",
+    "relatedAssets": ["asset-amzn"]
+  },
+  {
+    "_id": "news-6",
+    "title": "Federal Reserve Maintains Interest Rates, Signals Future Cuts",
+    "summary": "The Federal Reserve has maintained current interest rates but suggested potential cuts later this year as inflation moderates.",
+    "content": "Full article content...",
+    "category": "economy",
+    "source": "Economic Journal",
+    "imageUrl": "https://images.unsplash.com/photo-1511174511562-5f7f18b874f8?fit=crop&w=1200&q=80",
+    "publishedAt": "2025-05-30T00:00:00Z"
+  },
+  {
+    "_id": "news-7",
+    "title": "Ethereum Completes Major Network Upgrade, Enhancing Scalability",
+    "summary": "Ethereum has successfully implemented a network upgrade that significantly improves transaction throughput and reduces fees.",
+    "content": "Full article content...",
+    "category": "crypto",
+    "source": "Blockchain Times",
+    "imageUrl": "https://images.unsplash.com/photo-1639762681057-408e52192e55?fit=crop&w=1200&q=80",
+    "publishedAt": "2025-05-28T00:00:00Z",
+    "relatedAssets": ["asset-eth"]
+  },
+  {
+    "_id": "news-8",
+    "title": "Global Market Outlook: Asian Markets Lead Recovery Amid Economic Uncertainty",
+    "summary": "Asian markets show resilience and growth potential despite ongoing global economic challenges.",
+    "content": "Full article content...",
+    "category": "market",
+    "source": "Global Finance Review",
+    "imageUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?fit=crop&w=1200&q=80",
+    "publishedAt": "2025-05-24T00:00:00Z"
+  },
+  {
+    "_id": "news-9",
+    "title": "Google Parent Alphabet Reports Strong Quarterly Earnings, Boosted by AI Initiatives",
+    "summary": "Alphabet has exceeded earnings expectations, with significant revenue growth attributed to AI-powered products and services.",
+    "content": "Full article content...",
+    "category": "stocks",
+    "source": "Tech Financial News",
+    "imageUrl": "https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?fit=crop&w=1200&q=80",
+    "publishedAt": "2025-05-26T00:00:00Z",
+    "relatedAssets": ["asset-googl"]
+  },
+  {
+    "_id": "news-10",
+    "title": "U.S. Consumer Confidence Rises to Highest Level in Two Years",
+    "summary": "Recent survey shows American consumers are increasingly optimistic about economic conditions and job prospects.",
+    "content": "Full article content...",
+    "category": "economy",
+    "source": "Economic Trends",
+    "imageUrl": "https://images.unsplash.com/photo-1559589689-577aabd1db4f?fit=crop&w=1200&q=80",
+    "publishedAt": "2025-05-23T00:00:00Z"
+  }
+]

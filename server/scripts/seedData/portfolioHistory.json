@@ -1,0 +1,42 @@
+[
+  {
+    "userId": "user-1",
+    "date": "2025-05-29T00:00:00.000Z",
+    "totalValue": 1500.00
+  },
+  {
+    "userId": "user-1",
+    "date": "2025-05-30T00:00:00.000Z",
+    "totalValue": 1523.50
+  },
+  {
+    "userId": "user-1",
+    "date": "2025-05-31T00:00:00.000Z",
+    "totalValue": 1480.75
+  },
+  {
+    "userId": "user-1",
+    "date": "2025-06-01T00:00:00.000Z",
+    "totalValue": 1550.10
+  },
+  {
+    "userId": "user-2",
+    "date": "2025-05-29T00:00:00.000Z",
+    "totalValue":  500.00
+  },
+  {
+    "userId": "user-2",
+    "date": "2025-05-30T00:00:00.000Z",
+    "totalValue":  525.25
+  },
+  {
+    "userId": "user-2",
+    "date": "2025-05-31T00:00:00.000Z",
+    "totalValue":  510.00
+  },
+  {
+    "userId": "user-2",
+    "date": "2025-06-01T00:00:00.000Z",
+    "totalValue":  540.00
+  }
+]

@@ -1,89 +1,88 @@
+// Main application component for OrangeWave Digital Trading Platform
+// This component sets up the routing structure and global providers for the entire application
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "./contexts/AuthContext";
-import { PortfolioProvider } from "./contexts/PortfolioContext";
-import { CartProvider } from "./contexts/CartContext";
-import { ThemeProvider } from "next-themes";
-import SupabaseInitializer from "./components/SupabaseInitializer";
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { AuthProvider } from '@/contexts/AuthContext';
+import { CartProvider } from '@/contexts/CartContext';
+import { PortfolioProvider } from '@/contexts/PortfolioContext';
 
-// Pages
-import Index from "./pages/Index";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import PasswordRecovery from "./pages/PasswordRecovery";
-import Dashboard from "./pages/Dashboard";
-import Market from "./pages/Market";
-import AssetDetail from "./pages/AssetDetail";
-import Orders from "./pages/Orders";
-import Wallet from "./pages/Wallet";
-import Profile from "./pages/Profile";
-import Help from "./pages/Help";
-import About from "./pages/About";
-import News from "./pages/News";
-import NewsArticle from "./pages/NewsArticle";
-import Cart from "./pages/Cart";
-import Simulation from "./pages/Simulation";
-import NotFound from "./pages/NotFound";
+// Public authentication pages (no login required)
+import Login from '@/pages/Login';
+import Register from '@/pages/Register';
+import PasswordRecovery from '@/pages/PasswordRecovery';
 
-// Admin Pages
-import AdminDashboard from "./pages/admin/Dashboard";
-import AdminStocks from "./pages/admin/Stocks";
-import AdminUsers from "./pages/admin/Users";
-import AdminCarts from "./pages/admin/Carts";
-import AdminTransactions from "./pages/admin/Transactions";
+// Main application pages (protected routes)
+import Index from '@/pages/Index';
+import Dashboard from '@/pages/Dashboard';
+import Market from '@/pages/Market';
+import AssetDetail from '@/pages/AssetDetail';
+import Wallet from '@/pages/Wallet';
+import Orders from '@/pages/Orders';
+import Simulation from '@/pages/Simulation';
+import News from '@/pages/News';
+import NewsArticle from '@/pages/NewsArticle';
+import Help from '@/pages/Help';
+import Profile from '@/pages/Profile';
+import Cart from '@/pages/Cart';
 
-const queryClient = new QueryClient();
+// Admin panel pages (admin-only access)
+import AdminDashboard from '@/pages/admin/Dashboard';
+import AdminUsers from '@/pages/admin/Users';
+import AdminStocks from '@/pages/admin/Stocks';
+import AdminTransactions from '@/pages/admin/Transactions';
 
-const App = () => (
-  <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
+// Error handling and UI components
+import NotFound from '@/pages/NotFound';
+import { Toaster } from '@/components/ui/toaster';
+
+function App() {
+  return (
+    // Provider hierarchy: Auth -> Cart -> Portfolio for proper state management
+    <AuthProvider>
+      <CartProvider>
         <PortfolioProvider>
-          <CartProvider>
-            <TooltipProvider>
-              <SupabaseInitializer />
+          <Router>
+            {/* Main application container with full height and background styling */}
+            <div className="min-h-screen bg-background">
+              <Routes>
+                {/* Public routes - accessible without authentication */}
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/password-recovery" element={<PasswordRecovery />} />
+                
+                {/* Main application routes - require user authentication */}
+                <Route path="/" element={<Index />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/market" element={<Market />} />
+                <Route path="/asset/:id" element={<AssetDetail />} />
+                <Route path="/wallet" element={<Wallet />} />
+                <Route path="/orders" element={<Orders />} />
+                <Route path="/simulation" element={<Simulation />} />
+                <Route path="/news" element={<News />} />
+                <Route path="/news/:id" element={<NewsArticle />} />
+                <Route path="/help" element={<Help />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/cart" element={<Cart />} />
+                
+                {/* Admin routes - require admin role permissions */}
+                <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/admin/users" element={<AdminUsers />} />
+                <Route path="/admin/stocks" element={<AdminStocks />} />
+                <Route path="/admin/transactions" element={<AdminTransactions />} />
+                
+                {/* Catch-all route for undefined paths */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+              
+              {/* Global toast notification system */}
               <Toaster />
-              <Sonner />
-              <BrowserRouter>
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<Register />} />
-                  <Route path="/password-recovery" element={<PasswordRecovery />} />
-                  <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/market" element={<Market />} />
-                  <Route path="/asset/:id" element={<AssetDetail />} />
-                  <Route path="/orders" element={<Orders />} />
-                  <Route path="/wallet" element={<Wallet />} />
-                  <Route path="/profile" element={<Profile />} />
-                  <Route path="/help" element={<Help />} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/news" element={<News />} />
-                  <Route path="/news/article/:id" element={<NewsArticle />} />
-                  <Route path="/cart" element={<Cart />} />
-                  <Route path="/simulation" element={<Simulation />} />
-                  
-                  {/* Admin Routes */}
-                  <Route path="/admin" element={<AdminDashboard />} />
-                  <Route path="/admin/stocks" element={<AdminStocks />} />
-                  <Route path="/admin/users" element={<AdminUsers />} />
-                  <Route path="/admin/carts" element={<AdminCarts />} />
-                  <Route path="/admin/transactions" element={<AdminTransactions />} />
-                  
-                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </BrowserRouter>
-            </TooltipProvider>
-          </CartProvider>
+            </div>
+          </Router>
         </PortfolioProvider>
-      </AuthProvider>
-    </QueryClientProvider>
-  </ThemeProvider>
-);
+      </CartProvider>
+    </AuthProvider>
+  );
+}
 
 export default App;

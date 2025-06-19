@@ -1,0 +1,74 @@
+[
+  {
+    "_id": "tx-1",
+    "userId": "user-1",
+    "type": "deposit",
+    "amount": 500,
+    "paymentMethod": "credit_card",
+    "status": "completed",
+    "timestamp": "2024-07-15T00:00:00Z"
+  },
+  {
+    "_id": "tx-3",
+    "userId": "user-1",
+    "type": "withdrawal",
+    "amount": 50,
+    "paymentMethod": "wallet",
+    "status": "pending",
+    "timestamp": "2024-07-13T00:00:00Z"
+  },
+  {
+    "_id": "tx-5",
+    "userId": "user-2",
+    "type": "deposit",
+    "amount": 200,
+    "paymentMethod": "credit_card",
+    "status": "failed",
+    "timestamp": "2024-07-11T00:00:00Z"
+  },
+  {
+    "_id": "tx-7",
+    "userId": "user-3",
+    "type": "withdrawal",
+    "amount": 100,
+    "paymentMethod": "wallet",
+    "status": "completed",
+    "timestamp": "2024-07-09T00:00:00Z"
+  },
+  {
+    "_id": "tx-9",
+    "userId": "user-1",
+    "type": "deposit",
+    "amount": 1000,
+    "paymentMethod": "credit_card",
+    "status": "completed",
+    "timestamp": "2024-07-07T00:00:00Z"
+  },
+  {
+    "_id": "tx-11",
+    "userId": "user-2",
+    "type": "withdrawal",
+    "amount": 25,
+    "paymentMethod": "wallet",
+    "status": "pending",
+    "timestamp": "2024-07-05T00:00:00Z"
+  },
+  {
+    "_id": "tx-13",
+    "userId": "user-3",
+    "type": "deposit",
+    "amount": 750,
+    "paymentMethod": "credit_card",
+    "status": "failed",
+    "timestamp": "2024-07-03T00:00:00Z"
+  },
+  {
+    "_id": "tx-15",
+    "userId": "user-1",
+    "type": "withdrawal",
+    "amount": 200,
+    "paymentMethod": "wallet",
+    "status": "completed",
+    "timestamp": "2024-07-01T00:00:00Z"
+  }
+]

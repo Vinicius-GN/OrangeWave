@@ -1,363 +1,386 @@
+// Wallet management page for OrangeWave Trading Platform
+// Provides user interface for balance management, deposits, withdrawals, and transaction history
+
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ArrowDown, ArrowUp, Clock, DollarSign, CreditCard, History, Wallet as WalletIcon, PlusCircle, MinusCircle } from 'lucide-react';
+import { DollarSign, TrendingUp, TrendingDown, Plus, Minus } from 'lucide-react';
+import Layout from '@/components/Layout';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { format } from 'date-fns';
-import { useAuth } from '@/contexts/AuthContext';
-import { usePortfolio, Transaction } from '@/contexts/PortfolioContext';
-import Layout from '@/components/Layout';
-import { cn } from '@/lib/utils';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { useToast } from '@/components/ui/use-toast';
+import { useWallet } from '@/hooks/api/useWallet';
+import CreditCardForm from '@/components/CreditCardForm';
 
 const Wallet = () => {
-  const navigate = useNavigate();
-  const { isAuthenticated, user } = useAuth();
-  const { deposit, withdraw, transactions } = usePortfolio();
+  // Hook for wallet data and operations (balance, transactions, API calls)
+  const { balance, transactions, isLoading, error, deposit, withdraw } = useWallet();
+  const { toast } = useToast();
   
-  const [depositDialogOpen, setDepositDialogOpen] = useState(false);
-  const [withdrawDialogOpen, setWithdrawDialogOpen] = useState(false);
-  const [amount, setAmount] = useState('');
-  const [isProcessing, setIsProcessing] = useState(false);
-  
-  // Redirect if not authenticated
-  if (!isAuthenticated || !user) {
-    navigate('/login');
-    return null;
-  }
-  
-  // Filter transactions for wallet related actions
-  const walletTransactions = transactions.filter(
-    txn => txn.type === 'deposit' || txn.type === 'withdrawal'
-  );
+  // State management for form inputs and UI controls
+  const [depositAmount, setDepositAmount] = useState('');      // Deposit input field value
+  const [withdrawAmount, setWithdrawAmount] = useState('');    // Withdrawal input field value
+  const [isDepositDialogOpen, setIsDepositDialogOpen] = useState(false);   // Controls deposit modal visibility
+  const [isWithdrawDialogOpen, setIsWithdrawDialogOpen] = useState(false); // Controls withdrawal modal visibility
+  const [isProcessing, setIsProcessing] = useState(false);     // Indicates API operation in progress
 
-  // Handle deposit submission
+  /**
+   * Handles deposit transaction processing
+   * Validates input, calls API, and provides user feedback
+   */
   const handleDeposit = async () => {
-    const depositAmount = parseFloat(amount);
+    const amount = parseFloat(depositAmount);
     
-    if (isNaN(depositAmount) || depositAmount <= 0) {
+    // Input validation: ensure amount is a valid positive number
+    if (isNaN(amount) || amount <= 0) {
+      toast({
+        title: 'Invalid amount',
+        description: 'Please enter a valid amount greater than 0.',
+        variant: 'destructive',
+      });
       return;
     }
-    
+
     setIsProcessing(true);
-    
     try {
-      await deposit(depositAmount);
-      setDepositDialogOpen(false);
-      setAmount('');
-    } catch (error) {
-      console.error('Deposit error:', error);
-      // Error handling is done in PortfolioContext
+      // Call deposit API through wallet hook
+      await deposit(amount);
+      toast({
+        title: 'Deposit successful',
+        description: `$${amount.toFixed(2)} has been added to your wallet.`,
+      });
+      // Reset form and close dialog on success
+      setDepositAmount('');
+      setIsDepositDialogOpen(false);
+    } catch (error: any) {
+      // Handle API errors with user-friendly messages
+      toast({
+        title: 'Deposit failed',
+        description: error.message || 'Failed to process deposit.',
+        variant: 'destructive',
+      });
     } finally {
       setIsProcessing(false);
     }
   };
-  
-  // Handle withdrawal submission
+
+  /**
+   * Handles withdrawal transaction processing
+   * Validates input and balance, calls API, and provides user feedback
+   */
   const handleWithdraw = async () => {
-    const withdrawAmount = parseFloat(amount);
+    const amount = parseFloat(withdrawAmount);
     
-    if (isNaN(withdrawAmount) || withdrawAmount <= 0) {
+    // Input validation: ensure amount is a valid positive number
+    if (isNaN(amount) || amount <= 0) {
+      toast({
+        title: 'Invalid amount',
+        description: 'Please enter a valid amount greater than 0.',
+        variant: 'destructive',
+      });
       return;
     }
-    
-    if (withdrawAmount > user.balance.wallet) {
+
+    // Balance validation: ensure user has sufficient funds
+    if (amount > balance) {
+      toast({
+        title: 'Insufficient funds',
+        description: 'You do not have enough balance for this withdrawal.',
+        variant: 'destructive',
+      });
       return;
     }
-    
+
     setIsProcessing(true);
-    
     try {
-      await withdraw(withdrawAmount);
-      setWithdrawDialogOpen(false);
-      setAmount('');
-    } catch (error) {
-      console.error('Withdrawal error:', error);
-      // Error handling is done in PortfolioContext
+      // Call withdrawal API through wallet hook
+      await withdraw(amount);
+      toast({
+        title: 'Withdrawal successful',
+        description: `$${amount.toFixed(2)} has been withdrawn from your wallet.`,
+      });
+      // Reset form and close dialog on success
+      setWithdrawAmount('');
+      setIsWithdrawDialogOpen(false);
+    } catch (error: any) {
+      // Handle API errors with user-friendly messages
+      toast({
+        title: 'Withdrawal failed',
+        description: error.message || 'Failed to process withdrawal.',
+        variant: 'destructive',
+      });
     } finally {
       setIsProcessing(false);
     }
   };
-  
-  // Render transaction history
-  const renderTransactions = (txns: Transaction[]) => {
-    if (txns.length === 0) {
-      return (
-        <div className="text-center py-8">
-          <p className="text-muted-foreground">No transactions yet</p>
-        </div>
-      );
-    }
-    
-    return (
-      <div className="space-y-4">
-        {txns.map((txn) => (
-          <div 
-            key={txn.id}
-            className="p-4 border rounded-lg flex justify-between items-center"
-          >
-            <div className="flex items-center gap-3">
-              <div className={cn(
-                "w-10 h-10 rounded-full flex items-center justify-center",
-                txn.type === 'deposit' 
-                  ? "bg-green-500/10 text-green-500" 
-                  : "bg-red-500/10 text-red-500"
-              )}>
-                {txn.type === 'deposit' ? (
-                  <ArrowDown className="h-5 w-5" />
-                ) : (
-                  <ArrowUp className="h-5 w-5" />
-                )}
-              </div>
-              
-              <div>
-                <div className="font-medium">
-                  {txn.type === 'deposit' ? 'Deposit' : 'Withdrawal'}
-                </div>
-                <div className="text-xs text-muted-foreground">
-                  {format(new Date(txn.timestamp), 'MMM d, yyyy • h:mm a')}
-                </div>
-              </div>
-            </div>
-            
-            <div className="text-right">
-              <div className={cn(
-                "font-medium",
-                txn.type === 'deposit' ? "text-green-500" : "text-red-500"
-              )}>
-                {txn.type === 'deposit' ? '+' : '-'}${txn.total.toFixed(2)}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    );
+
+  /**
+   * Formats monetary amounts with proper currency formatting
+   * @param amount - Numeric amount to format
+   * @returns Formatted currency string (e.g., "$1,234.56")
+   */
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(amount);
   };
-  
+
+  /**
+   * Formats various date formats from backend into consistent display format
+   * Handles ISO strings, timestamps, and different date formats robustly
+   * @param dateInput - Date string or Date object from API
+   * @returns Formatted date string or error message
+   */
+  const formatDate = (dateInput: string | Date) => {
+    try {
+      let date: Date;
+      
+      // Handle different date formats from the backend
+      if (typeof dateInput === 'string') {
+        // Try ISO format first, then timestamp
+        if (dateInput.includes('T') || dateInput.includes('-')) {
+          date = new Date(dateInput);
+        } else if (/^\d+$/.test(dateInput)) {
+          // Handle timestamp (number as string)
+          date = new Date(parseInt(dateInput));
+        } else {
+          date = new Date(dateInput);
+        }
+      } else {
+        date = dateInput;
+      }
+      
+      // Validate the parsed date
+      if (isNaN(date.getTime())) {
+        console.warn('Invalid date input:', dateInput);
+        return 'Invalid date';
+      }
+      
+      // Format to match the orders page style: "Jun 07, 2025 – 15:30"
+      return new Intl.DateTimeFormat('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      }).format(date);
+    } catch (error) {
+      console.error('Error formatting date:', error, 'Input:', dateInput);
+      return 'Invalid date';
+    }
+  };
+
+  /**
+   * Returns appropriate icon for transaction type with semantic coloring
+   * @param type - Transaction type string from API
+   * @returns React icon component with appropriate styling
+   */
+  const getTransactionIcon = (type: string) => {
+    switch (type) {
+      case 'deposit':
+        return <TrendingUp className="h-4 w-4 text-green-500" />;
+      case 'withdraw':
+      case 'withdrawal':
+        return <TrendingDown className="h-4 w-4 text-red-500" />;
+      default:
+        return <DollarSign className="h-4 w-4 text-blue-500" />;
+    }
+  };
+
+  // Loading state: show spinner while fetching wallet data
+  if (isLoading) {
+    return (
+      <Layout>
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center">Loading wallet...</div>
+        </div>
+      </Layout>
+    );
+  }
+
+  // Error state: display error message if wallet data fails to load
+  if (error) {
+    return (
+      <Layout>
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center text-red-500">
+            Error loading wallet: {error}
+          </div>
+        </div>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
-      <div className="container mx-auto py-8 px-4">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold mb-1">Wallet</h1>
+      <div className="container mx-auto px-4 py-8">
+        {/* Page header with title and description */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold mb-4">My Wallet</h1>
           <p className="text-muted-foreground">
-            Manage your funds and view transaction history.
+            Manage your funds and view transaction history
           </p>
         </div>
-        
-        {/* Wallet Balance Card */}
-        <Card className="glass-card mb-8">
-          <CardContent className="pt-6">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="flex flex-col items-center md:items-start">
-                <div className="text-sm text-muted-foreground mb-1">Available Balance</div>
-                <div className="text-4xl font-bold mb-2">
-                  ${user.balance.wallet.toLocaleString(undefined, { 
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                  })}
-                </div>
-                
-                <div className="flex items-center text-sm text-muted-foreground gap-1">
-                  <Clock className="h-3 w-3" />
-                  <span>Last updated {format(new Date(), 'MMM d, yyyy • h:mm a')}</span>
-                </div>
-              </div>
-              
-              <div className="flex gap-3">
-                <Button 
-                  className="bg-green-600 hover:bg-green-700"
-                  onClick={() => setDepositDialogOpen(true)}
-                >
-                  <PlusCircle className="mr-2 h-4 w-4" />
-                  Deposit
-                </Button>
-                
-                <Button 
-                  variant="outline"
-                  className="border-red-500 text-red-500 hover:bg-red-500/10"
-                  onClick={() => setWithdrawDialogOpen(true)}
-                  disabled={user.balance.wallet <= 0}
-                >
-                  <MinusCircle className="mr-2 h-4 w-4" />
-                  Withdraw
-                </Button>
-              </div>
+
+        {/* Balance display card with deposit/withdrawal action buttons */}
+        <Card className="mb-8 glass-card">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Available Balance</CardTitle>
+            <DollarSign className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{formatCurrency(balance)}</div>
+            <div className="flex gap-4 mt-4">
+              {/* Deposit funds dialog trigger */}
+              <Dialog open={isDepositDialogOpen} onOpenChange={setIsDepositDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button className="flex-1">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Deposit
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Deposit Funds</DialogTitle>
+                    <DialogDescription>
+                      Add money to your wallet. Enter the amount you want to deposit.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="grid gap-4 py-4">
+                    <div className="grid gap-2">
+                      <Label htmlFor="deposit-amount">Amount</Label>
+                      <Input
+                        id="deposit-amount"
+                        type="number"
+                        placeholder="0.00"
+                        value={depositAmount}
+                        onChange={(e) => setDepositAmount(e.target.value)}
+                        step="0.01"
+                        min="0"
+                      />
+                    </div>
+                  </div>
+                  <DialogFooter>
+                    <Button
+                      type="submit"
+                      onClick={handleDeposit}
+                      disabled={isProcessing}
+                    >
+                      {isProcessing ? 'Processing...' : 'Deposit'}
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+
+              {/* Withdraw funds dialog trigger */}
+              <Dialog open={isWithdrawDialogOpen} onOpenChange={setIsWithdrawDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button variant="outline" className="flex-1">
+                    <Minus className="h-4 w-4 mr-2" />
+                    Withdraw
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Withdraw Funds</DialogTitle>
+                    <DialogDescription>
+                      Withdraw money from your wallet. Enter the amount you want to withdraw.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="grid gap-4 py-4">
+                    <div className="grid gap-2">
+                      <Label htmlFor="withdraw-amount">Amount</Label>
+                      <Input
+                        id="withdraw-amount"
+                        type="number"
+                        placeholder="0.00"
+                        value={withdrawAmount}
+                        onChange={(e) => setWithdrawAmount(e.target.value)}
+                        step="0.01"
+                        min="0"
+                        max={balance}
+                      />
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Available balance: {formatCurrency(balance)}
+                    </p>
+                  </div>
+                  <DialogFooter>
+                    <Button
+                      type="submit"
+                      onClick={handleWithdraw}
+                      disabled={isProcessing}
+                    >
+                      {isProcessing ? 'Processing...' : 'Withdraw'}
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </div>
           </CardContent>
         </Card>
-        
-        {/* Tabs for Wallet Management */}
-        <Tabs defaultValue="history" className="mb-8">
-          <TabsList className="mb-4">
-            <TabsTrigger value="history">Transaction History</TabsTrigger>
-            <TabsTrigger value="payment-methods">Payment Methods</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="history">
-            <div className="mb-4 flex justify-between items-center">
-              <h2 className="text-xl font-bold">Transaction History</h2>
-              <Button variant="outline" size="sm" disabled>
-                <History className="mr-2 h-4 w-4" />
-                Export
-              </Button>
-            </div>
-            
-            {renderTransactions(walletTransactions)}
-          </TabsContent>
-          
-          <TabsContent value="payment-methods">
-            <Card className="glass-card">
-              <CardHeader>
-                <CardTitle>Payment Methods</CardTitle>
-                <CardDescription>
-                  Add or manage your payment methods.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="p-6 text-center">
-                  <div className="w-16 h-16 rounded-full bg-secondary/50 mx-auto flex items-center justify-center mb-4">
-                    <CreditCard className="h-8 w-8 text-muted-foreground" />
+
+        {/* Credit card management component for payment methods */}
+        <div className="mb-8">
+          <CreditCardForm />
+        </div>
+
+        {/* Transaction history display with formatted entries */}
+        <Card className="glass-card">
+          <CardHeader>
+            <CardTitle>Transaction History</CardTitle>
+            <CardDescription>
+              Your recent wallet transactions
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {transactions.length === 0 ? (
+              // Empty state when no transactions exist
+              <div className="text-center py-8 text-muted-foreground">
+                No transactions yet
+              </div>
+            ) : (
+              // Transaction list with formatted entries
+              <div className="space-y-4">
+                {transactions.map((transaction) => (
+                  <div
+                    key={transaction._id}
+                    className="flex items-center justify-between p-4 border rounded-lg"
+                  >
+                    <div className="flex items-center space-x-4">
+                      {/* Transaction type icon with semantic coloring */}
+                      {getTransactionIcon(transaction.type)}
+                      <div>
+                        <p className="font-medium capitalize">{transaction.type}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {transaction.description || `${transaction.type} transaction`}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      {/* Amount with positive/negative indicator and color coding */}
+                      <p className={`font-medium ${
+                        transaction.type === 'deposit' ? 'text-green-600' : 'text-red-600'
+                      }`}>
+                        {transaction.type === 'deposit' ? '+' : '-'}{formatCurrency(Math.abs(transaction.amount))}
+                      </p>
+                      {/* Formatted timestamp with fallback handling */}
+                      <p className="text-sm text-muted-foreground">
+                        {formatDate(transaction.timestamp || transaction.createdAt)}
+                      </p>
+                    </div>
                   </div>
-                  <p className="text-muted-foreground mb-4">
-                    No payment methods have been added yet.
-                  </p>
-                  <Button className="bg-orange-500 hover:bg-orange-600" disabled>
-                    Add Payment Method
-                  </Button>
-                </div>
-              </CardContent>
-              <CardFooter className="text-center text-sm text-muted-foreground">
-                Note: Payment methods are not available in the demo version.
-              </CardFooter>
-            </Card>
-          </TabsContent>
-        </Tabs>
-      </div>
-      
-      {/* Deposit Dialog */}
-      <Dialog open={depositDialogOpen} onOpenChange={setDepositDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Deposit Funds</DialogTitle>
-            <DialogDescription>
-              Add money to your trading account.
-            </DialogDescription>
-          </DialogHeader>
-          
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <Label htmlFor="deposit-amount">Amount</Label>
-              <div className="relative">
-                <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                <Input
-                  id="deposit-amount"
-                  type="number"
-                  min="0.01"
-                  step="0.01"
-                  placeholder="0.00"
-                  className="pl-10"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                />
+                ))}
               </div>
-            </div>
-            
-            <Alert className="bg-orange-500/10 border-orange-500/30">
-              <AlertDescription className="text-sm">
-                In a real application, this would connect to a payment processor.
-                For this demo, funds will be added instantly.
-              </AlertDescription>
-            </Alert>
-          </div>
-          
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setDepositDialogOpen(false)}>
-              Cancel
-            </Button>
-            <Button 
-              onClick={handleDeposit}
-              className="bg-green-600 hover:bg-green-700"
-              disabled={isProcessing || !amount || parseFloat(amount) <= 0}
-            >
-              {isProcessing ? 'Processing...' : 'Deposit Funds'}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-      
-      {/* Withdraw Dialog */}
-      <Dialog open={withdrawDialogOpen} onOpenChange={setWithdrawDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Withdraw Funds</DialogTitle>
-            <DialogDescription>
-              Withdraw money from your trading account.
-            </DialogDescription>
-          </DialogHeader>
-          
-          <div className="space-y-4 py-4">
-            <div className="flex justify-between items-center">
-              <div className="text-sm font-medium text-muted-foreground">Available Balance</div>
-              <div className="font-medium">${user.balance.wallet.toFixed(2)}</div>
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="withdraw-amount">Amount</Label>
-              <div className="relative">
-                <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                <Input
-                  id="withdraw-amount"
-                  type="number"
-                  min="0.01"
-                  step="0.01"
-                  max={user.balance.wallet.toString()}
-                  placeholder="0.00"
-                  className="pl-10"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                />
-              </div>
-            </div>
-            
-            {parseFloat(amount) > user.balance.wallet && (
-              <Alert variant="destructive">
-                <AlertDescription>
-                  Insufficient funds. You can withdraw up to ${user.balance.wallet.toFixed(2)}.
-                </AlertDescription>
-              </Alert>
             )}
-            
-            <Alert className="bg-orange-500/10 border-orange-500/30">
-              <AlertDescription className="text-sm">
-                In a real application, this would connect to a payment processor.
-                For this demo, funds will be withdrawn instantly.
-              </AlertDescription>
-            </Alert>
-          </div>
-          
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setWithdrawDialogOpen(false)}>
-              Cancel
-            </Button>
-            <Button 
-              onClick={handleWithdraw}
-              variant="destructive"
-              disabled={
-                isProcessing || 
-                !amount || 
-                parseFloat(amount) <= 0 || 
-                parseFloat(amount) > user.balance.wallet
-              }
-            >
-              {isProcessing ? 'Processing...' : 'Withdraw Funds'}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </CardContent>
+        </Card>
+      </div>
     </Layout>
   );
 };

@@ -72,6 +72,7 @@ const SheetContent = React.forwardRef<
 ))
 SheetContent.displayName = SheetPrimitive.Content.displayName
 
+// SheetHeader: Section for sheet header content
 const SheetHeader = ({
   className,
   ...props
@@ -86,6 +87,7 @@ const SheetHeader = ({
 )
 SheetHeader.displayName = "SheetHeader"
 
+// SheetFooter: Section for sheet action buttons
 const SheetFooter = ({
   className,
   ...props
@@ -100,6 +102,7 @@ const SheetFooter = ({
 )
 SheetFooter.displayName = "SheetFooter"
 
+// SheetTitle: Styled sheet title
 const SheetTitle = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>
@@ -112,6 +115,7 @@ const SheetTitle = React.forwardRef<
 ))
 SheetTitle.displayName = SheetPrimitive.Title.displayName
 
+// SheetDescription: Styled sheet description text
 const SheetDescription = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>
@@ -124,6 +128,7 @@ const SheetDescription = React.forwardRef<
 ))
 SheetDescription.displayName = SheetPrimitive.Description.displayName
 
+// Export sheet components
 export {
   Sheet, SheetClose,
   SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetOverlay, SheetPortal, SheetTitle, SheetTrigger

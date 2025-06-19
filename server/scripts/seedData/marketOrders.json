@@ -1,0 +1,47 @@
+[
+  {
+    "_id": "tx-1",
+    "userId": "user-1",
+    "side": "buy",
+    "assetId": "asset-aapl",
+    "assetName": "Apple Inc.",
+    "symbol": "AAPL",
+    "type": "stock",
+    "quantity": 5,
+    "price": 178.32,
+    "total": 891.6,
+    "fees": 4.99,
+    "status": "completed",
+    "timestamp": "2024-06-16T00:00:00Z"
+  },
+  {
+    "_id": "tx-2",
+    "userId": "user-1",
+    "side": "buy",
+    "assetId": "asset-msft",
+    "assetName": "Microsoft Corporation",
+    "symbol": "MSFT",
+    "type": "stock",
+    "quantity": 3,
+    "price": 356.53,
+    "total": 1069.59,
+    "fees": 4.99,
+    "status": "completed",
+    "timestamp": "2024-06-21T00:00:00Z"
+  },
+  {
+    "_id": "tx-3",
+    "userId": "user-1",
+    "side": "buy",
+    "assetId": "asset-btc",
+    "assetName": "Bitcoin",
+    "symbol": "BTC",
+    "type": "crypto",
+    "quantity": 0.05,
+    "price": 68452.15,
+    "total": 3422.61,
+    "fees": 9.99,
+    "status": "completed",
+    "timestamp": "2024-06-26T00:00:00Z"
+  }
+]
