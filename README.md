@@ -364,6 +364,7 @@ Abaixo estão listadas as principais funcionalidades testadas, com foco tanto na
 - **Validação de acesso restrito a administradores**  
   - Esperado: bloqueio de rotas exclusivas quando logado como cliente comum ou não autenticado.
 
+**Observação:** Para a entrega final, consideramos que, ao criar um novo ativo, ainda não tenha nenhum dado registrado para ele e, portanto, ele nao conterá nenhuma informação de histórico de preços. O mesmo princípio ocorre para o histórico do partifólio do usuário. Dessa forma, esses testes devem ser desconsiderados por se tratarem de funcionalidades extras.
 ---
 
 ## Resultados dos Testes (Manual)
