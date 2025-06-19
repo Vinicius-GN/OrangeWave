@@ -1,4 +1,10 @@
 "use strict";
+/**
+ * @file database.ts
+ * @brief Database connection utilities for MongoDB using Mongoose.
+ *
+ * This file provides functions to connect and disconnect from MongoDB using the connection string in environment variables.
+ */
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -8,7 +14,11 @@ exports.disconnectDB = disconnectDB;
 const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-// Connect to MongoDB using the connection string from environment variables
+/**
+ * @brief Connect to MongoDB using the connection string from environment variables.
+ *
+ * @returns Promise that resolves when the connection is established.
+ */
 async function connectDB() {
     try {
         await mongoose_1.default.connect(process.env.MONGODB_URI);
@@ -19,7 +29,11 @@ async function connectDB() {
         process.exit(1);
     }
 }
-// Disconnect from MongoDB
+/**
+ * @brief Disconnect from MongoDB.
+ *
+ * @returns Promise that resolves when the connection is closed.
+ */
 async function disconnectDB() {
     try {
         await mongoose_1.default.disconnect();

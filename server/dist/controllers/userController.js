@@ -1,4 +1,11 @@
 "use strict";
+/**
+ * @file userController.ts
+ * @brief Controller for user operations: profile, update, delete, and password management.
+ *
+ * This file defines controller functions for handling authenticated user operations,
+ * as well as administrative user management actions.
+ */
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -6,7 +13,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.resetPasswordByEmail = exports.deleteUserById = exports.updateUserById = exports.listUsers = exports.changePassword = exports.deleteMe = exports.updateMe = exports.me = void 0;
 const user_1 = __importDefault(require("../models/user"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
-// Returns authenticated user data (without the password)
+/**
+ * @brief Returns authenticated user data (without the password).
+ *
+ * @param req HTTP request containing authentication info.
+ * @param res HTTP response.
+ * @returns User data, or error if not authenticated or not found.
+ */
 const me = async (req, res) => {
     try {
         const userId = req.user?.userId;
@@ -28,7 +41,15 @@ const me = async (req, res) => {
     }
 };
 exports.me = me;
-// Updates user data (including address)
+/**
+ * @brief Updates authenticated user data (including address).
+ *
+ * Only updates fields provided in the request body.
+ *
+ * @param req HTTP request containing user fields to update.
+ * @param res HTTP response.
+ * @returns Updated user data, or error if not authenticated or not found.
+ */
 const updateMe = async (req, res) => {
     try {
         const userId = req.user?.userId;
@@ -71,7 +92,13 @@ const updateMe = async (req, res) => {
     }
 };
 exports.updateMe = updateMe;
-// Deletes the user's own account (hard delete)
+/**
+ * @brief Deletes the authenticated user's own account (hard delete).
+ *
+ * @param req HTTP request containing authentication info.
+ * @param res HTTP response.
+ * @returns Confirmation message or error if not authenticated or not found.
+ */
 const deleteMe = async (req, res) => {
     try {
         const userId = req.user?.userId;
@@ -92,6 +119,15 @@ const deleteMe = async (req, res) => {
     }
 };
 exports.deleteMe = deleteMe;
+/**
+ * @brief Changes the password of the authenticated user.
+ *
+ * Compares the provided old password, validates it, and sets a new password.
+ *
+ * @param req HTTP request containing oldPassword and newPassword in the body.
+ * @param res HTTP response.
+ * @returns Confirmation message or error if old password is incorrect.
+ */
 const changePassword = async (req, res) => {
     // Endpoint to change password
     try {
@@ -121,6 +157,13 @@ const changePassword = async (req, res) => {
     }
 };
 exports.changePassword = changePassword;
+/**
+ * @brief Lists all users (ADMIN ONLY).
+ *
+ * @param _req HTTP request (unused).
+ * @param res HTTP response.
+ * @returns Array of all users without passwords.
+ */
 const listUsers = async (_req, res) => {
     // Lists all users (ADMIN ONLY)
     try {
@@ -133,6 +176,15 @@ const listUsers = async (_req, res) => {
     }
 };
 exports.listUsers = listUsers;
+/**
+ * @brief Updates a user by ID (ADMIN ONLY).
+ *
+ * Updates provided fields for the specified user, except for "superadmin-id".
+ *
+ * @param req HTTP request with user ID in params and fields to update in body.
+ * @param res HTTP response.
+ * @returns Updated user data or error if user not found or forbidden.
+ */
 const updateUserById = async (req, res) => {
     // Updates a user by ID (ADMIN ONLY)
     try {
@@ -173,6 +225,15 @@ const updateUserById = async (req, res) => {
     }
 };
 exports.updateUserById = updateUserById;
+/**
+ * @brief Deletes a user by ID (ADMIN ONLY).
+ *
+ * Cannot delete the "superadmin-id" user.
+ *
+ * @param req HTTP request with user ID in params.
+ * @param res HTTP response.
+ * @returns Confirmation message or error if user not found or forbidden.
+ */
 const deleteUserById = async (req, res) => {
     // Deletes a user by ID (ADMIN ONLY)
     try {
@@ -194,6 +255,13 @@ const deleteUserById = async (req, res) => {
     }
 };
 exports.deleteUserById = deleteUserById;
+/**
+ * @brief Resets a user's password by email (ADMIN or password recovery).
+ *
+ * @param req HTTP request with email and newPassword in the body.
+ * @param res HTTP response.
+ * @returns Confirmation message or error if user not found.
+ */
 const resetPasswordByEmail = async (req, res) => {
     try {
         const { email, newPassword } = req.body;
@@ -201,17 +269,17 @@ const resetPasswordByEmail = async (req, res) => {
             res.status(400).json({ message: "E-mail e nova senha são obrigatórios" });
             return;
         }
-        // 1) Encontra usuário por e-mail
+        // 1) Find user by email
         const user = await user_1.default.findOne({ email });
         if (!user) {
             res.status(404).json({ message: "Usuário não encontrado" });
             return;
         }
-        // 2) Hash da nova senha
+        // 2) Hash new password
         const saltRounds = 10;
         const hashed = await bcrypt_1.default.hash(newPassword, saltRounds);
         user.password = hashed;
-        // 3) Salva
+        // 3) Save user
         await user.save();
         res.json({ message: "Senha alterada com sucesso" });
     }

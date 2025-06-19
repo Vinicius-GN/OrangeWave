@@ -1,11 +1,25 @@
 "use strict";
+/**
+ * @file assetController.ts
+ * @brief Controller for asset management: list, get, create, update, and delete assets.
+ *
+ * This file defines controller functions for handling asset operations,
+ * including listing all assets, getting an asset by ID or symbol,
+ * creating new assets, updating existing assets, and deleting assets.
+ */
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteAsset = exports.updateAsset = exports.createAsset = exports.getAsset = exports.listAssets = void 0;
 const assets_1 = __importDefault(require("../models/assets"));
-// List all assets
+/**
+ * @brief List all assets.
+ *
+ * @param _req HTTP request (unused).
+ * @param res HTTP response.
+ * @returns Array of all assets.
+ */
 const listAssets = async (_req, res) => {
     try {
         const assets = await assets_1.default.find();
@@ -17,7 +31,15 @@ const listAssets = async (_req, res) => {
     }
 };
 exports.listAssets = listAssets;
-// Get a single asset by its ID or symbol
+/**
+ * @brief Get a single asset by its ID or symbol.
+ *
+ * Tries to find the asset first by _id, then by symbol.
+ *
+ * @param req HTTP request with identifier (asset _id or symbol) as a URL parameter.
+ * @param res HTTP response.
+ * @returns The requested asset or 404 if not found.
+ */
 const getAsset = async (req, res) => {
     try {
         const { identifier } = req.params;
@@ -39,7 +61,15 @@ const getAsset = async (req, res) => {
     }
 };
 exports.getAsset = getAsset;
-// Create a new asset
+/**
+ * @brief Create a new asset.
+ *
+ * Checks for duplicate asset symbol before creation.
+ *
+ * @param req HTTP request containing asset details in the body.
+ * @param res HTTP response.
+ * @returns The newly created asset or an error if already exists.
+ */
 const createAsset = async (req, res) => {
     try {
         const payload = req.body;
@@ -59,7 +89,15 @@ const createAsset = async (req, res) => {
     }
 };
 exports.createAsset = createAsset;
-// Update an asset by its ID or symbol
+/**
+ * @brief Update an asset by its ID or symbol.
+ *
+ * Tries to update the asset first by _id, then by symbol.
+ *
+ * @param req HTTP request with identifier (asset _id or symbol) as a URL parameter and update data in the body.
+ * @param res HTTP response.
+ * @returns The updated asset or 404 if not found.
+ */
 const updateAsset = async (req, res) => {
     try {
         const { identifier } = req.params;
@@ -82,7 +120,15 @@ const updateAsset = async (req, res) => {
     }
 };
 exports.updateAsset = updateAsset;
-// Delete an asset by its ID or symbol
+/**
+ * @brief Delete an asset by its ID or symbol.
+ *
+ * Tries to delete the asset first by _id, then by symbol.
+ *
+ * @param req HTTP request with identifier (asset _id or symbol) as a URL parameter.
+ * @param res HTTP response.
+ * @returns Success message if deleted or 404 if not found.
+ */
 const deleteAsset = async (req, res) => {
     try {
         const { identifier } = req.params;

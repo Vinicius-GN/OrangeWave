@@ -1,4 +1,11 @@
 "use strict";
+/**
+ * @file authController.ts
+ * @brief Controller for user authentication: registration and login.
+ *
+ * This file defines controller functions for registering new users and authenticating users,
+ * including JWT token generation for login.
+ */
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -8,7 +15,15 @@ const user_1 = __importDefault(require("../models/user"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const JWT_SECRET = process.env.JWT_SECRET;
-// Register a new user
+/**
+ * @brief Register a new user.
+ *
+ * Validates required fields, checks for duplicate email, and creates a new user record.
+ *
+ * @param req HTTP request containing new user data in the body.
+ * @param res HTTP response.
+ * @returns The created user data without the password, or an error.
+ */
 const register = async (req, res) => {
     try {
         const { fullName, email, password, role, phone, address: { country, state, city, street, number } = {} } = req.body;
@@ -55,7 +70,15 @@ const register = async (req, res) => {
     }
 };
 exports.register = register;
-// Authenticate user and return JWT token
+/**
+ * @brief Authenticate user and return JWT token.
+ *
+ * Checks user credentials and returns a signed JWT token on success.
+ *
+ * @param req HTTP request containing email and password in the body.
+ * @param res HTTP response.
+ * @returns JWT token or an error message on failure.
+ */
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;

@@ -18,7 +18,7 @@ const path = require("path");
  * @param fileName Name of the JSON file to load.
  * @returns {Promise<any>} Parsed JSON content from the file.
  */
-const loadJSON = async (fileName) => {
+const loadJSON = async (fileName : any) => {
   const filePath = path.join("scripts/seedData", fileName);
   const data = await fs.readFile(filePath, "utf-8");
   return JSON.parse(data);
