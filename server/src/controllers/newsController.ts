@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import News from "../models/newsArticles";
 
+// List all news articles, sorted by most recent
 export const listNews = async (_req: Request, res: Response): Promise<void> => {
   try {
     const articles = await News.find().sort({ publishedAt: -1 });
@@ -11,6 +12,7 @@ export const listNews = async (_req: Request, res: Response): Promise<void> => {
   }
 };
 
+// Get a single news article by its ID
 export const getNewsById = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
@@ -26,6 +28,7 @@ export const getNewsById = async (req: Request, res: Response): Promise<void> =>
   }
 };
 
+// Create a new news article
 export const createNews = async (req: Request, res: Response): Promise<void> => {
   try {
     const payload = req.body;
@@ -38,6 +41,7 @@ export const createNews = async (req: Request, res: Response): Promise<void> => 
   }
 };
 
+// Update an existing news article by its ID
 export const updateNews = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
@@ -54,6 +58,7 @@ export const updateNews = async (req: Request, res: Response): Promise<void> => 
   }
 };
 
+// Delete a news article by its ID
 export const deleteNews = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;

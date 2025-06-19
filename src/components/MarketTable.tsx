@@ -17,13 +17,13 @@ const MarketTable = ({ assets, isLoading = false }: MarketTableProps) => {
   const [sortField, setSortField] = useState<SortField>('marketCap');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
   
-  // Handle sorting
+  // Dynamic sorting with direction toggle on repeated clicks
   const handleSort = (field: SortField) => {
     if (field === sortField) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
     } else {
       setSortField(field);
-      setSortDirection('desc');
+      setSortDirection('desc'); // Default to descending for new fields
     }
   };
   
@@ -52,7 +52,7 @@ const MarketTable = ({ assets, isLoading = false }: MarketTableProps) => {
     return sortDirection === 'asc' ? comparison : -comparison;
   });
   
-  // Handle row click - Fix: Ensure we're using the asset.id directly
+  // Navigate to asset detail page with proper ID handling
   const handleRowClick = (asset: AssetData) => {
     console.log("Navigating to asset with ID:", asset.id);
     navigate(`/asset/${asset.id}`);

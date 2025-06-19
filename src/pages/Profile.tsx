@@ -1,3 +1,24 @@
+/**
+ * Profile Page Component
+ * 
+ * This component provides a complete user profile management interface where users can:
+ * - View their personal information and account details
+ * - Edit profile information including name, email, phone, and address
+ * - Change their password through a separate security tab
+ * - Track account creation date and role information
+ * 
+ * Features:
+ * - Two-tab interface: Profile Information and Security
+ * - Real-time form validation and error handling
+ * - Optimistic UI updates with proper error rollback
+ * - Responsive design for mobile and desktop
+ * - Toast notifications for user feedback
+ * 
+ * Security considerations:
+ * - JWT token authentication for all API calls
+ * - Client-side form validation before submission
+ * - Secure password change functionality in separate component
+ */
 
 import { useState, useEffect } from 'react';
 import { User, Mail, Phone, MapPin, Settings } from 'lucide-react';
@@ -27,13 +48,19 @@ interface UserProfile {
   createdAt: string;
 }
 
+// Profile page for viewing and editing user information
 const Profile = () => {
   const { user } = useAuth();
   const { toast } = useToast();
+  // State for storing fetched user profile data
   const [profile, setProfile] = useState<UserProfile | null>(null);
+  // Loading state for profile fetch
   const [isLoading, setIsLoading] = useState(true);
+  // State to toggle edit mode for profile fields
   const [isEditing, setIsEditing] = useState(false);
+  // State to indicate if profile changes are being saved
   const [isSaving, setIsSaving] = useState(false);
+  // State for form data when editing profile
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',

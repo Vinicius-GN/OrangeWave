@@ -1,22 +1,24 @@
 import request  from 'supertest';
 import mongoose from 'mongoose';
-import app      from '../index';                    // server exportado em index.ts
+import app      from '../index';                    // server exported in index.ts
 import { connectDB} from '../config/database';
 
+// End-to-end tests for the Asset Controller API endpoints
+// This suite tests asset creation, retrieval, update, deletion, and cleanup.
 describe('Asset Controller (e2e)', () => {
   let token:    string;
-  let assetId:  string;  // _id gerado na criação
-  const symbol = `TST${Date.now()}`; // garante símbolo único
+  let assetId:  string;  // _id generated during creation
+  const symbol = `TST${Date.now()}`; // ensures a unique symbol
 
-  jest.setTimeout(15_000);           // CI lentos → timeout maior
+  jest.setTimeout(15_000);           // Increase timeout for slow CI environments
 
-  /* ------------------------------------------------------------ */
-  /*  SET-UP: conecta, faz login/registro e obtém token            */
-  /* ------------------------------------------------------------ */
+  // ------------------------------------------------------------
+  // SET-UP: Connect to DB, register/login admin, and obtain token
+  // ------------------------------------------------------------
   beforeAll(async () => {
     await connectDB();
 
-    /* registra admin se ainda não existir --------------------- */
+    // Register a test admin if not already present
     await request(app)
       .post('/api/auth/register')
       .send({
@@ -27,9 +29,10 @@ describe('Asset Controller (e2e)', () => {
         address:  { country:'BR', state:'SP', city:'São Paulo', street:'Rua Teste', number: 1 },
         role:     'admin'
       })
-      .ok(res => res.status === 201 || res.status === 400);  // 400 => já existe
+      // Accept 201 (created) or 400 (already exists) as valid responses
+      .ok(res => res.status === 201 || res.status === 400);  // 400 => already exists
 
-    /* login para obter JWT ------------------------------------ */
+    // Log in as the test admin to get a JWT token
     const login = await request(app)
       .post('/api/auth/login')
       .send({ email: 'jest+admin@gmail.com', password: 'senha123' });
@@ -37,16 +40,17 @@ describe('Asset Controller (e2e)', () => {
     token = login.body.token;
   });
 
-  /* ------------------------------------------------------------ */
-  /*  T1  – cria ativo “sandbox” apenas para esta suíte            */
-  /* ------------------------------------------------------------ */
-  it('POST /api/assets – deve criar novo asset', async () => {
+  // ------------------------------------------------------------
+  // T1 – Create a sandbox asset just for this suite
+  // ------------------------------------------------------------
+  // Test: Create a new asset for this suite
+  it('POST /api/assets – should create a new asset', async () => {
     const res = await request(app)
       .post('/api/assets')
       .set('Authorization', `Bearer ${token}`)
       .send({
         _id:            `asset-${Date.now()}`,
-        symbol,                           // único
+        symbol,                           // unique symbol
         name:           'Test Inc.',
         type:           'stock',
         price:          100,
@@ -58,37 +62,40 @@ describe('Asset Controller (e2e)', () => {
     expect(res.status).toBe(201);
     expect(res.body.symbol).toBe(symbol);
 
-    assetId = res.body._id;            // salva para os próximos testes
+    assetId = res.body._id;            // Save for later tests
   });
 
-  /* ------------------------------------------------------------ */
-  /*  T2 – listar todos                                           */
-  /* ------------------------------------------------------------ */
-  it('GET /api/assets – lista deve conter array', async () => {
+  // ------------------------------------------------------------
+  // T2 – List all assets
+  // ------------------------------------------------------------
+  // Test: List all assets and check if the response is an array
+  it('GET /api/assets – should return an array', async () => {
     const res = await request(app).get('/api/assets');
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
   });
 
-  /* ------------------------------------------------------------ */
-  /*  T3 – obter por _id e por symbol                             */
-  /* ------------------------------------------------------------ */
-  it('GET /api/assets/:identifier – por id & por symbol', async () => {
-    /* por id */
+  // ------------------------------------------------------------
+  // T3 – Retrieve by _id and by symbol
+  // ------------------------------------------------------------
+  // Test: Retrieve asset by _id and by symbol
+  it('GET /api/assets/:identifier – by id & by symbol', async () => {
+    // By id
     const resById = await request(app).get(`/api/assets/${assetId}`);
     expect(resById.status).toBe(200);
     expect(resById.body._id).toBe(assetId);
 
-    /* por symbol */
+    // By symbol
     const resBySymbol = await request(app).get(`/api/assets/${symbol}`);
     expect(resBySymbol.status).toBe(200);
     expect(resBySymbol.body.symbol).toBe(symbol);
   });
 
-  /* ------------------------------------------------------------ */
-  /*  T4 – atualizar                                              */
-  /* ------------------------------------------------------------ */
-  it('PUT /api/assets/:identifier – atualiza preço e estoque', async () => {
+  // ------------------------------------------------------------
+  // T4 – Update asset
+  // ------------------------------------------------------------
+  // Test: Update asset price and available stock
+  it('PUT /api/assets/:identifier – update price and stock', async () => {
     const res = await request(app)
       .put(`/api/assets/${assetId}`)
       .set('Authorization', `Bearer ${token}`)
@@ -99,9 +106,10 @@ describe('Asset Controller (e2e)', () => {
     expect(res.body.availableStock).toBe(450);
   });
 
-  /* ------------------------------------------------------------ */
-  /*  T5 – deletar e 404 subsequente                              */
-  /* ------------------------------------------------------------ */
+  // ------------------------------------------------------------
+  // T5 – Delete asset and check 404 on subsequent delete
+  // ------------------------------------------------------------
+  // Test: Delete asset and ensure 404 on subsequent delete
   it('DELETE /api/assets/:identifier – remove asset', async () => {
     const del = await request(app)
       .delete(`/api/assets/${assetId}`)
@@ -110,7 +118,7 @@ describe('Asset Controller (e2e)', () => {
     expect(del.status).toBe(200);
     expect(del.body.message).toBe('Asset removido com sucesso');
 
-    /* tentar deletar de novo → 404 */
+    // Try deleting again (should return 404)
     const delAgain = await request(app)
       .delete(`/api/assets/${assetId}`)
       .set('Authorization', `Bearer ${token}`);
@@ -119,9 +127,10 @@ describe('Asset Controller (e2e)', () => {
     expect(delAgain.body.message).toBe('Asset não encontrado');
   });
 
-  /* ------------------------------------------------------------ */
-  /*  TEAR-DOWN: encerra conexões                                 */
-  /* ------------------------------------------------------------ */
+  // ------------------------------------------------------------
+  // TEAR-DOWN: Close DB connections
+  // ------------------------------------------------------------
+  // Clean up: close DB connection after all tests
   afterAll(async () => {
     await mongoose.connection.close();
   });

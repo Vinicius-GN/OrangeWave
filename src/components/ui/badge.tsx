@@ -3,6 +3,8 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 
+// Styled badge component for status, labels, or highlights
+// Uses class-variance-authority for easy variant management
 const badgeVariants = cva(
   "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
   {
@@ -27,7 +29,9 @@ export interface BadgeProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof badgeVariants> {}
 
+// Badge: Renders a styled badge with optional variant
 function Badge({ className, variant, ...props }: BadgeProps) {
+  // Merge variant and custom classes for badge styling
   return (
     <div className={cn(badgeVariants({ variant }), className)} {...props} />
   )

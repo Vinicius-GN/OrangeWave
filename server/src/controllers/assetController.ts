@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Asset from "../models/assets";
 import mongoose from "mongoose";
 
+// List all assets
 export const listAssets = async (_req: Request, res: Response): Promise<void> => {
   try {
     const assets = await Asset.find();
@@ -12,14 +13,15 @@ export const listAssets = async (_req: Request, res: Response): Promise<void> =>
   }
 };
 
+// Get a single asset by its ID or symbol
 export const getAsset = async (req: Request, res: Response): Promise<void> => {
   try {
     const { identifier } = req.params;
 
-    // Primeiro tenta buscar por _id
+    // Try to find asset by _id
     let asset = await Asset.findById(identifier);
 
-    // Se não encontrar, tenta por symbol
+    // If not found, try by symbol
     if (!asset) {
       asset = await Asset.findOne({ symbol: identifier });
     }
@@ -36,10 +38,12 @@ export const getAsset = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-
+// Create a new asset
 export const createAsset = async (req: Request, res: Response): Promise<void> => {
   try {
     const payload = req.body;
+
+    // Check if asset with the same symbol already exists
     const exists = await Asset.findOne({ symbol: payload.symbol });
     if (exists) {
       res.status(400).json({ message: "Asset já existe" });
@@ -54,15 +58,16 @@ export const createAsset = async (req: Request, res: Response): Promise<void> =>
   }
 };
 
+// Update an asset by its ID or symbol
 export const updateAsset = async (req: Request, res: Response): Promise<void> => {
   try {
     const { identifier } = req.params;
     const updates = req.body;
 
-    // Tenta primeiro por _id
+    // Try to update by _id
     let asset = await Asset.findByIdAndUpdate(identifier, updates, { new: true });
 
-    // Se não achar, tenta por symbol
+    // If not found, try by symbol
     if (!asset) {
       asset = await Asset.findOneAndUpdate({ symbol: identifier }, updates, { new: true });
     }
@@ -79,15 +84,15 @@ export const updateAsset = async (req: Request, res: Response): Promise<void> =>
   }
 };
 
-
+// Delete an asset by its ID or symbol
 export const deleteAsset = async (req: Request, res: Response): Promise<void> => {
   try {
     const { identifier } = req.params;
 
-    // Tenta deletar por _id
+    // Try to delete by _id
     let result = await Asset.deleteOne({ _id: identifier });
 
-    // Se não deletou, tenta por symbol
+    // If not deleted, try by symbol
     if (result.deletedCount === 0) {
       result = await Asset.deleteOne({ symbol: identifier });
     }

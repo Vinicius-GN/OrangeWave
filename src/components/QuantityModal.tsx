@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -41,12 +40,14 @@ const QuantityModal: React.FC<QuantityModalProps> = ({
   assetType = 'stock'
 }) => {
   const [inputValue, setInputValue] = useState(quantity.toString());
+  
+  // Real-time validation calculations
   const totalCost = price * quantity;
   const insufficientFunds = userBalance !== undefined && totalCost > userBalance;
   const exceedsMaxQuantity = maxQuantity !== undefined && quantity > maxQuantity;
   const exceedsAvailableStock = availableStock !== undefined && quantity > availableStock;
 
-  // Update input value when quantity changes externally
+  // Sync input field with external quantity changes
   useEffect(() => {
     setInputValue(quantity.toString());
   }, [quantity]);
@@ -58,18 +59,16 @@ const QuantityModal: React.FC<QuantityModalProps> = ({
     }
   }, [availableStock, setQuantity, quantity]);
 
-  // Handle quantity input change with support for fractional amounts in crypto
+  // Handle quantity input with asset-specific validation (fractional crypto vs whole stocks)
   const handleQuantityChange = (value: string) => {
     setInputValue(value);
     
-    // Parse the value based on asset type
+    // Parse value based on asset type constraints
     let parsedValue: number;
     if (assetType === 'crypto') {
-      // Allow fractional amounts for crypto
-      parsedValue = parseFloat(value) || 0;
+      parsedValue = parseFloat(value) || 0; // Allow decimals for crypto
     } else {
-      // Only whole numbers for stocks
-      parsedValue = parseInt(value) || 0;
+      parsedValue = parseInt(value) || 0; // Whole numbers only for stocks
     }
     
     // Ensure minimum value
@@ -77,7 +76,7 @@ const QuantityModal: React.FC<QuantityModalProps> = ({
       parsedValue = assetType === 'crypto' ? 0.00000001 : 1;
     }
     
-    // Apply stock limit if available
+    // Apply stock availability constraints
     if (availableStock !== undefined) {
       parsedValue = Math.min(parsedValue, availableStock);
     }

@@ -53,6 +53,7 @@ const SellAssetModal = ({
     };
   };
 
+  // Reset form state when modal opens
   useEffect(() => {
     if (isOpen) {
       setQuantity(1);
@@ -60,6 +61,7 @@ const SellAssetModal = ({
     }
   }, [isOpen]);
 
+  // Real-time validation for quantity limits
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const v = parseInt(e.target.value);
     if (!isNaN(v) && v > 0) {
@@ -115,9 +117,9 @@ const SellAssetModal = ({
     if (!res.ok) throw new Error('Failed to update asset stock');
   };
 
-  // === refatoração aqui ===
+  // Portfolio management: update or remove position after sale
   const removeFromPortfolio = async (assetId: string, soldQty: number) => {
-    // 1) Busca todo o portfólio
+    // 1) Fetch current portfolio to get existing position
     const listRes = await fetch(
       `${API_URL}/portfolio/${user!._id}`,
       { headers: getAuthHeaders() }
@@ -130,14 +132,14 @@ const SellAssetModal = ({
       buyPrice: number;
     }> = await listRes.json();
 
-    // 2) Encontra a entrada deste ativo
+    // 2) Find the entry for this asset
     const entry = portfolio.find((p) => p.assetId === assetId);
-    if (!entry) return; // nada a fazer se não existe
+    if (!entry) return; // Nothing to do if position doesn't exist
 
     const remaining = entry.quantity - soldQty;
 
     if (remaining > 0) {
-      // 3a) Se sobrar quantidade, atualiza via POST
+      // 3a) If shares remain, update position via POST
       const updRes = await fetch(
         `${API_URL}/portfolio/${user!._id}`,
         {
@@ -148,13 +150,13 @@ const SellAssetModal = ({
             symbol: entry.symbol,
             type: asset.type,
             quantity: remaining,
-            buyPrice: entry.buyPrice, // mantém preço original
+            buyPrice: entry.buyPrice, // Maintain original average price
           }),
         }
       );
       if (!updRes.ok) throw new Error('Failed to update portfolio');
     } else {
-      // 3b) Se vendeu tudo, remove via DELETE
+      // 3b) If all shares sold, remove position entirely via DELETE
       const delRes = await fetch(
         `${API_URL}/portfolio/${user!._id}/${entry.symbol}`,
         {
@@ -165,7 +167,6 @@ const SellAssetModal = ({
       if (!delRes.ok) throw new Error('Failed to remove from portfolio');
     }
   };
-  // === fim da refatoração ===
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

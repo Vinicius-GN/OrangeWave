@@ -13,6 +13,7 @@ const JWT_SECRET = process.env.JWT_SECRET!;
 // Se você quiser tipar o req.user, pode criar uma interface:
 // interface AuthRequest extends Request { user: { userId: string; role: string } }
 
+// Middleware to verify JWT token and attach user info to request
 export function verifyToken(req: Request, res: Response, next: NextFunction): void {
   const authHeader = req.headers.authorization;
   if (!authHeader) {
@@ -31,8 +32,7 @@ export function verifyToken(req: Request, res: Response, next: NextFunction): vo
   }
 }
 
-
-// opcional: deixa passar sem token, mas preenche req.user se houver
+// Middleware to optionally decode JWT token if present, but does not require it
 export function optionalToken(req: AuthRequest, _res: Response, next: NextFunction) {
   const hdr = req.headers.authorization;
   if (hdr?.startsWith("Bearer ")) {
@@ -45,6 +45,7 @@ export function optionalToken(req: AuthRequest, _res: Response, next: NextFuncti
   next();
 }
 
+// Middleware to restrict access to admin users only
 export function isAdmin(req: AuthRequest, res: Response, next: NextFunction): void {
   const user = req.user;
   if (!user || user.role !== "admin") {

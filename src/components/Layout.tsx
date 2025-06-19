@@ -1,6 +1,27 @@
+/**
+ * Layout Component
+ * 
+ * This is the main layout wrapper component for the OrangeWave trading platform.
+ * It provides the consistent navigation structure, header, footer, and responsive
+ * design framework that wraps all page content throughout the application.
+ * 
+ * Features:
+ * - Responsive navigation with mobile-friendly hamburger menu
+ * - Role-based navigation items (admin vs regular user)
+ * - Authentication-aware navigation (login/logout states)
+ * - Shopping cart integration for authenticated users
+ * - User profile dropdown with account management
+ * - Dynamic navigation badges and indicators
+ * - Consistent branding and styling across all pages
+ * - Mobile-first responsive design approach
+ * - Automatic route-based active states
+ */
 
+// React core imports
 import React, { ReactNode, useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+
+// Icon library for consistent iconography
 import {
   LineChart,
   BarChart,
@@ -16,38 +37,59 @@ import {
   User,
   LogOut,
 } from "lucide-react";
+
+// Context and hooks for authentication and responsive behavior
 import { useAuth } from "@/contexts/AuthContext";
 import { useIsMobile } from "@/hooks/use-mobile";
+
+// UI components for consistent styling
 import { Badge } from "@/components/ui/badge";
 import CartButton from "@/components/CartButton";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
+/**
+ * Layout Props Interface
+ * 
+ * Defines the props structure for the Layout component
+ */
 interface LayoutProps {
-  children: ReactNode;
+  children: ReactNode; // Page content to be wrapped by the layout
 }
 
+/**
+ * Navigation Item Type Definition
+ * 
+ * Defines the structure for navigation menu items with conditional visibility
+ * and role-based access control
+ */
 type NavigationItem = {
-  href: string;
-  label: string;
-  icon: React.ReactNode;
-  adminOnly?: boolean;
-  badge?: string;
-  hideWhenLoggedIn?: boolean;
-  hideWhenLoggedOut?: boolean;
+  href: string; // Route path for navigation
+  label: string; // Display text for the navigation item
+  icon: React.ReactNode; // Icon component for visual identification
+  adminOnly?: boolean; // Restrict visibility to admin users only
+  badge?: string; // Optional badge text for notifications/indicators
+  hideWhenLoggedIn?: boolean; // Hide when user is authenticated
+  hideWhenLoggedOut?: boolean; // Hide when user is not authenticated
 };
 
+/**
+ * Navigation Menu Configuration
+ * 
+ * Central configuration for all navigation items with role-based
+ * and authentication-state-based visibility rules
+ */
 const navigationItems: NavigationItem[] = [
   {
     href: "/",
     label: "Home",
     icon: <Home className="h-4 w-4" />,
-    hideWhenLoggedIn: true,
+    hideWhenLoggedIn: true, // Only show to unauthenticated users
   },
   {
     href: "/dashboard",
     label: "Dashboard",
     icon: <LineChart className="h-4 w-4" />,
-    hideWhenLoggedOut: true,
+    hideWhenLoggedOut: true, // Only show to authenticated users
   },
   {
     href: "/market",

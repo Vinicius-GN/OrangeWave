@@ -41,12 +41,19 @@ interface Order {
   timestamp: string;
 }
 
+// TransactionsManagement component for admin to view and filter all user transactions
 const TransactionsManagement = () => {
+  // State for all orders fetched from API
   const [orders, setOrders] = useState<Order[]>([]);
+  // State for filtered orders based on search/filter
   const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
+  // Loading state for API fetch
   const [isLoading, setIsLoading] = useState(true);
+  // State for search query input
   const [searchQuery, setSearchQuery] = useState('');
+  // State for side filter
   const [sideFilter, setSideFilter] = useState<string>('all');
+  // State for status filter
   const [statusFilter, setStatusFilter] = useState<string>('all');
   
   const { user } = useAuth();

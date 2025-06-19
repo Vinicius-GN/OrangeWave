@@ -1,8 +1,9 @@
 // src/routes/walletRoutes.ts
+// Express router for wallet-related endpoints
 import { Router } from "express";
 import {
-  getWalletInfo,           // agora retorna balance + cardNumber
-  updateCardNumber,        // novo endpoint para criar/atualizar cartão
+  getWalletInfo,           // Returns balance and cardNumber
+  updateCardNumber,        // Endpoint to create/update credit card
   deposit,
   withdraw,
   listWalletTransactions,
@@ -11,19 +12,19 @@ import { verifyToken } from "../middlewares/auth";
 
 const router = Router();
 
-// 1) Retorna { balance, cardNumber } para o usuário autenticado
+// GET /:userId/balance - Get wallet balance and card info for authenticated user
 router.get("/:userId/balance", verifyToken, getWalletInfo);
 
-// 2) Cria ou atualiza o número do cartão do usuário (até um cartão por usuário)
+// PUT /:userId/card - Create or update user's credit card number
 router.put("/:userId/card", verifyToken, updateCardNumber);
 
-// 3) Depósito (continua igual)
+// POST /:userId/deposit - Deposit funds into user's wallet
 router.post("/:userId/deposit", verifyToken, deposit);
 
-// 4) Saque (continua igual)
+// POST /:userId/withdraw - Withdraw funds from user's wallet
 router.post("/:userId/withdraw", verifyToken, withdraw);
 
-// 5) Histórico de transações (continua igual)
+// GET /:userId/transactions - List wallet transaction history
 router.get("/:userId/transactions", verifyToken, listWalletTransactions);
 
 export default router;

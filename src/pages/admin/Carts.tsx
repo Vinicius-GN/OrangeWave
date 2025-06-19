@@ -184,6 +184,8 @@ const hasExpired = (expiresAt: number): boolean => {
   return Date.now() >= expiresAt;
 };
 
+// Carts admin page for managing and viewing all user shopping carts
+// Provides search, filtering, and cart status management for admins
 const ActiveCartsPage = () => {
   const [carts, setCarts] = useState<Cart[]>([]);
   const [filteredCarts, setFilteredCarts] = useState<Cart[]>([]);

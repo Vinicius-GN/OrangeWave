@@ -1,6 +1,8 @@
+// Controller for user portfolio management: list, add/update, and delete portfolio items
 import { Request, Response } from "express";
 import PortfolioAsset from "../models/portifolioAsset";
 
+// List all assets in a user's portfolio
 export const listPortfolio = async (req: Request, res: Response): Promise<void> => {
   try {
     const { userId } = req.params;
@@ -12,11 +14,12 @@ export const listPortfolio = async (req: Request, res: Response): Promise<void> 
   }
 };
 
+// Add or update an asset in the user's portfolio
 export const upsertPortfolio = async (req: Request, res: Response): Promise<void> => {
   try {
     const { userId } = req.params;
     const { assetId, symbol, type, quantity, buyPrice } = req.body;
-
+    // Check if the asset already exists in the portfolio
     const existing = await PortfolioAsset.findOne({ userId, assetId });
     if (existing) {
       existing.quantity = quantity;
@@ -25,7 +28,7 @@ export const upsertPortfolio = async (req: Request, res: Response): Promise<void
       res.json(existing);
       return;
     }
-
+    // Create new portfolio item
     const item = new PortfolioAsset({
       userId,
       assetId,
@@ -42,6 +45,7 @@ export const upsertPortfolio = async (req: Request, res: Response): Promise<void
   }
 };
 
+// Delete an asset from the user's portfolio
 export const deletePortfolioItem = async (req: Request, res: Response): Promise<void> => {
   try {
     const { userId, symbol } = req.params;

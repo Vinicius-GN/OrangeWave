@@ -64,7 +64,9 @@ interface AssetData {
   availableStock?: number;
 }
 
+// AssetDetail page displays detailed information and trading options for a single asset
 const AssetDetail = () => {
+  // Get asset ID from route parameters
   const { id } = useParams<{ id: string }>();
   const [asset, setAsset] = useState<AssetData | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
@@ -147,6 +149,7 @@ const AssetDetail = () => {
       return;
     }
     
+    // Check if asset trading is currently suspended
     if (asset.isFrozen) {
       toast({
         title: "Trading restricted",
@@ -156,7 +159,7 @@ const AssetDetail = () => {
       return;
     }
     
-    // Check available stock
+    // Validate stock availability before adding to cart
     if (asset.availableStock !== undefined && asset.availableStock <= 0) {
       toast({
         title: "Out of stock",
@@ -166,7 +169,7 @@ const AssetDetail = () => {
       return;
     }
     
-    // Get current quantity in cart for this asset
+    // Get current quantity in cart for this asset to prevent over-ordering
     const currentCartQuantity = items.filter(item => item.assetId === asset._id)
       .reduce((sum, item) => sum + item.quantity, 0);
     

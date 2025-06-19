@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteAsset = exports.updateAsset = exports.createAsset = exports.getAsset = exports.listAssets = void 0;
 const assets_1 = __importDefault(require("../models/assets"));
+// List all assets
 const listAssets = async (_req, res) => {
     try {
         const assets = await assets_1.default.find();
@@ -16,12 +17,13 @@ const listAssets = async (_req, res) => {
     }
 };
 exports.listAssets = listAssets;
+// Get a single asset by its ID or symbol
 const getAsset = async (req, res) => {
     try {
         const { identifier } = req.params;
-        // Primeiro tenta buscar por _id
+        // Try to find asset by _id
         let asset = await assets_1.default.findById(identifier);
-        // Se não encontrar, tenta por symbol
+        // If not found, try by symbol
         if (!asset) {
             asset = await assets_1.default.findOne({ symbol: identifier });
         }
@@ -37,9 +39,11 @@ const getAsset = async (req, res) => {
     }
 };
 exports.getAsset = getAsset;
+// Create a new asset
 const createAsset = async (req, res) => {
     try {
         const payload = req.body;
+        // Check if asset with the same symbol already exists
         const exists = await assets_1.default.findOne({ symbol: payload.symbol });
         if (exists) {
             res.status(400).json({ message: "Asset já existe" });
@@ -55,13 +59,14 @@ const createAsset = async (req, res) => {
     }
 };
 exports.createAsset = createAsset;
+// Update an asset by its ID or symbol
 const updateAsset = async (req, res) => {
     try {
         const { identifier } = req.params;
         const updates = req.body;
-        // Tenta primeiro por _id
+        // Try to update by _id
         let asset = await assets_1.default.findByIdAndUpdate(identifier, updates, { new: true });
-        // Se não achar, tenta por symbol
+        // If not found, try by symbol
         if (!asset) {
             asset = await assets_1.default.findOneAndUpdate({ symbol: identifier }, updates, { new: true });
         }
@@ -77,12 +82,13 @@ const updateAsset = async (req, res) => {
     }
 };
 exports.updateAsset = updateAsset;
+// Delete an asset by its ID or symbol
 const deleteAsset = async (req, res) => {
     try {
         const { identifier } = req.params;
-        // Tenta deletar por _id
+        // Try to delete by _id
         let result = await assets_1.default.deleteOne({ _id: identifier });
-        // Se não deletou, tenta por symbol
+        // If not deleted, try by symbol
         if (result.deletedCount === 0) {
             result = await assets_1.default.deleteOne({ symbol: identifier });
         }

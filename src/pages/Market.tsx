@@ -1,40 +1,90 @@
+/**
+ * Market Page Component
+ * 
+ * This component provides a comprehensive marketplace for browsing and trading stocks and cryptocurrencies
+ * in the OrangeWave trading platform. It offers advanced filtering, searching, and sorting capabilities
+ * for users to discover and analyze investment opportunities.
+ * 
+ * Features:
+ * - Real-time market data display for stocks and cryptocurrencies
+ * - Advanced search and filtering system (price range, change percentage)
+ * - Multi-criteria sorting (market cap, price, change, volume)
+ * - Category-based tabs (All, Stocks, Crypto)
+ * - URL parameter synchronization for bookmarkable filtered views
+ * - Responsive table design with asset details
+ * - Integration with market data services
+ */
 
+// React hooks for state management and URL parameters
 import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
+
+// UI icons from Lucide React
 import { Search, Filter, SlidersHorizontal } from 'lucide-react';
+
+// shadcn/ui components for consistent styling and functionality
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+
+// Layout and custom components
 import Layout from '@/components/Layout';
 import MarketTable from '@/components/MarketTable';
+
+// Market data service and types
 import { AssetData, getStocks, getCryptos } from '@/services/marketService';
 
+/**
+ * Market Component
+ * 
+ * Main marketplace component that handles:
+ * - Market data fetching and state management
+ * - Search, filtering, and sorting functionality
+ * - URL parameter synchronization
+ * - Asset categorization and display
+ * - User interaction with market data
+ * 
+ * @returns JSX.Element - The complete market interface
+ */
 const Market = () => {
+  // URL search parameters management for bookmarkable state
   const [searchParams, setSearchParams] = useSearchParams();
+  
+  // Initialize state from URL parameters for persistence across page reloads
   const initialSearch = searchParams.get('search') || '';
   const initialType = searchParams.get('type') || 'all';
   const initialSort = searchParams.get('sort') || 'marketCap';
   
+  // Core filtering and sorting state
   const [searchQuery, setSearchQuery] = useState(initialSearch);
   const [assetType, setAssetType] = useState<'all' | 'stocks' | 'crypto'>(initialType as any);
   const [sortBy, setSortBy] = useState(initialSort);
   
+  // Market data state
   const [isLoading, setIsLoading] = useState(true);
   const [stocks, setStocks] = useState<AssetData[]>([]);
   const [crypto, setCrypto] = useState<AssetData[]>([]);
+  
+  // Advanced filtering state for price and change ranges
   const [minPrice, setMinPrice] = useState<string>('');
   const [maxPrice, setMaxPrice] = useState<string>('');
   const [minChange, setMinChange] = useState<string>('');
   const [maxChange, setMaxChange] = useState<string>('');
   
-  // Load market data
+  /**
+   * Market data loading effect
+   * 
+   * Fetches stock and cryptocurrency data from the market service
+   * on component mount. Handles loading states and error scenarios.
+   */
   useEffect(() => {
     const loadMarketData = async () => {
       setIsLoading(true);
       try {
+        // Fetch both stocks and crypto data in parallel for better performance
         const [stocksData, cryptoData] = await Promise.all([
           getStocks(),
           getCryptos()
@@ -44,28 +94,41 @@ const Market = () => {
         setCrypto(cryptoData);
       } catch (error) {
         console.error('Failed to load market data:', error);
+        // TODO: Add user-friendly error handling with toast notifications
       } finally {
         setIsLoading(false);
       }
     };
     
     loadMarketData();
-  }, []);
+  }, []); // Empty dependency array - only run on component mount
   
-  // Apply filters using useMemo for better performance
+  /**
+   * Comprehensive asset filtering with performance optimization
+   * 
+   * Uses useMemo to compute filtered and sorted asset list based on:
+   * - Asset type selection (stocks, crypto, or all)
+   * - Text search query (name and symbol matching)
+   * - Price range filters (min/max price)
+   * - Change percentage filters (min/max change)
+   * - Sorting criteria (name, price, change, market cap)
+   * 
+   * Memoization prevents unnecessary recalculations on every render
+   */
   const filteredAssets = useMemo(() => {
     let data: AssetData[] = [];
     
-    // Filter by asset type
+    // Filter by asset type (stocks, crypto, or all)
     if (assetType === 'stocks') {
       data = [...stocks];
     } else if (assetType === 'crypto') {
       data = [...crypto];
     } else {
+      // Combine both stocks and crypto for "all" view
       data = [...stocks, ...crypto];
     }
     
-    // Apply search filter
+    // Apply text search filter (case-insensitive, searches name and symbol)
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       data = data.filter(asset => 
@@ -74,7 +137,7 @@ const Market = () => {
       );
     }
     
-    // Apply price filters
+    // Apply price range filters with numerical validation
     if (minPrice && !isNaN(parseFloat(minPrice))) {
       data = data.filter(asset => asset.price >= parseFloat(minPrice));
     }
@@ -83,7 +146,7 @@ const Market = () => {
       data = data.filter(asset => asset.price <= parseFloat(maxPrice));
     }
     
-    // Apply change percentage filters
+    // Apply percentage change range filters
     if (minChange && !isNaN(parseFloat(minChange))) {
       data = data.filter(asset => asset.changePercent >= parseFloat(minChange));
     }
@@ -92,11 +155,12 @@ const Market = () => {
       data = data.filter(asset => asset.changePercent <= parseFloat(maxChange));
     }
     
-    // Apply sorting (now handled by table column headers)
+    // Apply sorting based on selected criteria
+    // Note: MarketTable component may override this with its own column sorting
     if (sortBy === 'name') {
       data.sort((a, b) => a.name.localeCompare(b.name));
     } else if (sortBy === 'price') {
-      data.sort((a, b) => b.price - a.price);
+      data.sort((a, b) => b.price - a.price); // Descending order
     } else if (sortBy === 'change') {
       data.sort((a, b) => b.changePercent - a.changePercent);
     } else {

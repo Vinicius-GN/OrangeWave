@@ -8,7 +8,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const wallet_1 = __importDefault(require("../models/wallet"));
 const wallet_transactions_1 = __importDefault(require("../models/wallet_transactions"));
 /**
- * 1) Retorna tanto o balance quanto o cardNumber do usuário
+ * Get wallet info (balance and card number) for a user
  */
 const getWalletInfo = async (req, res) => {
     try {
@@ -18,7 +18,7 @@ const getWalletInfo = async (req, res) => {
             res.status(404).json({ message: "Wallet não encontrada" });
             return;
         }
-        // Retornamos { balance, cardNumber }
+        // Return wallet balance and card number
         res.json({
             balance: wallet.balance,
             cardNumber: wallet.cardNumber || ""
@@ -31,8 +31,8 @@ const getWalletInfo = async (req, res) => {
 };
 exports.getWalletInfo = getWalletInfo;
 /**
- * 2) Cria ou atualiza o número do cartão do usuário.
- *    Se não existir wallet, cria uma com balance = 0 e set do cardNumber.
+ * Create or update the user's credit card number.
+ * If wallet does not exist, create it with balance = 0 and set cardNumber.
  */
 const updateCardNumber = async (req, res) => {
     try {
@@ -42,15 +42,15 @@ const updateCardNumber = async (req, res) => {
             res.status(400).json({ message: "cardNumber é obrigatório" });
             return;
         }
-        // Validação simples de formato (apenas dígitos, tamanho entre 10 e 19)
+        // Simple format validation (digits only, length 10-19)
         if (!/^\d{10,19}$/.test(cardNumber)) {
             res.status(400).json({ message: "Formato inválido de cardNumber" });
             return;
         }
-        // Busca a wallet existente
+        // Find or create wallet
         let wallet = await wallet_1.default.findOne({ userId });
         if (!wallet) {
-            // Se não existir, cria nova com balance = 0
+            // If wallet does not exist, create new with balance = 0
             wallet = new wallet_1.default({
                 userId,
                 balance: 0,
@@ -58,11 +58,11 @@ const updateCardNumber = async (req, res) => {
             });
         }
         else {
-            // Se existir, apenas atualiza o campo cardNumber
+            // If wallet exists, just update cardNumber
             wallet.cardNumber = cardNumber;
         }
         await wallet.save();
-        // Retorna o cardNumber atualizado (e opcionalmente balance)
+        // Return updated cardNumber and balance
         res.json({
             balance: wallet.balance,
             cardNumber: wallet.cardNumber
@@ -75,7 +75,7 @@ const updateCardNumber = async (req, res) => {
 };
 exports.updateCardNumber = updateCardNumber;
 /**
- * 3) Depósito (sem alterações)
+ * Deposit funds into the user's wallet
  */
 const deposit = async (req, res) => {
     const session = await mongoose_1.default.startSession();
@@ -89,6 +89,7 @@ const deposit = async (req, res) => {
         }
         wallet.balance += amount;
         await wallet.save({ session });
+        // Record deposit transaction
         const tx = new wallet_transactions_1.default({
             _id: `tx-${Date.now()}`,
             userId,
@@ -112,7 +113,7 @@ const deposit = async (req, res) => {
 };
 exports.deposit = deposit;
 /**
- * 4) Saque (sem alterações)
+ * Withdraw funds from the user's wallet
  */
 const withdraw = async (req, res) => {
     const session = await mongoose_1.default.startSession();
@@ -127,6 +128,7 @@ const withdraw = async (req, res) => {
         }
         wallet.balance -= amount;
         await wallet.save({ session });
+        // Record withdrawal transaction
         const tx = new wallet_transactions_1.default({
             _id: `tx-${Date.now()}`,
             userId,
@@ -150,11 +152,12 @@ const withdraw = async (req, res) => {
 };
 exports.withdraw = withdraw;
 /**
- * 5) Histórico de transações (sem alterações)
+ * List all wallet transactions for a user
  */
 const listWalletTransactions = async (req, res) => {
     try {
         const { userId } = req.params;
+        // Find all wallet transactions for the user, sorted by most recent
         const txs = await wallet_transactions_1.default.find({ userId }).sort({ timestamp: -1 });
         res.json(txs);
     }

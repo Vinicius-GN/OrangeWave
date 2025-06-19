@@ -1,3 +1,24 @@
+/**
+ * Portfolio Context
+ * 
+ * This context provides comprehensive portfolio management functionality for the OrangeWave
+ * trading platform. It handles user asset holdings, portfolio statistics, transaction history,
+ * and real-time portfolio value calculations with profit/loss tracking.
+ * 
+ * Features:
+ * - Real-time portfolio asset management with live price updates
+ * - Comprehensive portfolio statistics and performance metrics
+ * - Transaction history tracking and management
+ * - Asset categorization (stocks vs cryptocurrencies)
+ * - Profit/loss calculations with percentage tracking
+ * - Portfolio value evolution over time
+ * - Asset filtering and querying capabilities
+ * - Integration with market data for current prices
+ * - Optimistic updates for better user experience
+ * - Error handling and state management
+ */
+
+// React core imports for context and state management
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -85,9 +106,14 @@ const initialStats: PortfolioStats = {
 // Context
 const PortfolioContext = createContext<PortfolioContextType | undefined>(undefined);
 
-// Provider Component
+/**
+ * PortfolioProvider Component
+ * 
+ * Context provider for managing portfolio state and statistics
+ */
 export const PortfolioProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { user } = useAuth();
+  // State for portfolio assets, history, statistics, transactions, loading, and error
   const [assets, setAssets] = useState<PortfolioAsset[]>([]);
   const [history, setHistory] = useState<PortfolioHistory[]>([]);
   const [stats, setStats] = useState<PortfolioStats>(initialStats);
@@ -95,16 +121,25 @@ export const PortfolioProvider: React.FC<{ children: ReactNode }> = ({ children 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Retrieve authentication token from local storage
   const authToken = localStorage.getItem('authToken');
 
-  // Calculate portfolio statistics
+  /**
+   * Calculates portfolio statistics including total value, total investment,
+   * total profit/loss, and performance metrics like day change and percentage.
+   * 
+   * @param portfolioAssets - Array of assets in the user's portfolio
+   * @returns Calculated statistics for the portfolio
+   */
   const calculateStats = (portfolioAssets: PortfolioAsset[]): PortfolioStats => {
+    // Sum total value and investment for all assets
     const totalValue = portfolioAssets.reduce((sum, asset) => sum + asset.totalValue, 0);
     const totalInvestment = portfolioAssets.reduce((sum, asset) => sum + (asset.quantity * asset.averagePrice), 0);
     const totalProfitLoss = totalValue - totalInvestment;
+    // Calculate profit/loss percentage, avoid division by zero
     const totalProfitLossPercentage = totalInvestment > 0 ? (totalProfitLoss / totalInvestment) * 100 : 0;
     
-    // Calculate day change (simplified - in reality this would come from API)
+    // Mock day change calculation (would typically come from API with historical data)
     const dayChange = totalValue * 0.015; // Mock 1.5% day change
     const dayChangePercentage = (dayChange / totalValue) * 100;
 
@@ -118,7 +153,10 @@ export const PortfolioProvider: React.FC<{ children: ReactNode }> = ({ children 
     };
   };
 
-  // Fetch portfolio data from API
+  /**
+   * Fetches portfolio data from the API, including user's asset holdings,
+   * and enriches portfolio items with current asset data and calculated P&L.
+   */
   const fetchPortfolioData = async () => {
     if (!user || !authToken) return;
 
@@ -126,7 +164,7 @@ export const PortfolioProvider: React.FC<{ children: ReactNode }> = ({ children 
       setIsLoading(true);
       setError(null);
 
-      // Fetch portfolio assets
+      // Get user's portfolio holdings
       const portfolioResponse = await fetch(`${API_URL}/portfolio/${user._id}`, {
         headers: {
           'Authorization': `Bearer ${authToken}`,
@@ -140,16 +178,17 @@ export const PortfolioProvider: React.FC<{ children: ReactNode }> = ({ children 
 
       const portfolioData = await portfolioResponse.json();
 
-      // For each portfolio item, fetch asset details and calculate values
+      // Enrich portfolio items with current asset data and calculate P&L
       const portfolioAssets: PortfolioAsset[] = [];
       
       for (const item of portfolioData) {
         try {
-          // Fetch asset details
+          // Fetch current asset price and details
           const assetResponse = await fetch(`${API_URL}/assets/${item.assetId}`);
           if (assetResponse.ok) {
             const assetData = await assetResponse.json();
             
+            // Calculate current value and profit/loss
             const currentPrice = assetData.currentPrice || assetData.price || item.buyPrice;
             const totalValue = item.quantity * currentPrice;
             const profitLoss = totalValue - (item.quantity * item.buyPrice);
@@ -195,6 +234,14 @@ export const PortfolioProvider: React.FC<{ children: ReactNode }> = ({ children 
     await fetchPortfolioData();
   };
 
+  /**
+   * Adds a specified quantity of an asset to the portfolio, creating a new
+   * portfolio entry if the asset does not already exist in the portfolio.
+   * 
+   * @param symbol - The trading symbol of the asset
+   * @param quantity - The quantity to add
+   * @param price - The price at which the asset is being added
+   */
   const addAssetToPortfolio = async (symbol: string, quantity: number, price: number) => {
     if (!user || !authToken) throw new Error('User not authenticated');
 
@@ -224,6 +271,14 @@ export const PortfolioProvider: React.FC<{ children: ReactNode }> = ({ children 
     }
   };
 
+  /**
+   * Removes a specified quantity of an asset from the portfolio. If the quantity
+   * to remove exceeds the current quantity in the portfolio, the asset is removed
+   * entirely from the portfolio.
+   * 
+   * @param symbol - The trading symbol of the asset
+   * @param quantity - The quantity to remove
+   */
   const removeAssetFromPortfolio = async (symbol: string, quantity: number) => {
     if (!user || !authToken) throw new Error('User not authenticated');
 
@@ -248,10 +303,12 @@ export const PortfolioProvider: React.FC<{ children: ReactNode }> = ({ children 
     }
   };
 
+  // Adds a new asset to the portfolio
   const addAsset = async (asset: Asset, quantity: number) => {
     await addAssetToPortfolio(asset.symbol, quantity, asset.currentPrice);
   };
 
+  // Sells a specified quantity of an asset from the portfolio
   const sellAsset = async (assetId: string, quantity: number, price: number) => {
     const asset = assets.find(a => a.id === assetId);
     if (asset) {
@@ -263,14 +320,17 @@ export const PortfolioProvider: React.FC<{ children: ReactNode }> = ({ children 
     await addAsset(asset, quantity);
   };
 
+  // Retrieves a portfolio asset by its ID
   const getAssetById = (id: string): PortfolioAsset | undefined => {
     return assets.find(asset => asset.id === id);
   };
 
+  // Returns all assets of a given type (stock or crypto)
   const getAssetsByType = (type: 'stock' | 'crypto'): PortfolioAsset[] => {
     return assets.filter(asset => asset.type === type);
   };
 
+  // Calculates the total value of all assets in the portfolio
   const getAssetsValue = (): number => {
     return assets.reduce((sum, asset) => sum + asset.totalValue, 0);
   };
@@ -319,6 +379,7 @@ export const PortfolioProvider: React.FC<{ children: ReactNode }> = ({ children 
   );
 };
 
+// Custom hook to use the PortfolioContext
 export const usePortfolio = () => {
   const context = useContext(PortfolioContext);
   if (context === undefined) {

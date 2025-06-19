@@ -1,10 +1,38 @@
+/**
+ * Authentication Context
+ * 
+ * This context provides centralized authentication management for the OrangeWave trading platform.
+ * It handles user authentication state, login/logout operations, user registration, and token
+ * management throughout the application lifecycle.
+ * 
+ * Features:
+ * - Centralized authentication state management
+ * - JWT token storage and validation
+ * - User profile data management
+ * - Login and registration with API integration
+ * - Automatic token refresh and validation
+ * - Logout with proper cleanup
+ * - Loading states for authentication operations
+ * - Error handling with user-friendly notifications
+ * - Address management for user profiles
+ * - Role-based access control (admin vs client)
+ */
 
+// React core imports for context and state management
 import React, { createContext, useContext, useState, useEffect } from 'react';
+
+// UI notifications for user feedback
 import { useToast } from '@/components/ui/use-toast';
 
+// API configuration
 const API_URL = 'http://localhost:3001/api';
 
-// Types
+/**
+ * User Address Interface
+ * 
+ * Defines the structure for user address information
+ * collected during registration and profile management
+ */
 interface UserAddress {
   country: string;
   state: string;
@@ -13,40 +41,75 @@ interface UserAddress {
   number: string;
 }
 
+/**
+ * User Profile Interface
+ * 
+ * Defines the structure for authenticated user data
+ * returned from the API and stored in context
+ */
 interface UserProfile {
-  _id: string;
-  fullName: string;
-  email: string;
-  role: 'admin' | 'client';
-  phone?: string;
-  address?: UserAddress;
+  _id: string; // Unique user identifier
+  fullName: string; // User's full name
+  email: string; // User's email address
+  role: 'admin' | 'client'; // User role for access control
+  phone?: string; // Optional phone number
+  address?: UserAddress; // Optional address information
 }
 
+/**
+ * Authentication Context Type
+ * 
+ * Defines the interface for the authentication context
+ * including state variables and available methods
+ */
 interface AuthContextType {
-  user: UserProfile | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  register: (
+  user: UserProfile | null; // Current authenticated user data
+  isAuthenticated: boolean; // Authentication status
+  isLoading: boolean; // Loading state for auth operations
+  login: (email: string, password: string) => Promise<void>; // Login method
+  register: ( // Registration method with complete user data
     fullName: string,
     email: string, 
     password: string, 
     phone?: string,
     address?: UserAddress
   ) => Promise<void>;
-  logout: () => Promise<void>;
+  logout: () => Promise<void>; // Logout method
 }
 
-// Context
+/**
+ * Authentication Context
+ * 
+ * React context for sharing authentication state and methods
+ * throughout the component tree
+ */
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Provider
+/**
+ * Authentication Provider Component
+ * 
+ * Provides authentication context to all child components and handles:
+ * - Authentication state management
+ * - API integration for auth operations
+ * - Token storage and validation
+ * - User session management
+ * 
+ * @param children - Child components that need access to auth context
+ */
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  // Authentication state
   const [user, setUser] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  
+  // Toast notifications for user feedback
   const { toast } = useToast();
   
-  // Check for existing auth token on app load
+  /**
+   * Token validation effect
+   * 
+   * Checks for existing authentication token on app initialization
+   * and validates it with the server to restore user session
+   */
   useEffect(() => {
     const checkAuthToken = async () => {
       const token = localStorage.getItem('authToken');
@@ -76,7 +139,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     checkAuthToken();
   }, []);
   
-  // Login function
+  /**
+   * Login function
+   * 
+   * Authenticates user with email and password, stores JWT token,
+   * and fetches user profile data
+   * 
+   * @param email - User's email address
+   * @param password - User's password
+   */
   const login = async (email: string, password: string) => {
     try {
       setIsLoading(true);
@@ -126,7 +197,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
   
-  // Register function
+  /**
+   * Register function
+   * 
+   * Creates a new user account with provided details
+   * and logs the user in automatically
+   * 
+   * @param fullName - User's full name
+   * @param email - User's email address
+   * @param password - User's password
+   * @param phone - Optional phone number
+   * @param address - Optional address information
+   */
   const register = async (
     fullName: string,
     email: string, 
@@ -172,7 +254,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
   
-  // Logout function
+  /**
+   * Logout function
+   * 
+   * Clears the authentication token and user data,
+   * and shows a logout confirmation message
+   */
   const logout = async () => {
     try {
       localStorage.removeItem('authToken');
@@ -208,7 +295,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   );
 };
 
-// Hook
+/**
+ * Custom hook to access authentication context
+ * 
+ * @returns AuthContextType - Authentication context values and methods
+ */
 export const useAuth = () => {
   const context = useContext(AuthContext);
   

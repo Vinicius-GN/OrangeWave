@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.resetPasswordByEmail = exports.deleteUserById = exports.updateUserById = exports.listUsers = exports.changePassword = exports.deleteMe = exports.updateMe = exports.me = void 0;
 const user_1 = __importDefault(require("../models/user"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
-// Retorna dados do usuário autenticado (sem a senha)
+// Returns authenticated user data (without the password)
 const me = async (req, res) => {
     try {
         const userId = req.user?.userId;
@@ -14,7 +14,7 @@ const me = async (req, res) => {
             res.status(401).json({ message: "Usuário não autenticado" });
             return;
         }
-        // Seleciona todos os campos menos a senha
+        // Selects all fields except the password
         const user = await user_1.default.findById(userId).select("-password");
         if (!user) {
             res.status(404).json({ message: "Usuário não encontrado" });
@@ -28,7 +28,7 @@ const me = async (req, res) => {
     }
 };
 exports.me = me;
-// Atualiza dados do usuário (incluindo address)
+// Updates user data (including address)
 const updateMe = async (req, res) => {
     try {
         const userId = req.user?.userId;
@@ -37,7 +37,7 @@ const updateMe = async (req, res) => {
             return;
         }
         const { fullName, email, phone, address: { country, state, city, street, number } = {} } = req.body;
-        // Monta objeto de updates dinamicamente
+        // Dynamically builds the updates object
         const updates = {};
         if (fullName)
             updates.fullName = fullName;
@@ -71,7 +71,7 @@ const updateMe = async (req, res) => {
     }
 };
 exports.updateMe = updateMe;
-// Deleta a própria conta (hard delete)
+// Deletes the user's own account (hard delete)
 const deleteMe = async (req, res) => {
     try {
         const userId = req.user?.userId;
@@ -92,8 +92,8 @@ const deleteMe = async (req, res) => {
     }
 };
 exports.deleteMe = deleteMe;
-// Endpoint para trocar senha
 const changePassword = async (req, res) => {
+    // Endpoint to change password
     try {
         const userId = req.user?.userId;
         if (!userId) {
@@ -121,8 +121,8 @@ const changePassword = async (req, res) => {
     }
 };
 exports.changePassword = changePassword;
-// 🔒 Lista todos os usuários (ADMIN ONLY)
 const listUsers = async (_req, res) => {
+    // Lists all users (ADMIN ONLY)
     try {
         const users = await user_1.default.find().select("-password");
         res.json(users);
@@ -133,8 +133,8 @@ const listUsers = async (_req, res) => {
     }
 };
 exports.listUsers = listUsers;
-// 🔒 Atualiza um usuário por ID (ADMIN ONLY)
 const updateUserById = async (req, res) => {
+    // Updates a user by ID (ADMIN ONLY)
     try {
         const { id } = req.params;
         if (id === "superadmin-id") {
@@ -173,8 +173,8 @@ const updateUserById = async (req, res) => {
     }
 };
 exports.updateUserById = updateUserById;
-// 🔒 Deleta um usuário por ID (ADMIN ONLY)
 const deleteUserById = async (req, res) => {
+    // Deletes a user by ID (ADMIN ONLY)
     try {
         const { id } = req.params;
         if (id === "superadmin-id") {

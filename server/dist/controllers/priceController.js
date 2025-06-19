@@ -5,15 +5,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.lastPriceSnapshot = exports.listPriceSnapshots = void 0;
 const priceSnapshot_1 = __importDefault(require("../models/priceSnapshot"));
-// Lista todos os snapshots de um ativo, opcionalmente filtrando por timeframe via query
+// List all price snapshots for an asset, optionally filtering by timeframe via query
 const listPriceSnapshots = async (req, res) => {
     try {
         const { assetId } = req.params;
-        const { timeframe } = req.query; // ex: ?timeframe=hour
+        const { timeframe } = req.query; // e.g., ?timeframe=hour
+        // Build filter for asset and optional timeframe
         const filter = { assetId };
         if (typeof timeframe === "string") {
             filter.timeframe = timeframe;
         }
+        // Find and return all matching price snapshots, most recent first
         const snapshots = await priceSnapshot_1.default.find(filter).sort({ timestamp: -1 });
         res.json(snapshots);
     }
@@ -23,10 +25,11 @@ const listPriceSnapshots = async (req, res) => {
     }
 };
 exports.listPriceSnapshots = listPriceSnapshots;
-// Retorna o último snapshot de cada timeframe para um ativo
+// Return the latest price snapshot for each timeframe for an asset
 const lastPriceSnapshot = async (req, res) => {
     try {
         const { assetId } = req.params;
+        // Aggregate to get the most recent snapshot for each timeframe
         const result = await priceSnapshot_1.default.aggregate([
             { $match: { assetId } },
             { $sort: { timestamp: -1 } },

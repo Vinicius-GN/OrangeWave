@@ -1,4 +1,4 @@
-
+// Dashboard page showing portfolio summary, asset breakdown, and quick stats
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -25,6 +25,7 @@ interface AssetDetails {
 const Dashboard = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  // Destructure portfolio state and utility functions from context
   const {
     assets,
     stats,
@@ -34,18 +35,21 @@ const Dashboard = () => {
     getAssetsValue,
     updateAssetPrices
   } = usePortfolio();
+  // Get user balance and loading state
   const { balance, isLoading: balanceLoading } = useBalance();
-  
+  // State to toggle balance visibility
   const [showBalance, setShowBalance] = useState(true);
+  // State for storing asset details for quick lookup
   const [assetDetails, setAssetDetails] = useState<{ [key: string]: AssetDetails }>({});
 
+  // Get stocks and crypto assets from portfolio
   const stocks = getAssetsByType('stock');
   const crypto = getAssetsByType('crypto');
   
-  // Calculate total portfolio value
+  // Calculate combined portfolio and cash value
   const totalPortfolioValue = balance + getAssetsValue();
   
-  // Prepare data for portfolio distribution chart
+  // Prepare pie chart data excluding empty categories for cleaner visualization
   const distributionData = [
     { name: 'Cash', value: balance },
     { name: 'Stocks', value: stocks.reduce((sum, asset) => sum + asset.totalValue, 0) },
@@ -74,6 +78,7 @@ const Dashboard = () => {
     return null;
   };
 
+  // Batch load asset metadata for enhanced portfolio display
   const loadAssetDetails = async () => {
     const detailsMap: { [key: string]: AssetDetails } = {};
     

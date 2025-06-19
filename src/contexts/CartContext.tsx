@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -49,7 +48,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   }, [user]);
 
-  // Save cart to localStorage whenever items change
+  // Auto-save cart changes to localStorage
   useEffect(() => {
     if (user && items.length > 0) {
       localStorage.setItem(`cart_${user._id}`, JSON.stringify(items));
@@ -63,14 +62,14 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const existingItem = prevItems.find(cartItem => cartItem.assetId === item.assetId);
       
       if (existingItem) {
-        // Merge quantities for the same asset
+        // Merge quantities for same asset instead of creating duplicate entries
         return prevItems.map(cartItem =>
           cartItem.assetId === item.assetId
             ? { ...cartItem, quantity: cartItem.quantity + quantity }
             : cartItem
         );
       } else {
-        // Create new cart item using assetId as the unique identifier
+        // Create new cart item with assetId as unique identifier
         return [...prevItems, { ...item, id: item.assetId, quantity }];
       }
     });
@@ -82,6 +81,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const updateQuantity = (id: string, quantity: number) => {
     if (quantity <= 0) {
+      // Auto-remove items with zero or negative quantity
       removeFromCart(id);
       return;
     }
@@ -97,16 +97,17 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setItems([]);
   };
 
+  // Calculate total cart value by summing price × quantity for all items
   const getCartTotal = () => {
     return items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   };
 
   const completePurchase = async (purchasedItems: CartItem[]) => {
-    // Implementation for completing purchase
-    // This would typically involve API calls to update stock, etc.
+    // Placeholder for purchase completion logic (API calls, stock updates, etc.)
     console.log('Purchase completed for items:', purchasedItems);
   };
 
+  // Calculated values for cart summary
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
   const totalValue = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const cartCount = totalItems;

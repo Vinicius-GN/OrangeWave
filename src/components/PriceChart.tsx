@@ -17,17 +17,17 @@ interface DataPoint {
   formattedDate: string;
 }
 
-// Map UI timeframes to API timeframes
+// Map UI timeframes to appropriate API granularity levels
 const getApiTimeframe = (uiTimeframe: '1H' | '1D' | '1W' | '1M' | '1Y'): 'hour' | 'day' | 'month' => {
   switch (uiTimeframe) {
     case '1H':
     case '1D':
-      return 'hour';
+      return 'hour'; // High granularity for short periods
     case '1W':
     case '1M':
-      return 'day';
+      return 'day'; // Daily granularity for medium periods
     case '1Y':
-      return 'month';
+      return 'month'; // Monthly granularity for long periods
     default:
       return 'month';
   }
@@ -40,6 +40,7 @@ const filterDataByTimeframe = (data: any[], timeframe: '1H' | '1D' | '1W' | '1M'
   const now = new Date();
   let cutoffDate: Date;
   
+  // Calculate cutoff date based on selected timeframe
   switch (timeframe) {
     case '1H':
       cutoffDate = new Date(now.getTime() - (1 * 60 * 60 * 1000)); // 1 hour ago
@@ -63,6 +64,7 @@ const filterDataByTimeframe = (data: any[], timeframe: '1H' | '1D' | '1W' | '1M'
   return data.filter(item => new Date(item.timestamp) >= cutoffDate);
 };
 
+// PriceChart component displays the price evolution chart and summary for a given asset
 const PriceChart = ({ assetId, currentPrice, priceChange, priceChangePercent }: PriceChartProps) => {
   const [timeframe, setTimeframe] = useState<'1H' | '1D' | '1W' | '1M' | '1Y'>('1W');
   const apiTimeframe = getApiTimeframe(timeframe);
@@ -75,7 +77,7 @@ const PriceChart = ({ assetId, currentPrice, priceChange, priceChangePercent }: 
     })}`;
   };
 
-  // Filter and transform API data to chart format
+  // Transform and filter API data for chart visualization
   const filteredData = filterDataByTimeframe(snapshots, timeframe);
   const chartData: DataPoint[] = filteredData.map(snapshot => ({
     timestamp: snapshot.timestamp,
@@ -101,6 +103,7 @@ const PriceChart = ({ assetId, currentPrice, priceChange, priceChangePercent }: 
     return null;
   };
 
+  // Show loading state while fetching price data
   if (isLoading) {
     return (
       <div className="h-[300px] w-full flex items-center justify-center">
@@ -109,6 +112,7 @@ const PriceChart = ({ assetId, currentPrice, priceChange, priceChangePercent }: 
     );
   }
 
+  // Show error state if there was an error fetching data
   if (error) {
     return (
       <div className="h-[300px] w-full flex items-center justify-center">
@@ -117,13 +121,17 @@ const PriceChart = ({ assetId, currentPrice, priceChange, priceChangePercent }: 
     );
   }
 
+  // Main render: price summary and chart
   return (
     <div>
+      {/* Header with current price and price change */}
       <div className="flex justify-between items-center mb-4">
         <div>
           <h3 className="text-lg font-medium">Price Evolution</h3>
           <div className="flex items-center gap-2 text-sm">
+            {/* Current price */}
             <span className="font-medium">{formatCurrency(currentPrice)}</span>
+            {/* Price change percent and value, colored by direction */}
             <span className={`${isPositive ? 'text-green-500' : 'text-red-500'}`}>
               {isPositive ? '+' : ''}{priceChangePercent.toFixed(2)}% ({isPositive ? '+' : ''}{formatCurrency(priceChange)})
             </span>

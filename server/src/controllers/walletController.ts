@@ -1,4 +1,4 @@
-// src/controllers/walletController.ts
+// Controller for wallet operations: balance, card management, deposit, withdrawal, and transaction history
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import Wallet from "../models/wallet";
@@ -12,7 +12,7 @@ interface AuthRequest extends Request {
 }
 
 /**
- * 1) Retorna tanto o balance quanto o cardNumber do usuário
+ * Get wallet info (balance and card number) for a user
  */
 export const getWalletInfo = async (
   req: AuthRequest,
@@ -25,7 +25,7 @@ export const getWalletInfo = async (
       res.status(404).json({ message: "Wallet não encontrada" });
       return;
     }
-    // Retornamos { balance, cardNumber }
+    // Return wallet balance and card number
     res.json({
       balance: wallet.balance,
       cardNumber: wallet.cardNumber || ""
@@ -37,8 +37,8 @@ export const getWalletInfo = async (
 };
 
 /**
- * 2) Cria ou atualiza o número do cartão do usuário.
- *    Se não existir wallet, cria uma com balance = 0 e set do cardNumber.
+ * Create or update the user's credit card number.
+ * If wallet does not exist, create it with balance = 0 and set cardNumber.
  */
 export const updateCardNumber = async (
   req: AuthRequest,
@@ -52,28 +52,28 @@ export const updateCardNumber = async (
       return;
     }
 
-    // Validação simples de formato (apenas dígitos, tamanho entre 10 e 19)
+    // Simple format validation (digits only, length 10-19)
     if (!/^\d{10,19}$/.test(cardNumber)) {
       res.status(400).json({ message: "Formato inválido de cardNumber" });
       return;
     }
 
-    // Busca a wallet existente
+    // Find or create wallet
     let wallet = await Wallet.findOne({ userId });
     if (!wallet) {
-      // Se não existir, cria nova com balance = 0
+      // If wallet does not exist, create new with balance = 0
       wallet = new Wallet({
         userId,
         balance: 0,
         cardNumber
       });
     } else {
-      // Se existir, apenas atualiza o campo cardNumber
+      // If wallet exists, just update cardNumber
       wallet.cardNumber = cardNumber;
     }
     await wallet.save();
 
-    // Retorna o cardNumber atualizado (e opcionalmente balance)
+    // Return updated cardNumber and balance
     res.json({
       balance: wallet.balance,
       cardNumber: wallet.cardNumber
@@ -85,7 +85,7 @@ export const updateCardNumber = async (
 };
 
 /**
- * 3) Depósito (sem alterações)
+ * Deposit funds into the user's wallet
  */
 export const deposit = async (req: AuthRequest, res: Response): Promise<void> => {
   const session = await mongoose.startSession();
@@ -103,6 +103,7 @@ export const deposit = async (req: AuthRequest, res: Response): Promise<void> =>
     wallet.balance += amount;
     await wallet.save({ session });
 
+    // Record deposit transaction
     const tx = new WalletTx({
       _id: `tx-${Date.now()}`,
       userId,
@@ -127,7 +128,7 @@ export const deposit = async (req: AuthRequest, res: Response): Promise<void> =>
 };
 
 /**
- * 4) Saque (sem alterações)
+ * Withdraw funds from the user's wallet
  */
 export const withdraw = async (req: AuthRequest, res: Response): Promise<void> => {
   const session = await mongoose.startSession();
@@ -146,6 +147,7 @@ export const withdraw = async (req: AuthRequest, res: Response): Promise<void> =
     wallet.balance -= amount;
     await wallet.save({ session });
 
+    // Record withdrawal transaction
     const tx = new WalletTx({
       _id: `tx-${Date.now()}`,
       userId,
@@ -170,7 +172,7 @@ export const withdraw = async (req: AuthRequest, res: Response): Promise<void> =
 };
 
 /**
- * 5) Histórico de transações (sem alterações)
+ * List all wallet transactions for a user
  */
 export const listWalletTransactions = async (
   req: AuthRequest,
@@ -178,6 +180,7 @@ export const listWalletTransactions = async (
 ): Promise<void> => {
   try {
     const { userId } = req.params;
+    // Find all wallet transactions for the user, sorted by most recent
     const txs = await WalletTx.find({ userId }).sort({ timestamp: -1 });
     res.json(txs);
   } catch (err) {

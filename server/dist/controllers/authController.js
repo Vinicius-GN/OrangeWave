@@ -8,10 +8,11 @@ const user_1 = __importDefault(require("../models/user"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const JWT_SECRET = process.env.JWT_SECRET;
+// Register a new user
 const register = async (req, res) => {
     try {
         const { fullName, email, password, role, phone, address: { country, state, city, street, number } = {} } = req.body;
-        // Validação mínima de address (todos os campos obrigatórios)
+        // Minimal address validation (all fields required)
         if (!country ||
             !state ||
             !city ||
@@ -20,11 +21,13 @@ const register = async (req, res) => {
             res.status(400).json({ message: "Todos os campos de endereço são obrigatórios" });
             return;
         }
+        // Check if email is already registered
         const existing = await user_1.default.findOne({ email });
         if (existing) {
             res.status(400).json({ message: "E-mail já cadastrado" });
             return;
         }
+        // Create and save new user
         const user = new user_1.default({
             _id: `user-${Date.now()}`,
             fullName,
@@ -41,7 +44,7 @@ const register = async (req, res) => {
             }
         });
         await user.save();
-        // Extrai “password” e retorna o restante
+        // Remove password from response
         const userObj = user.toObject();
         const { password: _, ...userData } = userObj;
         res.status(201).json(userData);
@@ -52,6 +55,7 @@ const register = async (req, res) => {
     }
 };
 exports.register = register;
+// Authenticate user and return JWT token
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -65,6 +69,7 @@ const login = async (req, res) => {
             res.status(401).json({ message: "Credenciais inválidas" });
             return;
         }
+        // Generate JWT token for authenticated user
         const token = jsonwebtoken_1.default.sign({ userId: user._id, role: user.role }, JWT_SECRET, { expiresIn: "7d" });
         res.json({ token });
     }

@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteOrder = exports.createOrder = exports.getOrderById = exports.listOrders = void 0;
 const marketOrder_1 = __importDefault(require("../models/marketOrder"));
+// List all market orders, sorted by most recent
 const listOrders = async (_req, res) => {
     try {
         const orders = await marketOrder_1.default.find().sort({ timestamp: -1 });
@@ -16,6 +17,7 @@ const listOrders = async (_req, res) => {
     }
 };
 exports.listOrders = listOrders;
+// Get a single order by its ID
 const getOrderById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -32,9 +34,10 @@ const getOrderById = async (req, res) => {
     }
 };
 exports.getOrderById = getOrderById;
+// Create a new market order
 const createOrder = async (req, res) => {
     try {
-        // espera-se que o front envie: { userId, side, assetId, assetName, symbol, type, quantity, price, total, fees, status, timestamp }
+        // Expects: { userId, side, assetId, assetName, symbol, type, quantity, price, total, fees, status, timestamp }
         const payload = req.body;
         const order = new marketOrder_1.default({
             _id: `tx-${new Date().getTime()}`,
@@ -49,6 +52,7 @@ const createOrder = async (req, res) => {
     }
 };
 exports.createOrder = createOrder;
+// Delete an order by its ID
 const deleteOrder = async (req, res) => {
     try {
         const { id } = req.params;

@@ -1,98 +1,121 @@
+/*
+ * Global styles and CSS custom properties for OrangeWave Trading Platform
+ * This file sets up Tailwind CSS layers and defines the design system variables
+ * Note: @tailwind directives are processed by the build system - ignore IDE warnings
+ */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Import Tailwind CSS layers - these directives are processed during build */
+@tailwind base;      /* Tailwind's base/reset styles */
+@tailwind components; /* Tailwind's component classes */
+@tailwind utilities;  /* Tailwind's utility classes */
 
+/* Design system: CSS custom properties for consistent theming */
 @layer base {
   :root {
-    --background: 0 0% 9%;
-    --foreground: 0 0% 98%;
+    /* Core color scheme - HSL values for better color manipulation */
+    --background: 0 0% 9%;        /* Dark background for main interface */
+    --foreground: 0 0% 98%;       /* High contrast text color */
 
-    --card: 240 10% 4%;
-    --card-foreground: 0 0% 98%;
+    /* Card and surface colors */
+    --card: 240 10% 4%;           /* Card background - slightly lighter than main bg */
+    --card-foreground: 0 0% 98%;  /* Text color on cards */
 
-    --popover: 240 10% 4%;
-    --popover-foreground: 0 0% 98%;
+    /* Overlay colors for modals and popovers */
+    --popover: 240 10% 4%;        /* Popover background */
+    --popover-foreground: 0 0% 98%; /* Popover text color */
 
-    --primary: 24 100% 50%;
-    --primary-foreground: 0 0% 100%;
+    /* Brand colors - Orange theme for OrangeWave */
+    --primary: 24 100% 50%;       /* Orange primary color (#FF7700) */
+    --primary-foreground: 0 0% 100%; /* White text on orange background */
 
-    --secondary: 240 4% 16%;
-    --secondary-foreground: 0 0% 98%;
+    /* Secondary interface colors */
+    --secondary: 240 4% 16%;      /* Secondary buttons and surfaces */
+    --secondary-foreground: 0 0% 98%; /* Text on secondary surfaces */
 
-    --muted: 240 4% 16%;
-    --muted-foreground: 240 5% 65%;
+    /* Muted colors for less prominent content */
+    --muted: 240 4% 16%;          /* Muted backgrounds */
+    --muted-foreground: 240 5% 65%; /* Muted text (gray) */
 
-    --accent: 24 100% 50%;
-    --accent-foreground: 0 0% 100%;
+    /* Accent color - matches primary for consistency */
+    --accent: 24 100% 50%;        /* Accent highlights */
+    --accent-foreground: 0 0% 100%; /* Text on accent backgrounds */
 
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 0 0% 98%;
+    /* Destructive/error colors */
+    --destructive: 0 63% 31%;     /* Error/danger color (red) */
+    --destructive-foreground: 0 0% 98%; /* Text on error backgrounds */
 
-    --border: 240 4% 16%;
-    --input: 240 4% 16%;
-    --ring: 24 100% 50%;
+    /* UI element colors */
+    --border: 240 4% 16%;         /* Border color for inputs, cards, etc. */
+    --input: 240 4% 16%;          /* Input field backgrounds */
+    --ring: 24 100% 50%;          /* Focus ring color (orange) */
 
-    --radius: 0.5rem;
+    /* Border radius for consistent component styling */
+    --radius: 0.5rem;             /* Standard border radius (8px) */
   }
 }
 
+/* Base styles applied to all elements */
 @layer base {
+  /* Apply consistent border styling */
   * {
     @apply border-border;
   }
 
+  /* Body styling with font features for better typography */
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings: "rlig" 1, "calt" 1; /* Enable ligatures and contextual alternates */
   }
 
-  /* Chart customizations */
+  /* Chart library customizations for Recharts components */
   .recharts-cartesian-grid-horizontal line,
   .recharts-cartesian-grid-vertical line {
-    @apply stroke-muted/30;
+    @apply stroke-muted/30;       /* Subtle grid lines */
   }
 
   .recharts-tooltip-wrapper {
-    @apply !shadow-lg;
+    @apply !shadow-lg;            /* Enhanced tooltip shadows */
   }
 
   .recharts-tooltip-wrapper .recharts-default-tooltip {
-    @apply !bg-card !border-border !rounded-md !p-2;
+    @apply !bg-card !border-border !rounded-md !p-2; /* Themed tooltip styling */
   }
 
   .recharts-default-tooltip .recharts-tooltip-label {
-    @apply !text-sm !text-foreground;
+    @apply !text-sm !text-foreground; /* Consistent tooltip text */
   }
 
-  /* Custom scrollbar */
+  /* Custom scrollbar styling for better UX */
   ::-webkit-scrollbar {
-    @apply w-2 h-2;
+    @apply w-2 h-2;               /* Thin scrollbars */
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-muted/30 rounded;
+    @apply bg-muted/30 rounded;   /* Subtle track background */
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-muted rounded;
+    @apply bg-muted rounded;      /* Themed scrollbar thumb */
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-muted/70;
+    @apply bg-muted/70;           /* Hover effect for scrollbar */
   }
 }
 
+/* Custom component classes for reusable UI patterns */
 @layer components {
+  /* Interactive card hover effects */
   .card-hover {
     @apply transition-all hover:bg-secondary hover:shadow-md;
   }
 
+  /* Glass morphism effect for modern UI */
   .glass-card {
     @apply border border-primary/20 bg-card/95 backdrop-blur-sm shadow-sm hover:shadow-md transition-all;
   }
   
-  /* New modern UI elements */
+  /* Glow effect for premium UI elements */
   .glow-effect {
     @apply relative overflow-hidden;
   }
@@ -106,6 +129,7 @@
     @apply opacity-100;
   }
   
+  /* Gradient border effect for special containers */
   .gradient-border {
     @apply relative rounded-lg p-[1px];
     background: linear-gradient(to right, hsl(var(--primary)), transparent);
@@ -115,6 +139,7 @@
     @apply rounded-lg bg-card;
   }
   
+  /* Gradient text effect for headings and special text */
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70;
   }

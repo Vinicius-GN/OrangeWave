@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { 
   Plus, Search, Edit, Trash2, DownloadCloud
@@ -28,8 +27,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
 
+// Stocks management page for admin to view, add, edit, and delete assets
 const API_URL = 'http://localhost:3001/api';
 
+// AssetData interface defines the structure for stock/crypto asset objects
 interface AssetData {
   _id: string;
   symbol: string;
@@ -44,6 +45,7 @@ interface AssetData {
   quantityBought?: number;
 }
 
+// StockFormValues interface for asset creation/editing forms
 interface StockFormValues {
   symbol: string;
   name: string;
@@ -170,6 +172,7 @@ const StocksManagement = () => {
     
     const { symbol, name, type, logoUrl, price, availableStock, marketCap, volume } = formValues;
 
+    // Validate required fields before submission
     if (!symbol || !name || !type || !price) {
       toast({
         title: 'Error',
@@ -180,6 +183,7 @@ const StocksManagement = () => {
     }
 
     try {
+      // Prepare asset data with defaults for missing fields
       const assetData = {
         symbol,
         name,
@@ -195,6 +199,7 @@ const StocksManagement = () => {
 
       let response;
       if (isEditMode && selectedAsset) {
+        // Update existing asset
         response = await fetch(`${API_URL}/assets/${selectedAsset.symbol}`, {
           method: 'PUT',
           headers: {
@@ -204,6 +209,7 @@ const StocksManagement = () => {
           body: JSON.stringify(assetData)
         });
       } else {
+        // Create new asset with generated ID
         response = await fetch(`${API_URL}/assets`, {
           method: 'POST',
           headers: {
