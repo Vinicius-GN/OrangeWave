@@ -1,7 +1,21 @@
+/**
+ * @file newsController.ts
+ * @brief Controller for news article management: list, get, create, update, and delete articles.
+ *
+ * This file defines controller functions for handling news article operations,
+ * including listing all articles, retrieving, creating, updating, and deleting news by ID.
+ */
+
 import { Request, Response } from "express";
 import News from "../models/newsArticles";
 
-// List all news articles, sorted by most recent
+/**
+ * @brief List all news articles, sorted by most recent.
+ *
+ * @param _req HTTP request (unused).
+ * @param res HTTP response.
+ * @returns Array of news articles.
+ */
 export const listNews = async (_req: Request, res: Response): Promise<void> => {
   try {
     const articles = await News.find().sort({ publishedAt: -1 });
@@ -12,7 +26,13 @@ export const listNews = async (_req: Request, res: Response): Promise<void> => {
   }
 };
 
-// Get a single news article by its ID
+/**
+ * @brief Get a single news article by its ID.
+ *
+ * @param req HTTP request with news article ID in params.
+ * @param res HTTP response.
+ * @returns The requested news article or 404 if not found.
+ */
 export const getNewsById = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
@@ -28,7 +48,13 @@ export const getNewsById = async (req: Request, res: Response): Promise<void> =>
   }
 };
 
-// Create a new news article
+/**
+ * @brief Create a new news article.
+ *
+ * @param req HTTP request containing article details in the body.
+ * @param res HTTP response.
+ * @returns The newly created news article.
+ */
 export const createNews = async (req: Request, res: Response): Promise<void> => {
   try {
     const payload = req.body;
@@ -41,7 +67,13 @@ export const createNews = async (req: Request, res: Response): Promise<void> => 
   }
 };
 
-// Update an existing news article by its ID
+/**
+ * @brief Update an existing news article by its ID.
+ *
+ * @param req HTTP request with news article ID in params and updated data in the body.
+ * @param res HTTP response.
+ * @returns The updated news article or 404 if not found.
+ */
 export const updateNews = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
@@ -58,7 +90,13 @@ export const updateNews = async (req: Request, res: Response): Promise<void> => 
   }
 };
 
-// Delete a news article by its ID
+/**
+ * @brief Delete a news article by its ID.
+ *
+ * @param req HTTP request with news article ID in params.
+ * @param res HTTP response.
+ * @returns Success message or 404 if not found.
+ */
 export const deleteNews = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;

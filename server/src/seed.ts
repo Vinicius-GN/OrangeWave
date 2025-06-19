@@ -1,14 +1,11 @@
 /**
- * scripts/seed.js
- * --------------------------------------------------
- * Popula o MongoDB Atlas com todos os documentos de
- * assets, users, news, wallets, walletTransactions,
- * portfolioAssets, marketOrders e priceSnapshots.
+ * @file seed.js
+ * @brief Populates MongoDB Atlas with all documents for assets, users, news, wallets, walletTransactions,
+ * portfolioAssets, marketOrders, and priceSnapshots.
  *
- * • Usa Mongoose direto (sem dependência do servidor)
- * • Remove a coleção antes de inserir (idempotente)
- * • Lê variáveis do .env   (MONGODB_URI)
- * --------------------------------------------------
+ * - Uses Mongoose directly (no dependency on the server)
+ * - Removes the collection before inserting (idempotent)
+ * - Reads variables from .env (MONGODB_URI)
  */
 
 require("dotenv").config();
@@ -16,15 +13,18 @@ const mongoose = require("mongoose");
 const fs = require("fs/promises");
 const path = require("path");
 
-// ──────────────────── util ──────────────────────
-// função para carregar um arquivo JSON corretamente
-const loadJSON = async (fileName: String) => {
+/**
+ * @brief Utility function to properly load a JSON file.
+ * @param fileName Name of the JSON file to load.
+ * @returns {Promise<any>} Parsed JSON content from the file.
+ */
+const loadJSON = async (fileName) => {
   const filePath = path.join("scripts/seedData", fileName);
   const data = await fs.readFile(filePath, "utf-8");
   return JSON.parse(data);
 };
 
-// ────────────────── modelos ─────────────────────
+// ────────────────── Models ─────────────────────
 const Asset = require("./models/assets.js").default;
 const User = require("./models/user.js").default;
 const News = require("./models/newsArticles.js").default;
@@ -35,8 +35,9 @@ const MarketOrder = require("./models/marketOrder.js").default;
 const PriceSnapshot = require("./models/priceSnapshot.js").default;
 const PortfolioHistory = require("./models/portfolioHistory.js").default; 
 
-
-// lista de coleções/arquivos p/ iterar
+/**
+ * @brief List of collections/files to iterate for seeding the database.
+ */
 const collections = [
   { model: Asset,                file: "assets.json" },
   { model: User,                 file: "users.json" },
@@ -49,17 +50,24 @@ const collections = [
   { model: PortfolioHistory,     file: "portfolioHistory.json" } 
 ];
 
-
 // ────────────────────────────────────────────────
+
+/**
+ * @brief Main seeding function. Connects to MongoDB, clears collections, and populates with new data.
+ *
+ * 1. Connect to MongoDB using URI from .env.
+ * 2. Import each file, clear the corresponding collection, and insert all documents.
+ * 3. Log progress and exit.
+ */
 (async function seed() {
   try {
-    /* 1. conectar */
+    // 1. Connect to database
     await mongoose.connect(process.env.MONGODB_URI, {
       connectTimeoutMS: 10_000
     });
-    console.log("✅  MongoDB conectado");
+    console.log("✅  MongoDB connected");
 
-    /* 2. importar cada arquivo */
+    // 2. Import each file/collection
     for (const { model, file } of collections) {
       const data = await loadJSON(file);
       await model.deleteMany();
@@ -67,10 +75,10 @@ const collections = [
       console.log(`• ${file}  →  ${data.length} docs`);
     }
 
-    console.log("🚀  Seed concluído com sucesso.");
+    console.log("🚀  Seed completed successfully.");
     process.exit(0);
   } catch (err) {
-    console.error("❌  Erro no seed:", err);
+    console.error("❌  Error in seed:", err);
     process.exit(1);
   }
 })();

@@ -1,7 +1,21 @@
+/**
+ * @file marketOrderController.ts
+ * @brief Controller for market order management: list, get, create, and delete orders.
+ *
+ * This file defines controller functions for handling market orders, including listing all orders,
+ * retrieving a specific order by ID, creating a new order, and deleting an order by ID.
+ */
+
 import { Request, Response } from "express";
 import MarketOrder from "../models/marketOrder";
 
-// List all market orders, sorted by most recent
+/**
+ * @brief List all market orders, sorted by most recent.
+ *
+ * @param _req HTTP request (unused).
+ * @param res HTTP response.
+ * @returns Array of market orders.
+ */
 export const listOrders = async (_req: Request, res: Response): Promise<void> => {
   try {
     const orders = await MarketOrder.find().sort({ timestamp: -1 });
@@ -12,7 +26,13 @@ export const listOrders = async (_req: Request, res: Response): Promise<void> =>
   }
 };
 
-// Get a single order by its ID
+/**
+ * @brief Get a single market order by its ID.
+ *
+ * @param req HTTP request with order ID in params.
+ * @param res HTTP response.
+ * @returns The requested order or 404 if not found.
+ */
 export const getOrderById = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
@@ -28,7 +48,15 @@ export const getOrderById = async (req: Request, res: Response): Promise<void> =
   }
 };
 
-// Create a new market order
+/**
+ * @brief Create a new market order.
+ *
+ * Expects a payload in the body with order details.
+ *
+ * @param req HTTP request containing order details in the body.
+ * @param res HTTP response.
+ * @returns The newly created order.
+ */
 export const createOrder = async (req: Request, res: Response): Promise<void> => {
   try {
     // Expects: { userId, side, assetId, assetName, symbol, type, quantity, price, total, fees, status, timestamp }
@@ -45,7 +73,13 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
   }
 };
 
-// Delete an order by its ID
+/**
+ * @brief Delete a market order by its ID.
+ *
+ * @param req HTTP request with order ID in params.
+ * @param res HTTP response.
+ * @returns Success message or 404 if not found.
+ */
 export const deleteOrder = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;

@@ -1,8 +1,19 @@
+/**
+ * @file database.ts
+ * @brief Database connection utilities for MongoDB using Mongoose.
+ *
+ * This file provides functions to connect and disconnect from MongoDB using the connection string in environment variables.
+ */
+
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
 
-// Connect to MongoDB using the connection string from environment variables
+/**
+ * @brief Connect to MongoDB using the connection string from environment variables.
+ *
+ * @returns Promise that resolves when the connection is established.
+ */
 export async function connectDB() {
   try {
     await mongoose.connect(process.env.MONGODB_URI as string);
@@ -13,7 +24,11 @@ export async function connectDB() {
   }
 }
 
-// Disconnect from MongoDB
+/**
+ * @brief Disconnect from MongoDB.
+ *
+ * @returns Promise that resolves when the connection is closed.
+ */
 export async function disconnectDB() {
   try {
     await mongoose.disconnect();

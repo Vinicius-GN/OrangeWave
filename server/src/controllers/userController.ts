@@ -1,7 +1,21 @@
+/**
+ * @file userController.ts
+ * @brief Controller for user operations: profile, update, delete, and password management.
+ *
+ * This file defines controller functions for handling authenticated user operations,
+ * as well as administrative user management actions.
+ */
+
 import { Request, Response } from "express";
 import User from "../models/user";
 import bcrypt from "bcrypt";
 
+/**
+ * @interface AuthRequest
+ * @brief Extends Express Request to include authenticated user information.
+ *
+ * @property user Optional user object containing userId and role.
+ */
 interface AuthRequest extends Request {
   user?: {
     userId: string;
@@ -9,7 +23,13 @@ interface AuthRequest extends Request {
   };
 }
 
-// Returns authenticated user data (without the password)
+/**
+ * @brief Returns authenticated user data (without the password).
+ *
+ * @param req HTTP request containing authentication info.
+ * @param res HTTP response.
+ * @returns User data, or error if not authenticated or not found.
+ */
 export const me = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const userId = req.user?.userId;
@@ -30,7 +50,15 @@ export const me = async (req: AuthRequest, res: Response): Promise<void> => {
   }
 };
 
-// Updates user data (including address)
+/**
+ * @brief Updates authenticated user data (including address).
+ *
+ * Only updates fields provided in the request body.
+ *
+ * @param req HTTP request containing user fields to update.
+ * @param res HTTP response.
+ * @returns Updated user data, or error if not authenticated or not found.
+ */
 export const updateMe = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const userId = req.user?.userId;
@@ -83,7 +111,13 @@ export const updateMe = async (req: AuthRequest, res: Response): Promise<void> =
   }
 };
 
-// Deletes the user's own account (hard delete)
+/**
+ * @brief Deletes the authenticated user's own account (hard delete).
+ *
+ * @param req HTTP request containing authentication info.
+ * @param res HTTP response.
+ * @returns Confirmation message or error if not authenticated or not found.
+ */
 export const deleteMe = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const userId = req.user?.userId;
@@ -103,8 +137,17 @@ export const deleteMe = async (req: AuthRequest, res: Response): Promise<void> =
   }
 };
 
+/**
+ * @brief Changes the password of the authenticated user.
+ *
+ * Compares the provided old password, validates it, and sets a new password.
+ *
+ * @param req HTTP request containing oldPassword and newPassword in the body.
+ * @param res HTTP response.
+ * @returns Confirmation message or error if old password is incorrect.
+ */
 export const changePassword = async (req: AuthRequest, res: Response): Promise<void> => {
-// Endpoint to change password
+  // Endpoint to change password
   try {
     const userId = req.user?.userId;
     if (!userId) {
@@ -131,8 +174,15 @@ export const changePassword = async (req: AuthRequest, res: Response): Promise<v
   }
 };
 
+/**
+ * @brief Lists all users (ADMIN ONLY).
+ *
+ * @param _req HTTP request (unused).
+ * @param res HTTP response.
+ * @returns Array of all users without passwords.
+ */
 export const listUsers = async (_req: AuthRequest, res: Response): Promise<void> => {
-// Lists all users (ADMIN ONLY)
+  // Lists all users (ADMIN ONLY)
   try {
     const users = await User.find().select("-password");
     res.json(users);
@@ -142,8 +192,17 @@ export const listUsers = async (_req: AuthRequest, res: Response): Promise<void>
   }
 };
 
+/**
+ * @brief Updates a user by ID (ADMIN ONLY).
+ *
+ * Updates provided fields for the specified user, except for "superadmin-id".
+ *
+ * @param req HTTP request with user ID in params and fields to update in body.
+ * @param res HTTP response.
+ * @returns Updated user data or error if user not found or forbidden.
+ */
 export const updateUserById = async (req: AuthRequest, res: Response): Promise<void> => {
-// Updates a user by ID (ADMIN ONLY)
+  // Updates a user by ID (ADMIN ONLY)
   try {
     const { id } = req.params;
     if (id === "superadmin-id") {
@@ -178,8 +237,17 @@ export const updateUserById = async (req: AuthRequest, res: Response): Promise<v
   }
 };
 
+/**
+ * @brief Deletes a user by ID (ADMIN ONLY).
+ *
+ * Cannot delete the "superadmin-id" user.
+ *
+ * @param req HTTP request with user ID in params.
+ * @param res HTTP response.
+ * @returns Confirmation message or error if user not found or forbidden.
+ */
 export const deleteUserById = async (req: AuthRequest, res: Response): Promise<void> => {
-// Deletes a user by ID (ADMIN ONLY)
+  // Deletes a user by ID (ADMIN ONLY)
   try {
     const { id } = req.params;
     if (id === "superadmin-id") {
@@ -200,6 +268,13 @@ export const deleteUserById = async (req: AuthRequest, res: Response): Promise<v
   }
 };
 
+/**
+ * @brief Resets a user's password by email (ADMIN or password recovery).
+ *
+ * @param req HTTP request with email and newPassword in the body.
+ * @param res HTTP response.
+ * @returns Confirmation message or error if user not found.
+ */
 export const resetPasswordByEmail = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, newPassword } = req.body;
@@ -208,19 +283,19 @@ export const resetPasswordByEmail = async (req: Request, res: Response): Promise
       return;
     }
 
-    // 1) Encontra usuário por e-mail
+    // 1) Find user by email
     const user = await User.findOne({ email });
     if (!user) {
       res.status(404).json({ message: "Usuário não encontrado" });
       return;
     }
 
-    // 2) Hash da nova senha
+    // 2) Hash new password
     const saltRounds = 10;
     const hashed = await bcrypt.hash(newPassword, saltRounds);
     user.password = hashed;
 
-    // 3) Salva
+    // 3) Save user
     await user.save();
 
     res.json({ message: "Senha alterada com sucesso" });

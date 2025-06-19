@@ -1,8 +1,21 @@
-// Controller for user portfolio management: list, add/update, and delete portfolio items
+/**
+ * @file portfolioController.ts
+ * @brief Controller for user portfolio management: list, add/update, and delete portfolio items.
+ *
+ * This file defines controller functions for handling user portfolio operations,
+ * including listing, upserting (add or update), and deleting portfolio assets.
+ */
+
 import { Request, Response } from "express";
 import PortfolioAsset from "../models/portifolioAsset";
 
-// List all assets in a user's portfolio
+/**
+ * @brief List all assets in a user's portfolio.
+ *
+ * @param req HTTP request with userId as a URL parameter.
+ * @param res HTTP response.
+ * @returns Array of portfolio assets for the user.
+ */
 export const listPortfolio = async (req: Request, res: Response): Promise<void> => {
   try {
     const { userId } = req.params;
@@ -14,7 +27,16 @@ export const listPortfolio = async (req: Request, res: Response): Promise<void> 
   }
 };
 
-// Add or update an asset in the user's portfolio
+/**
+ * @brief Add or update an asset in the user's portfolio.
+ *
+ * If the asset already exists for the user, its quantity and buy price are updated.
+ * Otherwise, a new portfolio item is created.
+ *
+ * @param req HTTP request with userId as a URL parameter and asset data in the body.
+ * @param res HTTP response.
+ * @returns The updated or newly created portfolio asset.
+ */
 export const upsertPortfolio = async (req: Request, res: Response): Promise<void> => {
   try {
     const { userId } = req.params;
@@ -45,7 +67,13 @@ export const upsertPortfolio = async (req: Request, res: Response): Promise<void
   }
 };
 
-// Delete an asset from the user's portfolio
+/**
+ * @brief Delete an asset from the user's portfolio.
+ *
+ * @param req HTTP request with userId and symbol as URL parameters.
+ * @param res HTTP response.
+ * @returns Success message if deleted, or 404 if the item is not found.
+ */
 export const deletePortfolioItem = async (req: Request, res: Response): Promise<void> => {
   try {
     const { userId, symbol } = req.params;

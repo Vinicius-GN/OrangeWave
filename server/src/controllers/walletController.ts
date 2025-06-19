@@ -1,9 +1,22 @@
-// Controller for wallet operations: balance, card management, deposit, withdrawal, and transaction history
+/**
+ * @file walletController.ts
+ * @brief Controller for wallet operations: balance, card management, deposit, withdrawal, and transaction history.
+ *
+ * This file defines controller functions for handling wallet actions, including getting wallet info,
+ * managing card numbers, depositing and withdrawing funds, and listing wallet transactions.
+ */
+
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import Wallet from "../models/wallet";
 import WalletTx from "../models/wallet_transactions";
 
+/**
+ * @interface AuthRequest
+ * @brief Extends Express Request to include authenticated user information.
+ *
+ * @property user Optional user object containing userId and role.
+ */
 interface AuthRequest extends Request {
   user?: {
     userId: string;
@@ -12,7 +25,11 @@ interface AuthRequest extends Request {
 }
 
 /**
- * Get wallet info (balance and card number) for a user
+ * @brief Get wallet info (balance and card number) for a user.
+ *
+ * @param req HTTP request with userId in params.
+ * @param res HTTP response.
+ * @returns Wallet balance and card number, or error if wallet not found.
  */
 export const getWalletInfo = async (
   req: AuthRequest,
@@ -37,8 +54,14 @@ export const getWalletInfo = async (
 };
 
 /**
- * Create or update the user's credit card number.
+ * @brief Create or update the user's credit card number.
+ *
  * If wallet does not exist, create it with balance = 0 and set cardNumber.
+ * If wallet exists, update the cardNumber.
+ *
+ * @param req HTTP request with userId in params and cardNumber in body.
+ * @param res HTTP response.
+ * @returns Updated wallet balance and card number.
  */
 export const updateCardNumber = async (
   req: AuthRequest,
@@ -85,7 +108,13 @@ export const updateCardNumber = async (
 };
 
 /**
- * Deposit funds into the user's wallet
+ * @brief Deposit funds into the user's wallet.
+ *
+ * Uses MongoDB transactions to ensure atomicity.
+ *
+ * @param req HTTP request with userId in params and amount/paymentMethod in body.
+ * @param res HTTP response.
+ * @returns Updated wallet balance.
  */
 export const deposit = async (req: AuthRequest, res: Response): Promise<void> => {
   const session = await mongoose.startSession();
@@ -128,7 +157,13 @@ export const deposit = async (req: AuthRequest, res: Response): Promise<void> =>
 };
 
 /**
- * Withdraw funds from the user's wallet
+ * @brief Withdraw funds from the user's wallet.
+ *
+ * Uses MongoDB transactions to ensure atomicity.
+ *
+ * @param req HTTP request with userId in params and amount/paymentMethod in body.
+ * @param res HTTP response.
+ * @returns Updated wallet balance or error if wallet not found.
  */
 export const withdraw = async (req: AuthRequest, res: Response): Promise<void> => {
   const session = await mongoose.startSession();
@@ -172,7 +207,13 @@ export const withdraw = async (req: AuthRequest, res: Response): Promise<void> =
 };
 
 /**
- * List all wallet transactions for a user
+ * @brief List all wallet transactions for a user.
+ *
+ * Returns all wallet transactions for the user, sorted by most recent first.
+ *
+ * @param req HTTP request with userId in params.
+ * @param res HTTP response.
+ * @returns Array of wallet transactions.
  */
 export const listWalletTransactions = async (
   req: AuthRequest,

@@ -1,6 +1,21 @@
+/**
+ * @file portfolioHistory.ts
+ * @brief Mongoose model for portfolio history.
+ *
+ * Defines the structure for documents that represent the total value of a user's portfolio on a specific date.
+ * Each record is unique per user per day.
+ */
+
 import { Schema, model, Document } from "mongoose";
 
-// Each document represents the total value of a user's portfolio on a specific date.
+/**
+ * @interface IPortfolioHistory
+ * @brief Interface for the portfolio history document.
+ *
+ * @property userId     Reference to the user (_id).
+ * @property date       Date of the portfolio snapshot (time set to midnight).
+ * @property totalValue Total value of the user's portfolio on that date.
+ */
 export interface IPortfolioHistory extends Document {
   userId: string;       // Reference to the user (_id)
   date: Date;           // Date (time set to midnight)
@@ -19,6 +34,9 @@ const PortfolioHistorySchema = new Schema<IPortfolioHistory>(
 // Ensure only one record per user per day
 PortfolioHistorySchema.index({ userId: 1, date: 1 }, { unique: true });
 
+/**
+ * @brief Exports the PortfolioHistory model.
+ */
 export default model<IPortfolioHistory>(
   "PortfolioHistory",
   PortfolioHistorySchema
