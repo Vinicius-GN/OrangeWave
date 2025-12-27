@@ -49,7 +49,17 @@ Este projeto consiste em uma **corretora virtual de ações e criptomoedas**, de
 - TypeScript
 - React
 - Tailwind CSS
-- Dados em tempo real: APIs Finnhub.  
+- Dados em tempo real: APIs Finnhub.
+
+---
+
+## Preview da Plataforma
+
+![Dashboard da OrangeWave](img-previews/market.png)
+
+![Wallet da OrangeWave](img-previews/wallet.png)
+
+![Asset da OrangeWave](img-previews/stock-datail.png)
 
 ## Requisitos
 
